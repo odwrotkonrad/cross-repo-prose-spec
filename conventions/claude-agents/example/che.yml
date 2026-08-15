@@ -1,0 +1,6 @@
+claude-agents:
+  options: {autoDiscover: true, runIf: ['builtin:isVirt']}
+  include:
+    profiles:
+      - source: "@https://gitlab.com/konradodwrot/configs//profiles/llm/claude/che.yml::llm/claude/virt"
+        ctx: {repo: Notes}
