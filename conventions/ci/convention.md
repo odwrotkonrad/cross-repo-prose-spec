@@ -5,7 +5,7 @@ Lefthook runs the pre-commit hooks. CI re-runs them: one minimal validate job ru
 ## Lefthook
 
 - Repo `lefthook.yml` extends `~/.config/lefthook/lefthook.yml` (user-level hooks: ssh auth, conventional commit prefix, linters).
-- Minimal repo job is the docs generation check: `docsgen` runs `make render-templates` then `git diff --exit-code`, failing the commit when regeneration changed a tracked file: generated docs never go stale in a commit.
+- Minimal repo job is the docs generation check: `docsgen` runs `make render-templates` then `git diff --exit-code`, failing the commit when regeneration changed a tracked file: generated docs never go stale in a commit. Renders fetch the repo's pinned prose sources, so commits need network to gitlab.com.
 
 ## CI
 

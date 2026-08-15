@@ -4,13 +4,15 @@ Repo docs are generated, not hand-written: che renders `*.ontoRepo.tpl` template
 
 ## Layout
 
-- Templates live in `templates/`, in ordered subdirs: `1-env` (env vars, secrets), `2-data` (intermediate data docs), `3-audience` (target-audience renders: agent files, README).
-- Generated data docs land in `assets/data/`, included via `@` in `CLAUDE.md` and `AGENTS.md`. Every repo generates two: `makefile.agents.md` (from `templates/2-data/makefile-agents.md.ontoRepo.tpl`, `renderMakefileDoc`) and `repo-structure.md` (from `templates/2-data/repo-structure.md.ontoRepo.tpl`, `renderDirsTree`).
-- `CLAUDE.md` and `AGENTS.md` themselves render from one `templates/3-audience/AGENTS.md.ontoRepo.tpl`: `CLAUDE.md` keeps `@`-includes, `AGENTS.md` renders them inline (`renderReferencedFiles: true`) for agents that do not resolve `@`.
+- Doc templates are authored in the `prose` repo: shared `2-data` templates under `prose/templates/2-data/`, per-repo `3-audience` templates under `prose/repos/<repo-path>/templates/3-audience/`. A repo keeps locally only its repo-specific templates: `templates/1-env` (env vars, secrets) and code-generating templates (CI includes, terraform files).
+- Each repo's `che.yml` consumes prose templates as pinned remote sources: `@gitlab.com/konradodwrot/prose//<path>?ref=vX.Y.Z`. The pin is bumped by the control repo's regen MRs.
+- Generated data docs land in `assets/data/`, included via `@` in `CLAUDE.md` and `AGENTS.md`: `makefile.agents.md` (`renderMakefileDoc`), `repo-structure.md` (`renderDirsTree`), `conventions.md` and the repo's `assets/docs-agents/purpose.md` (rendered from their prose sources).
+- `CLAUDE.md` and `AGENTS.md` themselves render from one `3-audience/AGENTS.md.ontoRepo.tpl`: `CLAUDE.md` keeps `@`-includes, `AGENTS.md` renders them inline (`renderReferencedFiles: true`) for agents that do not resolve `@`.
+- `AGENTS.md`, `CLAUDE.md`, and the `assets/data/` + `assets/docs-agents/` intermediates are gitignored: rendered on demand, never committed. `README.md` and `LICENSE` are rendered and tracked (forges read them from the repo).
 
 ## Example
 
-Runnable version in `example/`: `che.yml`, `Makefile`, all three template subdirs (`1-env`, `2-data`, `3-audience`), generated `assets/data/makefile.agents.md`, `CLAUDE.md`, `AGENTS.md`. `.env` is rendered, never committed.
+Runnable version in `example/`: `che.yml`, `Makefile`, all three template subdirs (`1-env`, `2-data`, `3-audience`), generated `assets/data/makefile.agents.md`, `CLAUDE.md`, `AGENTS.md`. `.env` is rendered, never committed. The example uses local template sources to stay self-contained; real repos consume the same templates from prose via pinned remote sources.
 
 ## Wiring
 
@@ -20,5 +22,5 @@ Runnable version in `example/`: `che.yml`, `Makefile`, all three template subdir
 
 - Prefer gomplate built-in functions over custom plugins or scripts.
 - che funcs cover repo docs: `renderMakefileDoc "Makefile"` harvests `[genai-include]` Makefile sections, `renderDirsTree` emits the tracked-file directory tree for `repo-structure.md`, `renderRepoGroupIndex "<dir>"` emits a subgroup's repo-index (direct child repos with inlined purpose, direct child subgroups linked to their own index) for `repo-index.md`.
-- `remoteFile "gitlab.com/konradodwrot/conventions//conventions/comments/convention.md"` inlines a file from any git repo at render time. One string, go-getter style: `<repo>//<path>[?ref=<branch|tag>]`, default branch when `ref` is omitted, https first with ssh-agent fallback for private repos. `3-audience` templates pull convention docs this way, refreshed on every render.
+- `remoteFile "gitlab.com/konradodwrot/prose//conventions/comments/convention.md?ref=v0.0.1"` inlines a file from any git repo at render time. One string, go-getter style: `<repo>//<path>[?ref=<branch|tag>]`, default branch when `ref` is omitted, https first with ssh-agent fallback for private repos. `remoteFile` output is inserted verbatim, never re-evaluated: a wrapper template `{{- remoteFile "..." -}}` raw-copies a gomplate-bearing source byte-for-byte.
 - `op://` secret refs resolve at render time (env templates), never commit resolved values.

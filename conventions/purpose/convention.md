@@ -1,6 +1,6 @@
 # Purpose Convention
 
-Every repo contains `assets/docs-agents/purpose.md` (and `assets/docs-human/purpose.md` once human docs exist). It answers, in order:
+Every repo's purpose doc is authored in the `prose` repo at `prose/repos/<repo-path>/purpose.md` and rendered into the repo as `assets/docs-agents/purpose.md` (gitignored, rendered on demand at the repo's pinned prose version). It answers, in order:
 
 1. What it is: concise repo description, packed with keywords.
 2. Why it exists: the need, creator intention.

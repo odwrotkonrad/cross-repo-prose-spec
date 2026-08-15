@@ -2,9 +2,11 @@
 
 <!-- [>] 🤖🤖 -->
 
-Behavior specs live as markdown feature files
-(`spec/<vetting>/<unit>/<feature>.md`): Gherkin-style scenarios, each
-carrying a `Status:` line as its first line.
+Behavior specs live as markdown feature files, all in the `prose` repo: a
+repo's specs under `prose/repos/<repo-path>/spec/<vetting>/<unit>/<feature>.md`
+(prose's own system specs under its `spec/`). Gherkin-style scenarios, each
+carrying a `Status:` line as its first line. Downstream repos carry no spec
+trees: edit the scenarios in prose, before implementing in the repo.
 
 ## Vetting
 
