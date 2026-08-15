@@ -1,7 +1,7 @@
 <!--[>] 🤖🤖 -->
 Feature: Sandbox identity provisioned by the auth module
 
-Scenario: an agent session pushes work and opens MRs without holding a destructive credential
+Scenario: an agent session pushes and opens MRs without a destructive credential
   Status: todo
   Given the applied auth module minted the `sandbox-rw-nodelete` group access token (developer, api + read_repository + write_repository) on `konradodwrot`
   When a sandbox pod authenticates gitlab with that token
@@ -17,7 +17,7 @@ Scenario: the sandbox reads every identity secret through one project-scoped gra
   Then every fetch succeeds with that single grant
   And the SA reads no secret outside the auth project
 
-Scenario: the sandbox sees the dev management plane read-only until dev access is designed
+Scenario: the sandbox sees the dev management plane read-only
   Status: todo
   Given the sandbox SA holds `roles/viewer` on the `dev` folder under the `sandbox` folder
   When the pod queries resources under the `dev` folder
@@ -35,7 +35,7 @@ Scenario: a key rotation lands in 1Password with no manual step
   When an apply creates or rotates the SA key
   Then the vault item's `sa_key` field carries the fresh key JSON without any `op item edit`
 
-Scenario: the host keeps its own access while the sandbox stays credential-minimal
+Scenario: the host keeps its access while the sandbox stays credential-minimal
   Status: todo
   Given the user retains write access to the `SandboxProgrammaticAccess` vault
   And the auth module provisions no github credential

@@ -2,9 +2,9 @@
 
 <!-- [>] 🤖🤖 -->
 
-The `verify:` key in packages.yml declares how an install is proven: on a
-package entry (every method) or on an installer item (overrides the entry for
-its method). Values:
+The `verify:` key in packages.yml declares how an install is proven, on a package
+entry (every method) or on an installer item (overriding the entry for its
+method). Values:
 
 - `versionCmd` (default when absent, scalar shorthand or `versionCmd: true`):
   run the entry's command with `--version` (fallback `version`), exit 0 and
@@ -60,7 +60,7 @@ Scenario: pkgMgrVersionCheck resolves per manager
 
 Scenario: a command-less package opts out of the PATH presence probe (verify.checkInPath)
   Status: tested
-  Given a `verify:` object with `checkInPath: false` (default true; combinable with the strategy keys and `cmd`)
+  Given a `verify:` object with `checkInPath: false` (default true, combinable with the strategy keys and `cmd`)
   When presence checks run (`che packages check`, the post-install check)
   Then the package is not probed for a command on PATH and no "missing" warning fires
   And the install is still proven by the entry's verify strategy (e.g. apt-transport-https via `pkgMgrVersionCheck`, nvm via its sourcing `cmd`)

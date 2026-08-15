@@ -2,13 +2,12 @@
 
 <!-- [>] 🤖🤖 -->
 
-Two log kinds: human log for CLI consumption, machine log for otel/prometheus.
-The human log is readable prose: headings, indentation, multi-line allowed.
-`CHE_LOG_LEVEL` selects error (failures only), warn (adds warnings), info
-(default, what happened), debug (adds what is going to happen, what is not
-going to happen, why), trace (adds details). Discovery reports each profile,
-its working directory, and its ops with delta counts. Ops report the mutations
-they make or would make.
+Two log kinds: human log for the CLI, machine log for otel/prometheus. The human
+log is readable prose: headings, indentation, multi-line allowed. `CHE_LOG_LEVEL`
+selects error (failures only), warn (adds warnings), info (default, what
+happened), debug (adds what will and will not happen, and why), trace (adds
+details). Discovery reports each profile, its working directory, and its ops with
+delta counts. Ops report the mutations they make or would make.
 
 Scenario: human log and machine log never leak into each other
   Status: tested

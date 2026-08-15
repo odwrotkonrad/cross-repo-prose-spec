@@ -2,11 +2,11 @@
 
 <!-- [>] 🤖🤖 -->
 
-`buildFromSource` installs a package by downloading its source tarball and
-running the autotools flow inside it: `./configure --prefix=<prefix>`,
-`make -j<cpus>`, `make install`. The prefix derives from the configured
-binaries install destination (`~/.local/bin` -> `~/.local`), so the default
-flow stays in user space and needs no sudo.
+`buildFromSource` downloads a package's source tarball and runs the autotools
+flow inside it: `./configure --prefix=<prefix>`, `make -j<cpus>`,
+`make install`. The prefix derives from the configured binaries install
+destination (`~/.local/bin` -> `~/.local`), so the default flow stays in user
+space, no sudo.
 
 Scenario: a user installs a package from its source tarball
   Status: tested

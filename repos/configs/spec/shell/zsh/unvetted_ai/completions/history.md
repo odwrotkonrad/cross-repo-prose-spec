@@ -13,7 +13,7 @@ Scenario: Up/Down opens a whole-line history menu, substring-filtered by the buf
   And entries matching an ignore-hints regex (e.g. ^cd.*) are omitted
   And Up/Down inside the open menu move the selection
 
-Scenario: a selected entry stands alone on the line, typed words never linger beside it
+Scenario: a selected entry stands alone on the line, no typed words linger beside it
   Status: implemented
   Given a non-empty buffer, the cursor anywhere (mid-word, after a trailing space, mid-line)
   When I press Up or Down and the menu highlights or accepts an entry

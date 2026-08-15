@@ -1,19 +1,18 @@
 # example
 
-Example repo showing the purpose convention.
+Example repo for the purpose convention.
 
 ## Purpose
 
 ### What It Is
 
-Example repo skeleton: purpose doc convention, three headings, `AGENTS.md`, `CLAUDE.md`, `README.md` placement.
+Example repo skeleton for the purpose convention: three headings, placement in `AGENTS.md`, `CLAUDE.md`, `README.md`.
 
 ### Why It Exists
 
-Example repo showing the purpose convention.
+The convention needs a runnable reference, not just a description of one.
 
 ### Goals
 
 - Show the three purpose headings in order.
 - Show placement at the top of `AGENTS.md`, `CLAUDE.md`, `README.md`.
-

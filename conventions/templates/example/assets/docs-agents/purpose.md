@@ -6,10 +6,9 @@ Example repo skeleton: che template rendering, `che.yml`, `.env` secrets, genera
 
 ## Why It Exists
 
-Example repo showing the templates convention.
+The templates convention needs a runnable reference, not just a description of one.
 
 ## Goals
 
 - Show the `che.yml` wiring for `.env` and agent files.
 - Show the `templates/` layout: `1-env`, `2-data`, `3-audience`.
-

@@ -2,26 +2,26 @@ Feature: deep file-path completion (dirs for cd, files and dirs for file command
 
 ## Labeled Completion Hint Levels
 
-Scenario: a level lists two completion hint groups, non-hidden and hidden, sharing one max-hints, its heading always listed
+Scenario: a level lists a non-hidden and a hidden group sharing one max-hints, heading always listed
   Status: implemented
   Given a level with matches
   When matches are listed
   Then the level lists two completion hint groups: non-hidden and hidden
-  And both groups share the level's max-hints: non-hidden completion hints first, hidden completion hints fill the remainder
+  And both groups share the level's max-hints: non-hidden hints first, hidden hints fill the remainder
   And the hidden group sits directly under the non-hidden group within a level
-  And the heading is assigned to the level, not a group, and is always listed
+  And the heading belongs to the level, not a group, and is always listed
 
-Scenario: a relative completion request lists each level's own completion hints, levels in order: *, */*, */*/*, ../*, ../*/*, ../../*, Stack *, ~*
+Scenario: a relative request lists levels in order: *, */*, */*/*, ../*, ../*/*, ../../*, Stack *, ~*
   Status: implemented
   Given an empty or relative query
   When I press TAB
   Then the levels with matches list in order: *, */*, */*/*, ../*, ../*/*, ../../*, Stack *, ~*, each relative to $PWD
-  And each level lists the completion hints that belong to that level
-  And the */* level's completion hints are truncated to 12
-  And the */*/* level's completion hints are truncated to 6
-  And the ../*, ../*/*, and ../../* levels' completion hints are truncated to 6 each
+  And each level lists its own completion hints
+  And the */* level's hints are truncated to 12
+  And the */*/* level's hints are truncated to 6
+  And the ../*, ../*/*, and ../../* levels' hints are truncated to 6 each
 
-Scenario: an absolute completion request lists the levels anchored to the typed directory: <base>/*, <base>/*/*, <base>/*/*/*
+Scenario: an absolute request anchors levels to the typed directory: <base>/*, <base>/*/*, <base>/*/*/*
   Status: implemented
   Given a typed slash-anchored prefix (/dir/, ~/ or ~name/)
   When I press TAB
@@ -36,13 +36,13 @@ Scenario: a level with only hidden matches still carries the level heading
 
 ## Every Group
 
-Scenario: each group's completion hints are truncated to its max-hints
+Scenario: each group's hints are truncated to its max-hints
   Status: implemented
   Given a group with more matches than its max-hints
   When matches are listed
   Then the group's completion hints are truncated to its max-hints
 
-Scenario: a level's completion hints are truncated to 6 by default
+Scenario: a level's hints are truncated to 6 by default
   Status: implemented
   Given a level with no max-hints configured
   When matches are listed
@@ -55,7 +55,7 @@ Scenario: hidden dirs list after non-hidden ones within a group
   Then every non-hidden match lists before every hidden match
   And no hidden match lists among the non-hidden ones
 
-Scenario: a level's non-hidden and hidden groups list share columns count
+Scenario: a level's non-hidden and hidden groups share a column count
   Status: implemented
   Given a level whose non-hidden and hidden groups would otherwise list in different column counts
   When matches are listed
@@ -64,13 +64,13 @@ Scenario: a level's non-hidden and hidden groups list share columns count
 
 ## Typed Query
 
-Scenario: the query filters completion hints
+Scenario: the query filters hints
   Status: implemented
   Given a typed query after cd
   When I press TAB
-  Then only completion hints that match the query are listed
+  Then only completion hints matching the query are listed
 
-Scenario Outline: a query with no path separator searches a single filepath segment
+Scenario Outline: a query with no path separator searches a single path segment
   Status: implemented
   Given the typed query "<query>"
   When I press TAB
@@ -85,7 +85,7 @@ Scenario Outline: a query with no path separator searches a single filepath segm
     | src   | root/datasource, root/dir/datasource |
     | dir   | root/dir                             |
 
-Scenario Outline: a query with path separators divides into multiple queries, each matching path segments in order, not necessarily in exact sequence
+Scenario Outline: a query with path separators splits per segment, matching in order, gaps allowed
   Status: implemented
   Given the typed query "<query>"
   When I press TAB
@@ -102,9 +102,9 @@ Scenario Outline: a query with path separators divides into multiple queries, ea
     | r/src  | root/datasource, root/dir/datasource |
     | d/da   | root/dir/datasource                  |
 
-## Completion Hints Uniqueness Level-Aware
+## Level-Aware Hint Uniqueness
 
-Scenario: ancestor levels do not include completion hints that appear in descendant level completion hints
+Scenario: ancestor levels omit hints already listed by descendant levels
   Status: implemented
   Given an empty or typed query
   When I press TAB
@@ -141,7 +141,7 @@ Scenario: stack+1 and stack+2 expand matched stack entries to child and grandchi
   Then only stack entries matching the query expand
   And their matching children form a Stack */* group
   And their matching grandchildren form a Stack */*/* group
-  And each of those groups' completion hints are truncated to 6
+  And each of those groups' hints are truncated to 6
   And within each group non-hidden matches list before hidden ones
   And a stack level with only hidden matches carries its heading
 
@@ -189,7 +189,7 @@ Scenario: a ~query prefix lists only the named-dirs group
 
 ## Named Dirs
 
-Scenario: named dirs list as ~name in a last ~* group, accepting inserts ~name/
+Scenario: named dirs list as ~name in a trailing ~* group, accepting inserts ~name/
   Status: implemented
   Given named dirs exist (hash -d)
   And an empty query or a relative query

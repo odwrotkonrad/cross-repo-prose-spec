@@ -2,8 +2,8 @@
 
 <!-- [>] 🤖 -->
 
-`make e2e-install-methods` proves install methods live: real installs from
-real registries and archives, each installed command run afterwards. Variables:
+`make e2e-install-methods` proves install methods live: real installs from real
+registries and archives, each installed command run afterwards. Variables:
 
 - `METHOD` (`E2E_INSTALL_METHOD`): which methods run: `all` (default) | `<method>` | `<method>/` prefix
 - `PACKAGE` (`E2E_INSTALL_PACKAGE`): which packages run: `all` (default when unset) | `<pkg>`, other vars filter further
@@ -14,7 +14,7 @@ real registries and archives, each installed command run afterwards. Variables:
 Scenario: e2e installation tests are based on packages.yml included in che
   Status: tested
   When any install test runs
-  Then package definitions come from che's builtin `che/internal/packages/packages.yml` (installs run with the builtin packages file)
+  Then package definitions come from che's builtin `che/internal/packages/packages.yml`
   And a selected package absent from that file fails the test
 
 Scenario: developer have ability to run installation test of a their chosen package for every installation method
@@ -35,8 +35,8 @@ Scenario: running e2e installation tests for a given platform attempts only that
   Status: tested
   Given a target platform (explicit or host-autodetected)
   When install tests run
-  Then methods not applicable to that platform are filtered out up front, never attempted
-  And no per-package attempt ends in "no applicable installation method" for a platform mismatch (e.g. `apt` on darwin)
+  Then methods inapplicable to that platform are filtered out up front, never attempted
+  And no per-package attempt ends in "no applicable installation method" over a platform mismatch (e.g. `apt` on darwin)
 
 Scenario: installation test runs in LOG_LEVEL=info, and can be configured when needed
   Status: tested
@@ -74,13 +74,13 @@ Scenario: an already-built che binary is reused, install tests never rebuild it 
   Status: tested
   Given the che binary and e2e harness are already built and current
   When I invoke `make e2e-install-methods`
-  Then the existing binaries are reused, no rebuild happens
+  Then the existing binaries are reused, nothing rebuilds
   And a missing or stale binary still builds first
 
 Scenario: developer have ability to run installation test on preinstalled dependencies to speed up the test (MODE=with_deps)
   Status: tested
   When I invoke `make e2e-install-methods ... MODE=with_deps`
-  Then the install runs in a throwaway HOME on this host, using dependencies already present
+  Then the install runs in a throwaway HOME on this host, reusing dependencies already present
   And the run finishes faster at the cost of not proving dependencies
 
 Scenario: developer have ability to run installation test in environment with absolute minimal dependencies (MODE=with_no_deps)

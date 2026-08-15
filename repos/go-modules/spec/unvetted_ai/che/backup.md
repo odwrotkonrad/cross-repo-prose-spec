@@ -4,8 +4,8 @@
 
 `backup` archives every existing op dest that would change (unsettled links,
 differing copies, differing renders) into the per-run archive. Subcommands:
-`backup create` (archive), `backup restore` (by `--run-id`, `--backup-id`, or
-`--timestamp`), `backup ls` (list backup points).
+`backup create`, `backup restore` (by `--run-id`, `--backup-id`, or
+`--timestamp`), `backup ls`.
 
 Scenario: one backup command covers archive, restore, and listing
   Status: tested
@@ -26,7 +26,7 @@ Scenario: an operator locates any archive by profile, op, and run from its path 
 Scenario: a user archives only what the run would touch
   Status: tested
   When I invoke `backup create`
-  Then it archives every existing dest an op would change into one per-run archive
+  Then every existing dest an op would change archives into one per-run archive
   And settled dests are not archived
   And nothing to change archives nothing
   And it is the default archive action the run stage and direct ops invoke
@@ -35,7 +35,7 @@ Scenario: a user picks a restore point from a newest-first listing
   Status: tested
   When I invoke `backup ls`
   Then it lists each ledger-recorded backup point under a `# backups` heading
-  And each entry shows the run id, backup id, timestamp, size, and abbreviated path
+  And each entry shows run id, backup id, timestamp, size, abbreviated path
   And the newest backup point lists first
   And no backup points lists nothing
 
@@ -54,14 +54,14 @@ Scenario: a user restores one precise archive without touching the rest of its r
 Scenario: a user rolls the host back to how it stood at a chosen moment
   Status: tested
   When I invoke `backup restore --timestamp <ts>`
-  Then it performs a point-in-time restore: each dest to the most recent backup at or before the timestamp
+  Then each dest restores to the most recent backup at or before the timestamp
   And a dest with no backup at or before the timestamp is left as-is
   And a timestamp before every backup fails with a clear error (nothing to restore)
 
 Scenario: a user recovers pre-run state safely, drifted files are never clobbered
   Status: tested
   When I invoke `backup restore` with a selector matching a known archive
-  Then it restores every entry in the archive back onto its recorded dest
+  Then every entry in the archive restores onto its recorded dest
   And exactly one of `--run-id`, `--backup-id`, `--timestamp` must be passed, else a clear error
   And a dest that drifted from che's last recorded state is skipped, not clobbered
   And dry run reports each restore as `restore <dest> (dry run)`, writing nothing
@@ -94,7 +94,7 @@ Scenario: an operator verifies what was backed up and where from two log lines
 Scenario: a user snapshots on demand, settled dests excluded
   Status: tested
   When I invoke `backup create` standalone
-  Then every existing dest an op would change archives into the per-run backup archive
+  Then every existing dest an op would change archives into the per-run archive
   And settled dests are not archived
   And nothing to change archives nothing
 

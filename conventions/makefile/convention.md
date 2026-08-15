@@ -4,8 +4,8 @@
 
 Targets are grouped in `##[>] Section [genai-include]` ... `##[<] Section` blocks. `[genai-include]` marks sections harvested into generated `assets/data/makefile.agents.md` (via `templates/2-data/makefile-agents.md.ontoRepo.tpl` + che), included in `CLAUDE.md` and `AGENTS.md`.
 
-- Every target preceded by a `#[what]` one-liner.
-- Env vars documented with `#[what]` + `#[vals]` above their `export`.
+- Every target gets a `#[what]` one-liner above it.
+- Env vars get `#[what]` + `#[vals]` above their `export`.
 
 ## Shell
 
