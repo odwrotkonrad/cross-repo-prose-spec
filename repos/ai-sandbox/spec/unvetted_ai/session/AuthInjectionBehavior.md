@@ -1,14 +1,14 @@
 <!--[>] 🤖🤖 -->
 Feature: Session auth injection
 
-Scenario: a session gets its full identity while only one secret ever crosses the host boundary
+Scenario: a session gets its full identity, one secret crosses the host boundary
   Status: todo
   Given the host reads only the sandbox SA key from `op://SandboxProgrammaticAccess/sandbox-gcp-sa/keys/sa_key`
   When `session-create` (or `session-attach`) execs into the pod
   Then only `GCP_SA_KEY` rides the exec and becomes the pod's ADC
   And no ssh key, gitlab token, or op credential is read on the host or passed in
 
-Scenario: the pod bootstraps its working identity itself, so a host compromise leaks nothing extra
+Scenario: the pod bootstraps its own working identity, so a host compromise leaks nothing extra
   Status: todo
   Given the pod holds ADC from the injected SA key
   When the sandbox-runtime profile runs at creation

@@ -2,11 +2,11 @@
 
 <!-- [>] 🤖🤖 -->
 
-Packages that live inside a host tool rather than on PATH (vscode extensions
-today, pip/npm libraries later) are declared under a top-level `toolPackages:`
-section of packages.yml, keyed by tool, each entry a package name mapping to a
-version pin (null/empty value: rolling). Profiles select them via
-`include.installToolPackages`, the CLI via `che packages install --kind=<tool>`.
+Packages living inside a host tool rather than on PATH (vscode extensions today,
+pip/npm libraries later) are declared in a top-level `toolPackages:` section of
+packages.yml, keyed by tool, each entry a package name mapping to a version pin
+(null/empty: rolling). Profiles select them via `include.installToolPackages`,
+the CLI via `che packages install --kind=<tool>`.
 
 Scenario: a packages file declares tool-scoped packages per host tool
   Status: tested

@@ -4,9 +4,9 @@
 
 `discover-profiles`: expose the resolved runtime spec `che run` would execute.
 
-The os-mutating commands: `run`, `backup`, `prune-broken-links`,
-`make-dirs`, `make-links`, `make-copies`, `render-templates`, `run-scripts`,
-`uninstall` (ledger-driven, no discovery).
+Os-mutating commands: `run`, `backup`, `prune-broken-links`, `make-dirs`,
+`make-links`, `make-copies`, `render-templates`, `run-scripts`, `uninstall`
+(ledger-driven, no discovery).
 
 Scenario: every mutating command works from fresh discovery, never a stale plan
   Status: tested

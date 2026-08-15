@@ -1,7 +1,7 @@
 <!--[>] 🤖🤖 -->
 Feature: make target completion
 
-Scenario: a query matches targets as a case-insensitive substring anywhere in the name
+Scenario: a query matches targets case-insensitively, anywhere in the name
   Status: implemented
   Given a typed query occurring mid-name in targets
   When I press TAB

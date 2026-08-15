@@ -2,11 +2,11 @@
 
 <!-- [>] 🤖🤖 -->
 
-The builtin package database ships in the `che-packages` module, released and
-published to the generic package registry independently of che. `che packages
-update` fetches the latest published definitions into the cache dir
-(`$XDG_CACHE_HOME/che/packages`); cached definitions supersede the compiled-in
-builtin when no user packages file exists.
+The builtin package database ships in the `che-packages` module, released to the
+generic package registry independently of che. `che packages update` fetches the
+latest published definitions into the cache dir (`$XDG_CACHE_HOME/che/packages`).
+Cached definitions supersede the compiled-in builtin when no user packages file
+exists.
 
 Scenario: a host picks up new package definitions without a che upgrade
   Status: tested

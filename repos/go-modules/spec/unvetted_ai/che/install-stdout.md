@@ -4,8 +4,8 @@
 
 At `CHE_LOG_LEVEL=info` (the default) installation-method stdout is noise:
 apt/brew/npm progress drowns che's own log lines. Silenced by default,
-`--silence-install-stdout` on `che packages install` controls it. Error output
-always stays visible, debug level shows everything.
+controlled by `--silence-install-stdout` on `che packages install`. Error output
+always stays visible, debug shows everything.
 
 Scenario: at info level the installation method's normal output is silenced
   Status: tested
