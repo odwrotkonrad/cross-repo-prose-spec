@@ -49,6 +49,13 @@ Scenario: a surprising CI result is diagnosable from the job log alone
   Then it logs the chosen version and why, naming the merge request for a prerelease
   And it logs the fallback and its cause whenever a prerelease was skipped
 
+Scenario: the prerelease preference survives the sudo hop into the CI user
+  Status: implemented
+  Given the linux jobs run `make sync-full` through `sudo -u $CI_USER --preserve-env=...`
+  When che version resolution runs under that user
+  Then `CI_PIPELINE_SOURCE` is among the preserved variables
+  And the merge request branch is reachable, instead of silently resolving the released tag every time
+
 Scenario: the lookup needs no credentials
   Status: implemented
   Given go-modules is a public project
