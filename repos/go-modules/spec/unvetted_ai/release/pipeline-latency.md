@@ -20,7 +20,7 @@ in
 ## Job graph
 
 Scenario: unit tests start immediately instead of queueing behind a build they never use
-  Status: todo
+  Status: implemented
   Given `test-unit-che` links its own test binaries and consumes no artifact from `warm-go`
   When a merge request pipeline starts
   Then it starts without waiting for `warm-go` to finish
@@ -28,7 +28,7 @@ Scenario: unit tests start immediately instead of queueing behind a build they n
   And unit feedback arrives in the first minutes of the pipeline, not after eleven
 
 Scenario: a manual matrix's build cost stops delaying every automatic job
-  Status: todo
+  Status: implemented
   Given `dist/che-linux-<arch>` is consumed only by the manual `test-e2e-install-methods` matrix
   When a merge request pipeline runs without that matrix being clicked
   Then the linux cross-build does not run on the critical path
@@ -36,7 +36,7 @@ Scenario: a manual matrix's build cost stops delaying every automatic job
   And roughly 107 seconds leaves the time-to-first-signal
 
 Scenario: the manual install matrix still gets its binary when a human asks for it
-  Status: todo
+  Status: implemented
   Given the linux cross-build now lives in its own manual job
   When an operator clicks both that job and `test-e2e-install-methods`
   Then the matrix consumes the prebuilt binary rather than rebuilding it
@@ -44,7 +44,7 @@ Scenario: the manual install matrix still gets its binary when a human asks for 
   And an unclicked pipeline needs no operator knowledge to stay correct
 
 Scenario: e2e jobs stop waiting eleven minutes to do nine seconds of work
-  Status: todo
+  Status: implemented
   Given `test-e2e-che-{dryrun,run,backup}` genuinely consume `warm-go`'s built artifacts
   When a merge request pipeline runs
   Then they still wait on `warm-go`, because they need what it builds
@@ -52,7 +52,7 @@ Scenario: e2e jobs stop waiting eleven minutes to do nine seconds of work
   And `test-e2e-che-registry`, which builds what it needs itself, waits on nothing
 
 Scenario: a prerelease arrives sooner without loosening what it is gated on
-  Status: todo
+  Status: implemented
   Given prerelease jobs wait on `test-unit-che` and the automatic che e2e jobs
   When those gates clear earlier under the restructured graph
   Then the prerelease jobs start correspondingly earlier
@@ -63,7 +63,7 @@ Scenario: a prerelease arrives sooner without loosening what it is gated on
 ## Capacity
 
 Scenario: speed is sought where cores are added, not where they are only shared
-  Status: todo
+  Status: implemented
   Given a 4 vCPU CI node fits exactly two medium job pods, so a third waits on autoscale
   And `go build ./...` already parallelises across the cores its pod is given
   When the pipeline is made faster

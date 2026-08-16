@@ -56,7 +56,7 @@ Scenario: a compromised runner cannot reach beyond its cache bucket
   And it grants nothing on any other bucket or project
 
 Scenario: the cache is not a distribution channel
-  Status: todo
+  Status: implemented
   Given a bucket holding compiler output that no one outside CI should fetch
   When the bucket is provisioned
   Then public access is prevented
@@ -65,11 +65,44 @@ Scenario: the cache is not a distribution channel
 ## Retention
 
 Scenario: a disposable cache is not kept as though it were data
-  Status: todo
+  Status: implemented
   Given cache contents are reproducible at any time by recompiling
   When the bucket is provisioned
   Then a lifecycle rule deletes objects after a short retention window
   And object versioning stays off, a superseded cache entry having no recovery value
+
+Scenario: retention is no longer than the entries stay useful
+  Status: implemented
+  Given every pipeline rewrites the cache keys it touches
+  And an entry older than a day is one no active branch is exercising
+  When the retention window is chosen
+  Then it is one day, not a week
+  And the hit rate is materially unchanged, because live branches refresh their own entries
+  And storage falls roughly sevenfold against a week-long window
+  And a branch left idle overnight pays a single cold build, the whole cost of expiring early
+
+Scenario: deleted cache entries stop being billed when they are deleted
+  Status: implemented
+  Given GCS retains soft-deleted objects for seven days by default, billed as stored
+  And this cache overwrites the same keys on every pipeline, superseding objects constantly
+  When the bucket is provisioned
+  Then soft delete is disabled outright
+  And an overwritten or expired entry stops incurring storage cost at once
+  And the short lifecycle window is not silently undone by a longer soft-delete window
+
+Scenario: abandoned uploads do not accumulate unnoticed
+  Status: todo
+  Given a job pod can be preempted mid-upload, leaving incomplete multipart parts behind
+  And such parts are reachable by no object-age rule
+  When they are older than a day
+  Then a lifecycle rule aborts them
+  And no billed fragment survives the job that orphaned it
+
+Scenario: a disposable bucket can be torn down without hand-emptying it
+  Status: todo
+  Given the bucket is never empty and holds nothing worth preserving
+  When it is destroyed or replaced
+  Then the operation succeeds without an operator deleting objects first
 
 Scenario: cache storage cannot grow into an unbounded bill
   Status: todo
@@ -80,14 +113,14 @@ Scenario: cache storage cannot grow into an unbounded bill
     [GkeRunnerClusterBehavior.md](GkeRunnerClusterBehavior.md)
 
 Scenario: the bucket is billed at the cheapest class its access pattern allows
-  Status: todo
+  Status: implemented
   Given cache entries are read and rewritten within days and deleted within the retention window
   When the bucket's default storage class is chosen
   Then it is standard
   And no entry incurs the minimum-storage-duration charge that nearline or coldline would apply to data deleted early
 
 Scenario: cache traffic crosses no billed boundary
-  Status: todo
+  Status: implemented
   Given the runner's job pods run in this project's cluster
   When jobs read and write cache entries on every pipeline
   Then the bucket is single-region, co-located with the cluster's zone
@@ -112,14 +145,14 @@ Scenario: retention is short enough that nothing bad persists
 ## Consumers
 
 Scenario: a pipeline's own keying is its own concern
-  Status: todo
+  Status: implemented
   Given the cache is a shared facility used by every repo's pipeline
   When a repo decides what to cache and under which keys
   Then that decision is specified with that repo's jobs, not here
   And this module guarantees only that entries persist, are reachable, and expire
 
 Scenario: a shared cache does not become a shared trust boundary
-  Status: todo
+  Status: implemented
   Given one bucket serves pipelines whose jobs run at different trust levels
   When a pipeline stores artifacts that a more trusted job would later restore
   Then keeping those key spaces separate is that pipeline's responsibility

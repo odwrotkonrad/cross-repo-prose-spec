@@ -21,7 +21,7 @@ under which keys, and which jobs may write the keys a release build reads.
 ## What is cached
 
 Scenario: only reproducible build output is ever cached
-  Status: todo
+  Status: implemented
   Given a cache bucket shared by every repo's pipeline
   When any job in this pipeline declares a `cache:` block
   Then it names only `.cache/go-build`
@@ -44,7 +44,7 @@ Scenario: the job that warms the cache is the one that fills it
   And a job declaring `pull` on a key some job in the same pipeline pushes is not left waiting on it
 
 Scenario: cache declarations stop being pure overhead
-  Status: todo
+  Status: implemented
   Given the archive step costs real time proportional to the file count
   When a job finishes with a `pull-push` policy
   Then what it archives is readable by later jobs and later pipelines
@@ -54,7 +54,7 @@ Scenario: cache declarations stop being pure overhead
 ## Cost
 
 Scenario: downloaded dependencies are fetched, never cached
-  Status: todo
+  Status: implemented
   Given the public module proxy serves dependency downloads quickly and at no cost to this project
   And `GOMODCACHE` is the larger half of the cache at 1.8 GB against `GOCACHE`'s 1.1 GB
   When a job runs
@@ -63,7 +63,7 @@ Scenario: downloaded dependencies are fetched, never cached
   And the `GOMODCACHE` variable still points at a writable directory, since jobs must unpack somewhere
 
 Scenario: only the expensive half of the work is cached
-  Status: todo
+  Status: implemented
   Given compiling che's 1422-package dependency tree costs roughly 190 seconds from cold
   And downloading those same modules costs roughly 33 seconds
   When the pipeline decides what to cache
@@ -71,21 +71,21 @@ Scenario: only the expensive half of the work is cached
   And it leaves dependency downloads to the proxy, the part that is cheap to refetch
 
 Scenario: nothing is cached that is cheaper to recompute than to move
-  Status: todo
+  Status: implemented
   Given archiving and restoring a cache entry costs time proportional to its size and file count
   When a candidate path is considered for caching
   Then it is cached only if restoring it is faster than regenerating it
   And a path whose restore approaches the cost of a cold build is left out
 
 Scenario: cache traffic is not billed as egress
-  Status: todo
+  Status: implemented
   Given the runner's job pods and the cache bucket both live in the `konradodwrot-ci` project
   When jobs read and write cache entries continuously
   Then the bucket is co-located with the cluster so the traffic stays in-region
   And cache transfer incurs no cross-region or internet egress charge
 
 Scenario: storage class matches how briefly a cache entry lives
-  Status: todo
+  Status: implemented
   Given cache entries are overwritten within days and expire within the retention window
   When the bucket's storage class is chosen
   Then it is standard, not nearline or coldline
@@ -94,7 +94,7 @@ Scenario: storage class matches how briefly a cache entry lives
 ## Keying
 
 Scenario: a stale compiler output is never served for changed input
-  Status: todo
+  Status: implemented
   Given the Go build cache keys each entry on its own compilation inputs
   When a dependency, compiler flag or source file changes
   Then the affected entries miss and are recompiled
@@ -102,7 +102,7 @@ Scenario: a stale compiler output is never served for changed input
   And no separate invalidation on `go.work` or `go.sum` is needed for the build cache
 
 Scenario: caches for different targets do not overwrite each other
-  Status: todo
+  Status: implemented
   Given the pipeline builds for host, linux amd64, linux arm64 and darwin
   When jobs for different targets cache their build output
   Then each target uses a key naming that target
@@ -111,7 +111,7 @@ Scenario: caches for different targets do not overwrite each other
 ## Trust boundary
 
 Scenario: a merge request cannot poison the cache a release build compiles from
-  Status: todo
+  Status: implemented
   Given the Go build cache serves its stored contents as trusted compiler output, unverified
   And merge-request pipelines and tag pipelines both write build caches
   When a merge request job writes its build cache
@@ -121,21 +121,21 @@ Scenario: a merge request cannot poison the cache a release build compiles from
   And an untrusted branch has no path into a published, signed artifact
 
 Scenario: an operator can prove the trust boundary holds by reading the CI file
-  Status: todo
+  Status: implemented
   When an operator greps the pipeline definition for cache keys and their triggers
   Then every unprefixed build-cache key written with `pull-push` sits in a tag-only job
   And every merge-request job writing a build cache uses a distinctly prefixed key
   And the separation is visible without running a pipeline
 
 Scenario: a release build pays a cold compile rather than trusting unvetted input
-  Status: todo
+  Status: implemented
   Given a tag pipeline whose trusted build cache has expired or was never seeded
   When a release job runs
   Then it compiles from cold
   And it never falls back to a cache a merge request could have written
 
 Scenario: a poisoned or stale entry cannot persist indefinitely
-  Status: todo
+  Status: implemented
   Given the cache bucket expires objects on a short retention window
   When an entry is poisoned, corrupt, or merely stale
   Then it ages out without operator intervention
