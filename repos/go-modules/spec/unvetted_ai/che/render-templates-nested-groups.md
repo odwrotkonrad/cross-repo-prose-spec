@@ -13,7 +13,8 @@ in the resulting ref, so one repo+ref is typed once per repo instead of once per
 file.
 
 Cascade order, outermost first, child wins: perms per field, `ctx` per key,
-`options` per field, source prefix by join. Dest-level `options` win last.
+`options` per field, `source` and `dest` prefixes by join. Dest-level `options`
+win last, and an explicit `false` beats an inherited `true`.
 
 `dest` accepts a bare path string. A scalar `dest` is a dest rewrite rule only
 when it looks like one (`s<delim>…` or `<prefix>/**`), otherwise it is a path.
@@ -68,6 +69,33 @@ Scenario: a per-dest option still has the last word
   When che renders that dest
   Then the dest's value applies
 
+Scenario: one leaf opts out of an option its whole group needs
+  Status: todo
+  Given a group setting an option `true` so most of its leaves inherit it
+  And one nested leaf setting the same option `false`
+  When che renders them
+  Then that leaf renders with the option off
+  And its siblings keep the group's value
+
+Scenario: a shared dest directory is typed once, not per template
+  Status: todo
+  Given a group whose `dest` is a directory prefix and whose leaves carry file-name dests
+  When che resolves them
+  Then each dest is the group prefix joined with the leaf's dest
+
+Scenario: a host dest under a repo-dest group still targets the host
+  Status: todo
+  Given a group carrying a repo-relative `dest` prefix
+  And a nested leaf whose dest starts with `~/`, `/` or `$`
+  When che resolves that leaf
+  Then its dest is left unprefixed and still targets the host
+
+Scenario: a group dest that is not a single prefix is caught at load
+  Status: todo
+  Given a group whose `dest` carries more than one path, or per-dest options
+  When the spec is loaded
+  Then che reports that a group dest is a prefix
+
 Scenario: one leaf pins a different ref than its group
   Status: todo
   Given a group with a pinned remote prefix
@@ -100,7 +128,7 @@ Scenario: a bad pin surfaces as a single fetch failure
 
 Scenario: a node cannot be both group and leaf
   Status: todo
-  Given a node carrying nested `renderTemplates` and also a `dest`, dest rule or glob
+  Given a node carrying nested `renderTemplates` and also a dest rewrite rule or glob
   When the spec is loaded
   Then che reports the node as invalid
 
