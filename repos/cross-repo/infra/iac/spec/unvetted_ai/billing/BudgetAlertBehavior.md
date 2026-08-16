@@ -16,15 +16,15 @@ Scenario: a spending trend warns before the money is gone
 
 Scenario: alerts arrive where they will be seen
   Status: todo
-  Given notification channels for email and, when a verified number is configured, SMS
+  Given an email notification channel
   When a threshold is crossed
-  Then the alert reaches those channels
+  Then the alert reaches that address
   And billing-account administrators still receive the default notification as a backstop
 
 Scenario: the ceiling moves without touching code
   Status: todo
-  Given the budget amount and alert destinations are terraform variables
-  When the ceiling or a recipient changes
+  Given the budget amount and alert address are terraform variables
+  When the ceiling or the recipient changes
   Then only variable values change, not resource definitions
 
 Scenario: nobody mistakes an alert for a spending cap

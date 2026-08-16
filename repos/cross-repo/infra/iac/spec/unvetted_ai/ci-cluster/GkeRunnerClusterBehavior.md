@@ -16,12 +16,61 @@ Scenario: a job gets the memory its SaaS equivalent had, at a fraction of the pr
   Then it completes without being OOM-killed
   And CPU, not memory, is what was traded away for cost
 
-Scenario: node overhead is paid once per two jobs, not once per job
+Scenario: node overhead is amortised across several jobs, not paid per job
   Status: todo
-  Given 4 vCPU / 16 GB CI nodes and 1.5 vCPU / 6 GB job pods
-  When two jobs for the same architecture are queued
-  Then both pods schedule onto one node
-  And a second node is created only when a third pod cannot fit
+  Given 4 vCPU / 16 GB CI nodes and medium job pods whose requests are half their limits
+  When several medium jobs for the same architecture are queued
+  Then more than one pod schedules onto each node
+  And a new node is created only when the next pod's request no longer fits
+
+Scenario: a job asks for the size it needs, by name
+  Status: todo
+  Given runners offering `small`, `medium` and `big` pod sizes per architecture
+  When a job is tagged for one of those sizes
+  Then its pod is created with that size's cpu and memory requests
+  And a job that names no size gets `medium`, the default that matches the SaaS runner it replaces
+
+Scenario: nodes pack to their real usage, not to worst-case reservations
+  Status: todo
+  Given each size declares a memory request that reserves capacity and a memory limit that caps it
+  And the request is half the limit, so a node's pods may claim up to twice its capacity
+  When jobs are scheduled
+  Then scheduling counts the requests, fitting twice as many pods as the limits alone would allow
+
+Scenario: a job that runs out of memory fails fast instead of limping
+  Status: todo
+  Given job pods carry a memory limit
+  When a job exceeds it, or its node comes under memory pressure
+  Then the pod is killed or evicted promptly and the job fails visibly
+  And no job is left running far past its normal duration because it was starved
+
+Scenario: a job is never made slower than the capacity it could have used
+  Status: todo
+  Given job pods declare a cpu request but no cpu limit
+  When a job could use more cpu than it reserved and the node has spare cycles
+  Then it uses them rather than being throttled to its request
+  And when the node is busy, cpu is shared in proportion to what each pod reserved
+
+Scenario: bursty jobs use idle capacity instead of reserving it
+  Status: todo
+  Given CI jobs that are busy in short spikes and near-idle between them
+  When one pod bursts above its request while its node neighbour is idle
+  Then it consumes the spare capacity up to its limit
+  And it is not billed for that headroom while idle
+
+Scenario: cheap jobs stop paying for capacity they never use
+  Status: todo
+  Given lint, render and validate jobs that need far less than a build
+  When they run as `small` pods
+  Then several of them pack onto a single node
+  And they no longer reserve the memory a build would
+
+Scenario: a heavy job gets room without upsizing every other job
+  Status: todo
+  Given a job that exhausts the default size, for example a dind image build or the e2e matrix
+  When it runs as a `big` pod
+  Then it receives the larger cpu and memory requests
+  And the sizes available to other jobs are unchanged
 
 Scenario: a burst of work runs wide, and stops at a known ceiling
   Status: todo
@@ -59,6 +108,13 @@ Scenario: running capacity tracks the queue with no extra scaling component
   When the queue grows and then drains
   Then pod count follows queue depth and node count follows pod count
   And no separate queue-polling autoscaler is deployed to achieve it
+
+Scenario: one manager serves every architecture and size
+  Status: todo
+  Given a single runner manager deployment holding one runner entry per architecture and size
+  When jobs for different architectures and sizes are queued together
+  Then the one manager dispatches all of them, each to the pool and pod size its entry declares
+  And adding a size or architecture adds an entry, not another manager to run and pay for
 
 Scenario: CI compute is billed at spot prices
   Status: todo
@@ -109,6 +165,13 @@ Scenario: a compromised runner reaches nothing beyond CI
   Given the runner service account holds only the roles its jobs need in the `konradodwrot-ci` project
   When a job attempts to read the sandbox auth project, `restricted`, or any other project
   Then the request is denied
+
+Scenario: reaching the node's identity yields almost nothing
+  Status: todo
+  Given nodes run as a dedicated service account holding only logging, monitoring and image-pull roles
+  And not the default compute service account, which carries project Editor
+  When a privileged job container reaches the instance metadata server
+  Then the identity it obtains cannot read secrets, alter the cluster, or create resources
 
 Scenario: a runaway job matrix cannot spin up unbounded nodes
   Status: todo
