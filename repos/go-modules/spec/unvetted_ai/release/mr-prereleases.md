@@ -7,6 +7,14 @@
 `lib/`. They publish those archives to the generic package registry from within
 the same job, so a che change is installable before it is ever tagged.
 
+Scenario: a change to the publish path can be tested before it merges
+  Status: implemented
+  Given a merge request touching only `ci/publish-prerelease.zsh`, `Makefile` or `.gitlab-ci.yml`
+  When the pipeline runs
+  Then the prerelease jobs still run and publish
+  And the publish path is provable on its own merge request, never only after merging
+  And gate jobs absent from such a pipeline are tolerated, since each `needs` is optional
+
 Scenario: a developer installs an unmerged che change without waiting for a release
   Status: implemented
   Given an open merge request touching `che/`, `che-packages/` or `lib/`
