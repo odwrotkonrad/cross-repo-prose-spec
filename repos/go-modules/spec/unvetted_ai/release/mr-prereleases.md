@@ -1,0 +1,56 @@
+# Feature: Installable che Prereleases from MR Pipelines
+
+<!-- [>] 🤖🤖 -->
+
+`prerelease-linux-che` and `prerelease-darwin-che` already build che at
+`0.0.0-mr<iid>` on every merge request touching `che/`, `che-packages/` or
+`lib/`. They publish those archives to the generic package registry from within
+the same job, so a che change is installable before it is ever tagged.
+
+Scenario: a developer installs an unmerged che change without waiting for a release
+  Status: todo
+  Given an open merge request touching `che/`, `che-packages/` or `lib/`
+  When its `prerelease-linux-che` and `prerelease-darwin-che` jobs succeed
+  Then each uploads its own `che_0.0.0-mr<iid>_<os>_<arch>.tar.gz` to `packages/generic/che/0.0.0-mr<iid>/`
+  And `CHE_VERSION=0.0.0-mr<iid>` installs it through the unchanged published `install.sh`
+  And the installed binary reports `0.0.0-mr<iid>` from `che --version`
+
+Scenario: publishing costs the pipeline no new job and no new secret
+  Status: todo
+  When a prerelease job publishes
+  Then it uploads as a final step of the existing job, no separate publish job
+  And it authenticates with `CI_JOB_TOKEN`, the same header the tag-pipeline publish scripts use
+  And it reuses the retry flags the other publish scripts carry
+
+Scenario: two platform jobs fill one version without racing each other
+  Status: todo
+  Given both prerelease jobs run for the same merge request
+  When each publishes into `packages/generic/che/0.0.0-mr<iid>/`
+  Then the linux job uploads only from `dist/`, the darwin job only from `darwin-dist/`
+  And their filenames differ by os and arch, so neither overwrites the other
+  And a job whose counterpart failed still publishes its own platform
+
+Scenario: a merge request holds exactly one prerelease, always its newest build
+  Status: todo
+  Given a merge request whose prerelease jobs have already published
+  When a later push to that same merge request runs them again
+  Then it publishes under the same `0.0.0-mr<iid>` version, keyed on the iid and never on the commit
+  And the re-uploaded archives replace the previous ones at those filenames
+  And the registry holds one prerelease version per merge request, no per-commit accumulation
+  And a consumer that resolved `0.0.0-mr<iid>` earlier now installs the newer build under that same version
+
+Scenario: a prerelease never masquerades as a release
+  Status: todo
+  When a prerelease publishes
+  Then it links no release assets, because a merge request has no release
+  And it leaves the moving `packages/generic/che/latest/` alias untouched
+  And `install.sh` with no `CHE_VERSION` still resolves the newest real release
+
+Scenario: an operator reads which platforms a prerelease actually covers
+  Status: todo
+  Given `prerelease-linux-che` builds amd64 only and `prerelease-darwin-che` builds arm64
+  When a prerelease publishes
+  Then `linux/amd64` and `darwin/arm64` archives exist under that version
+  And `linux/arm64` has none, so a consumer on that platform must fall back to a released tag
+
+<!-- [<] 🤖🤖 -->
