@@ -29,8 +29,28 @@ Scenario: interactive progress dashboard refreshes in place
   When repos run
   Then a bold `## Progress <done>/<count> <status> <clock> pid=<run pid> <bar>` header shows overall state: 🕐 while running, then ✅ or ❌, clock = total elapsed, run pid = the exec-per-repo process (the log dir name)
   And the bar (`▱▱▱▱▱` → `▰▰▰▰▱`) fills once per second toward the next tail refresh, updated in place on the header line, dropped on the final frame
-  And each repo renders as a bold `### <repo> <✅|❌|🕐> <clock> pid=<pid>` block, the repo name right-padded to the longest repo + 2 so status columns align: `log: <log file>`, then `tail: > <most recent non-empty log line>` on one line (last 15 lines scanned bottom-up, CR/ANSI stripped, width-truncated, `tail: >` when nothing non-empty), so block heights stay fixed across redraws
+  And each repo renders as a bold `### <repo> 🕐 pid=<pid>` block, the repo name right-padded to the longest repo + 2 so status columns align: `log: <log file>`, then `tail: > <most recent log line carrying a letter>` on one line (last 15 lines scanned bottom-up, CR/ANSI stripped, width-truncated, `tail: >` when none qualifies), so block heights stay fixed across redraws
+  And a pending repo carries no clock of its own: every repo starts with the run, so a per-repo elapsed would restate the header's, differing only by sub-second drift
   And the dashboard redraws in place every 5s (state polled every 1s), clearing the previous frame, the final frame stays on screen
+
+Scenario: a finished repo leaves the live region and settles above it
+  Status: implemented
+  Given repos finishing at different times
+  When one finishes
+  Then its block is flushed once above the live region, carrying its own `<clock>`
+    (its real runtime, which now differs from the run's) and its final ✅/⏭️/❌
+  And it drops out of the live region, so `## Progress` lists only repos still running
+  And the header's `<done>/<count>` agrees with the blocks below it, rather than
+    counting completions the body no longer shows
+  So a long fan-out stays short on screen: settled work scrolls up, attention sits on what is left
+
+Scenario: the relayed tail line is one a human can read
+  Status: implemented
+  Given a repo whose newest log lines are decoration (box rules, separators, blank)
+  When its `tail: >` renders
+  Then lines without a single alphabetic character are skipped and the scan continues upward
+  And the first line carrying a letter is relayed, so `╰───────╯` never stands in for the outcome
+  And a log of pure decoration relays nothing rather than a rule
 
 Scenario: non-interactive progress appends full frames
   Status: implemented
@@ -38,12 +58,12 @@ Scenario: non-interactive progress appends full frames
   When repos run
   Then the same `## Progress` frame as interactive appends every 5s, each after the previous, no screen clearing
   And ANSI bold, the countdown bar, and width truncation are dropped, so redirected logs stay plain text
-  And a finished repo's block appears in exactly one frame (the first after it finished), later frames list running repos only
+  And a finished repo's block appears in exactly one frame (the first after it finished), later frames list running repos only, matching the interactive flush
 
 Scenario: summary report closes the run, failures only
   Status: implemented
   When all background runs finish
-  Then a bold `## Done <succeeded>/<count> <✅|❌> <clock> ✅ <n> ⏭️ <n> ❌ <n>` line closes the run, same shape as the Progress header (per-repo verdicts already streamed in `## Progress`)
+  Then a bold `## Done <succeeded>/<count> <✅|❌> <clock> ✅ <n> ⏭️ <n> ❌ <n>` line closes the run, same shape as the Progress header, below the `## Passed` and `## Skipped` sections that name the repos behind those counts
   And failures follow under a bold `## Failed Executions` section, each as a bold `### <repo> ❌ (exit N) <M>m<SS>s` block: `log: <log file>`, `tail:` + the log's 10 most recent lines as blockquotes
   And the script exits 0 when nothing failed, 1 otherwise
 
@@ -60,6 +80,17 @@ Scenario: repos that skipped are listed apart from repos that did real work
   And skipped repos never appear under `## Failed Executions`
   And the script exits 0 when only skips and successes occurred, 1 only on real failures
   So a fan-out over many repos reads as progress, not a wall of identical ✅
+
+Scenario: repos that did real work are named, not just counted
+  Status: implemented
+  Given a run where at least one repo exits 0
+  When the summary renders
+  Then a bold `## Passed <n>/<count> ✅` section prints above `## Skipped`, one
+    `### <repo padded> ✅ <most recent log line carrying a letter>` per passed repo,
+    the same shape and padding as `## Skipped`
+  And it names which repos succeeded, where the `## Done` line only counts them
+  And a run with no passes prints no `## Passed` section
+  So "✅ 3" is answerable from the summary alone, without reopening logs
 
 Scenario: a skipped repo holding stashed work carries its warning into the summary
   Status: implemented
