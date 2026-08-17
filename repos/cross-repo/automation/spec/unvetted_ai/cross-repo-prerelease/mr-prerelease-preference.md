@@ -2,7 +2,7 @@
 
 <!-- [>] 🤖🤖 -->
 
-Dependent MRs pick up each other's results before merge. An open MR whose
+Dependent MRs across repos pick up each other's results before merge. An open MR whose
 prerelease stage passes publishes a prerelease, and downstream MRs prefer it
 over the latest release.
 

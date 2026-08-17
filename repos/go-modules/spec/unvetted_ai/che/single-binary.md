@@ -2,22 +2,19 @@
 
 <!-- [>] 🤖🤖 -->
 
-che ships five binaries today: `che`, plus `render-tpl`, `render-dirs-tree`,
-`render-makefile-doc` and `render-repo-group-index`. The four render binaries are
-not independent tools. Each wraps the same render engine (`che/render/render`)
-through the same `checkcmd.Tool` shell, installed, versioned and released in
-lockstep with che.
+che ships one binary. `render-tpl`, `render-dirs-tree`, `render-makefile-doc` and
+`render-repo-group-index` were once standalone, but they were never independent
+tools: each wraps the same render engine (`che/render/render`) through the same
+`checkcmd.Tool` shell, installed, versioned and released in lockstep with che.
 
-Downstream pays for it. `che/.goreleaser.yaml` carries five builds, five archives
-and a five-binary deb, and `che/.goreleaser.darwin.yaml` mirrors it. The sandbox
-Dockerfile extracts three names out of one tarball. A host with che but a missing
-render binary fails at a call site, not at install time. A new render entrypoint
-means a new build, a new archive, a new tarball member, and an edit in every
-consumer that unpacks one.
+Five builds, five archives and a five-binary deb per platform cost downstream
+real work. A host with che but a missing render binary failed at a call site, not
+at install time. Every new render entrypoint meant a new build, a new archive, a
+new tarball member, and an edit in every consumer that unpacked one.
 
-Folding them into `che render <sub>` leaves one artifact to build, ship, pin and
-pull. It also makes the render engine discoverable from `che --help` instead of
-four separate `--version` strings.
+They now fold into `che render <sub>`: one artifact to build, ship, pin and pull,
+with the render engine discoverable from `che --help` instead of four separate
+`--version` strings.
 
 ## The command surface
 
@@ -67,13 +64,13 @@ Scenario: consumers stop unpacking binaries that no longer exist
   Then it names only `che`
   And no build breaks over a missing `render-tpl` or `render-repo-group-index` member
 
-Scenario: hosts keep working while the rollout is in flight
+Scenario: no host was left with a call site resolving to nothing
   Status: implemented
-  Given consumers across configs, control, infra/sandbox and infra/oci-images call the standalone binaries
-  When the subcommands ship
-  Then the standalone binaries remain published until every consumer has migrated
-  And they are removed from the release only after that
-  And no host is left with a call site that resolves to nothing
+  Given consumers across configs, control, infra/sandbox and infra/oci-images called the standalone binaries
+  When the subcommands shipped
+  Then the standalone binaries stayed published until every consumer had migrated
+  And only then were they dropped from the release
+  And no consumer now invokes a `render-*` binary
 
 ## Callers
 

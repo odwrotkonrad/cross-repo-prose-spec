@@ -8,7 +8,8 @@ spent 165 seconds compiling before its first test ran, and `warm-go` spent 202 s
 archiving caches that nothing could restore, no distributed cache being configured.
 
 Only compiler output is cached. Dependency downloads are refetched from the public module
-proxy every time: the larger half of the cache, the cheaper half of the work.
+proxy every time, left out deliberately: they are the larger half of the cache but the
+cheaper half of the work.
 
 Provisioning the cache is infrastructure, specified in
 [infra/iac RunnerBuildCacheBehavior.md](../../../../infra/iac/spec/unvetted_ai/ci-cluster/RunnerBuildCacheBehavior.md).
@@ -28,7 +29,7 @@ Scenario: only reproducible build output is ever cached
 
 Scenario: unit results arrive without recompiling the world first
   Status: todo
-  Given a runner whose distributed cache the jobs can reach
+  Given a runner whose distributed cache the jobs can actually reach
   When `test-unit-che` runs on a merge request
   Then it restores a populated `GOCACHE` rather than starting cold
   And it starts running tests without first compiling che's full dependency tree
@@ -39,14 +40,14 @@ Scenario: the job that warms the cache is the one that fills it
   Given `warm-go` compiles the dependency tree that later jobs need
   When it finishes
   Then what it pushed under the shared build key is what `test-unit-che` restores
-  And a job declaring `pull` on a key another job in the same pipeline pushes is not left waiting on it
+  And a job declaring `pull` on a key some job in the same pipeline pushes is not left waiting on it
 
 Scenario: cache declarations stop being pure overhead
   Status: implemented
   Given the archive step costs time proportional to the file count
   When a job finishes with a `pull-push` policy
   Then what it archives is readable by later jobs and later pipelines
-  And no job spends time archiving a cache nothing can restore
+  And no job spends time archiving a cache that nothing can ever restore
   And while no such cache exists, these blocks are removed rather than left to cost time for nothing
 
 ## Cost
@@ -96,7 +97,7 @@ Scenario: stale compiler output is never served for changed input
   Given the Go build cache keys each entry on its own compilation inputs
   When a dependency, compiler flag or source file changes
   Then the affected entries miss and are recompiled
-  And a static-string cache key is safe for build output, Go doing this keying itself
+  And a static-string cache key is safe for build output, because Go does this keying itself
   And the build cache needs no separate invalidation on `go.work` or `go.sum`
 
 Scenario: caches for different targets do not overwrite each other

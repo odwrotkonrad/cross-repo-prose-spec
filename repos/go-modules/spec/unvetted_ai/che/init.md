@@ -16,7 +16,7 @@ Scenario: guarded sources still cache, so offline stays safe
   Then the source still fetches, no condition evaluates
   And discovery later decides what runs
 
-Scenario: each remote fetches at most once per run
+Scenario: a user pays each remote fetch at most once per run, discovery reuses init's checkouts
   Status: tested
   When a che command resolves its specs
   Then init runs before discovery

@@ -45,7 +45,7 @@ Scenario: e2e jobs stop waiting eleven minutes to do nine seconds of work
   Status: implemented
   Given `test-e2e-che-{dryrun,run,backup}` really do consume `warm-go`'s built artifacts
   When a merge request pipeline runs
-  Then they still wait on `warm-go`, needing what it builds
+  Then they still wait on `warm-go`, because they need what it builds
   And `warm-go` reaches them much sooner, having shed the work they do not use
   And `test-e2e-che-registry`, which builds what it needs itself, waits on nothing
 

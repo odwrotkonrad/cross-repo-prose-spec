@@ -5,7 +5,7 @@
 <!--[>] 🤖🤖 -->
 Feature: Rootless cluster nodes
 
-Scenario: breaking out of a node container gains no root on the host
+Scenario: node containers run as an unprivileged user, so breaking out of one gains no root
   Status: todo
   Given a running cluster
   When a node container's host-side owner is inspected

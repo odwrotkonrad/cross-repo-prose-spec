@@ -16,8 +16,9 @@ installed at all. It fails here, correctly, with no way to prove it would pass.
 prefers an open go-modules MR's `0.0.0-mr<iid>` prerelease over the newest
 released tag, treating the lookup as best-effort throughout: a prerelease is a
 convenience, never a reason to redden a pipeline that is not about che. This
-repo wants that mechanism, moving both halves of the pin together. Validating
-against merged vocabulary while installing an unmerged binary proves neither.
+repo wants that mechanism, and wants it to move both halves of the pin together,
+because validating against merged vocabulary while installing an unmerged binary
+proves neither.
 
 This is the `go-modules/che` to `che-packages` instance of the workspace policy
 in `control`'s Cross-Repo MR Prerelease Preference, resolved against a hardcoded

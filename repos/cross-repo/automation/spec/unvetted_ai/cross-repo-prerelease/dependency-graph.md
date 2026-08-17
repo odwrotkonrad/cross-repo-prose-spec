@@ -30,7 +30,7 @@ Scenario: a human or agent sees the whole workspace dependency structure in one 
   Status: implemented
   Given the generated graph file
   When anyone asks what depends on what
-  Then one file answers it: vertices in `repositories:`, edges in `dependencies:`
+  Then one file answers it: vertices in `repositories:`, edges in `edges:`
 
 Scenario: prerelease preference resolves per artifact, not per repo
   Status: todo
