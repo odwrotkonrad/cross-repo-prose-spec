@@ -43,9 +43,30 @@ Scenario: non-interactive progress appends full frames
 Scenario: summary report closes the run, failures only
   Status: implemented
   When all background runs finish
-  Then a bold `## Done <succeeded>/<count> <✅|❌> <clock> ✅ <n> ❌ <n>` line closes the run, same shape as the Progress header (per-repo verdicts already streamed in `## Progress`)
+  Then a bold `## Done <succeeded>/<count> <✅|❌> <clock> ✅ <n> ⏭️ <n> ❌ <n>` line closes the run, same shape as the Progress header (per-repo verdicts already streamed in `## Progress`)
   And failures follow under a bold `## Failed Executions` section, each as a bold `### <repo> ❌ (exit N) <M>m<SS>s` block: `log: <log file>`, `tail:` + the log's 10 most recent lines as blockquotes
-  And the script exits 0 when all succeeded, 1 otherwise
+  And the script exits 0 when nothing failed, 1 otherwise
+
+Scenario: repos that skipped are listed apart from repos that did real work
+  Status: todo
+  Given a fanned-out command that exits 24 to mean "skipped, nothing to do" (the git-*-upsert wrappers)
+  When the run finishes with at least one skip
+  Then skipped repos render ⏭️, not ✅ or ❌, in the live `## Progress` blocks
+  And a skip never flips the overall status to ❌, in the header or the final line
+  And a bold `## Skipped <n>/<count> ⏭️` section prints above `## Done`, one
+    `### <repo padded> ⏭️ <most recent non-empty log line>` per skipped repo, same
+    padding as the Progress blocks
+  And the `## Done` line counts all three classes: `✅ <n> ⏭️ <n> ❌ <n>`, ✅ excluding skips
+  And skipped repos never appear under `## Failed Executions`
+  And the script exits 0 when only skips and successes occurred, 1 only on real failures
+  So a fan-out over many repos reads as progress, not a wall of identical ✅
+
+Scenario: a skipped repo holding stashed work carries its warning into the summary
+  Status: todo
+  Given a skipped repo whose wrapper printed a `⚠️ stash: <n> entries` warning
+  When the `## Skipped` section renders
+  Then that warning is the relayed log line, since it is the repo's last non-empty output
+  So parked work is visible from the one summary, no per-repo log opening
 
 Scenario: --include/--exclude select repos by name or path
   Status: implemented
