@@ -14,7 +14,7 @@ registries and archives, each installed command run afterwards. Variables:
 Scenario: e2e installation tests are based on packages.yml included in che
   Status: tested
   When any install test runs
-  Then package definitions come from che's builtin `che/internal/packages/packages.yml`
+  Then package definitions come from che's vendored builtin `che/internal/packages/builtin/data/packages.yml`, pinned in `che/packages-pin.env`
   And a selected package absent from that file fails the test
 
 Scenario: developer have ability to run installation test of a their chosen package for every installation method
@@ -136,6 +136,8 @@ Scenario: each (package, method) pair runs in its own VM or container so package
 
 Scenario: each darwin e2e installation test runs in its own tart VM so packages are not reused
   Status: tested
+  #[why] method coverage only: the per-package darwin matrix is gone, the catalog's own suite is linux-only by decision
+
   Given the target platform is darwin
   When install tests run
   Then each install runs in its own fresh tart VM
@@ -149,7 +151,9 @@ Scenario: an MR pipeline stays fast by testing only a chosen subset of packages 
   And the full set stays reachable via the manual per-package jobs and local `PACKAGE=all`
 
 Scenario: developer have ability to run installation test of a their chosen package for installation method of their choice in gitlab MR pipeline as optional job
-  Status: implemented
+  Status: todo
+  #[where] moved to konradodwrot/che-packages: see repos/che-packages/spec/unvetted_ai/catalog/own-repo.md
+
   When an MR pipeline is created
   Then it carries one optional manual job per builtin package per platform, grouped in per-platform stages
   And triggering one runs `make e2e-install-methods PACKAGE=<pkg>` for that platform only

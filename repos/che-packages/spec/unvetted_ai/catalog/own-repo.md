@@ -26,7 +26,7 @@ consumes the catalog at a version it pins.
 ## What the repo owns
 
 Scenario: the catalog is editable without a Go toolchain
-  Status: todo
+  Status: implemented
   Given a contributor wants to add a package or bump a pinned version
   When they clone `konradodwrot/che-packages`
   Then the change is an edit to `packages.yml` and nothing else
@@ -34,13 +34,13 @@ Scenario: the catalog is editable without a Go toolchain
   And the repo's own pipeline is what validates it
 
 Scenario: the catalog and its install scripts travel together
-  Status: todo
+  Status: implemented
   When the repo publishes a release
   Then the artifact carries `packages.yml` and the `scripts/` tree referenced by its `script` entries
   And a consumer that unpacks it has everything an install needs
 
 Scenario: a malformed catalog is caught before anyone tries to install from it
-  Status: todo
+  Status: implemented
   Given the packages schema published by che
   When any merge request touches `packages.yml`
   Then a fast automatic job validates the file against that schema
@@ -48,7 +48,7 @@ Scenario: a malformed catalog is caught before anyone tries to install from it
   And this job needs no container, no docker and no real install
 
 Scenario: an entry that can never install is caught without installing it
-  Status: todo
+  Status: implemented
   When the fast validation job runs
   Then every entry resolves to at least one installation method on at least one supported platform
   And every entry's verify commands derive successfully from its declaration
@@ -57,7 +57,7 @@ Scenario: an entry that can never install is caught without installing it
 ## Proving packages install
 
 Scenario: every catalog package is provably installable on every method it declares
-  Status: todo
+  Status: implemented
   Given a package entry declaring one or more installation methods
   When the install suite runs for that package
   Then each declared method eligible for the target platform installs it for real, from real registries and archives
@@ -65,7 +65,7 @@ Scenario: every catalog package is provably installable on every method it decla
   And a method that installs but produces nothing runnable fails
 
 Scenario: a maintainer tests one package locally before pushing
-  Status: todo
+  Status: implemented
   Given docker on the maintainer's machine
   When they select a single package, or a single package and method, on the command line
   Then only that install and verify runs
@@ -73,21 +73,21 @@ Scenario: a maintainer tests one package locally before pushing
   And the failure output names the method, the install command and the verify command that failed
 
 Scenario: every install runs isolated so packages never contaminate each other
-  Status: todo
+  Status: implemented
   When the install suite runs
   Then every (package, method) case gets its own fresh debian container
   And nothing installed or pulled in by one case is visible to another
   And a package that only appears to work because a previous case installed its dependency fails here
 
 Scenario: a package already present in the base image never masks a broken method
-  Status: todo
+  Status: implemented
   Given che reports that a package was already present rather than installed
   When a case produces that report
   Then the case is not counted as a pass
   And the run says the method never actually ran
 
 Scenario: the suite reuses download caches without weakening isolation
-  Status: todo
+  Status: implemented
   When cases rerun
   Then apt archives, apt lists and che-downloaded assets come from a cache shared across runs
   And the container itself stays bare: only che and the package's declared base prerequisites
@@ -95,22 +95,38 @@ Scenario: the suite reuses download caches without weakening isolation
 
 ## Pipeline
 
+Scenario: a few packages per method are proven on every merge request, automatically
+  Status: implemented
+  Given install jobs are too costly to run over the whole catalog on each change
+  When a merge-request pipeline runs
+  Then the first N packages of every install method install for real, automatically, on both arches
+  And N is configurable, defaulting to 2
+  And every method the catalog declares appears in that automatic set
+  And a method broken for every package fails the pipeline without anyone triggering a job
+
+Scenario: the rest of the catalog stays one click away
+  Status: implemented
+  When a merge-request pipeline is created
+  Then every package not in the automatic set has an optional manual job per arch
+  And triggering one runs every method that package declares
+  And untriggered jobs never block the pipeline
+
 Scenario: both supported linux architectures are proven, and only those
-  Status: todo
+  Status: implemented
   When a pipeline runs the install suite
   Then linux amd64 and linux arm64 are both covered
   And arm64 cases run on arm64 runners, not under emulation
   And no macOS runner and no local VM manager is involved
 
 Scenario: the per-package matrix is generated from the catalog, never hand-listed
-  Status: todo
+  Status: implemented
   When a pipeline is created
   Then it carries one job per package in `packages.yml`, per architecture
   And adding a package to the catalog adds its jobs with no pipeline edit
   And a hand-edited job list that has drifted from the catalog fails the docs-generation check
 
 Scenario: the install matrix never starves other repos' pipelines
-  Status: todo
+  Status: implemented
   Given these jobs need docker-in-docker and flood a shared runner queue
   When a merge-request pipeline is created
   Then the per-package install jobs are manual and optional
