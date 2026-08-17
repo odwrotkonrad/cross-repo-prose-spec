@@ -9,21 +9,22 @@ happened), debug (adds what will and will not happen, and why), trace (adds
 details). Discovery reports each profile, its working directory, and its ops with
 delta counts. Ops report the mutations they make or would make.
 
+
 Scenario: human log and machine log never leak into each other
   Status: tested
   When any che command runs
   Then the CLI prints the human log only
   And the machine log (otel traces/metrics, prometheus) carries the structured events
   And no machine-oriented line format leaks into the human log
-  And structure comes from headings and indentation, readability decides the layout
+  And structure comes from headings and indentation, readability decides layout
 
-Scenario: one env var dials verbosity, info when unset
+Scenario: one env var dials verbosity, info by default
   Status: tested
   When I set `CHE_LOG_LEVEL=<level>` with level error | warn | info | debug | trace
   Then the human log includes that level and every higher-severity level
   And info is the default when unset
 
-Scenario: raising verbosity only adds lines, more severe ones stay
+Scenario: raising verbosity only adds lines, severe ones stay
   Status: tested
   Given severity order error > warn > info > debug > trace
   When I set the log level
@@ -65,7 +66,7 @@ Scenario: severity prefixes grep-filter, info lines stay unprefixed
   And a trace line starts with `[trace] `
   And an info line carries no level prefix
 
-Scenario: the run log reads like a document: profile, op, mutation, each at its own depth
+Scenario: the run log reads as a document: profile, op, mutation, each at its own depth
   Status: tested
   When a che command executes a profile's ops at log level info
   Then each profile announces as a `# Run profile <ref>` heading
@@ -80,7 +81,7 @@ Scenario: headings mark where setup ends and execution begins
   Then it announces the init-remote-sources stage as a heading before the remote lines
   And it announces the discover-profiles stage as a heading before the discovered profiles
 
-Scenario: a user confirms which spec file drives the run
+Scenario: the log names the spec file driving the run
   Status: tested
   When discovery runs at log level info
   Then the human log reports the che spec path in use
@@ -93,7 +94,7 @@ Scenario: each remote logs one entry: state and cache location
   And each entry states whether the remote was initialized or updated
   And each entry states it landed in cache, with the cache path abbreviated
 
-Scenario: discovery shows each profile's workdir and full op plan, deltas included
+Scenario: discovery shows each profile's workdir and op plan, deltas included
   Status: tested
   When discovery reports a profile
   Then it announces as a `## Profile <ref>  (profile workdir: <dir>)` heading, one level under the `# discover-profiles` heading
@@ -120,13 +121,13 @@ Scenario: dry-run output is the exact mutations a real run would make
   And a no-op line carries only its reason, not the dry-run mode
   And dry-run=all bypasses the zero-delta profile skip
 
-Scenario: fresh dests and replaced ones read differently
+Scenario: fresh dests read differently from replaced ones
   Status: tested
   When an op mutates a dest
   Then the action is created for a previously absent dest and overwritten for an existing one
   And template renders report under the render-templates op heading
 
-Scenario: render deltas reflect real content differences, secret templates covered without leaking
+Scenario: render deltas track real content, secrets covered without leaking
   Status: tested
   When discovery counts render-templates deltas
   Then each secret-free template's mock render composes per dest and byte-compares against the dest's current content, differing or absent counts as delta
@@ -139,14 +140,14 @@ Scenario: a zero-delta op still executes, idempotent sweeps included
   Then the op still executes (idempotent, sweeps included)
   And its heading notes `(no changes)` at info
 
-Scenario: uninstall unwinds profiles newest-first, removals grouped per profile
+Scenario: uninstall unwinds newest-first, removals grouped per profile
   Status: tested
   When `che uninstall` runs at log level info
   Then each profile's removals sit under a `profile <ref>` heading
   And the profiles unwind in reverse of the order they were applied
   And each removed dest logs one indented line under its profile heading
 
-Scenario: uninstall keeps a non-empty dir, skip line reasoned
+Scenario: uninstall keeps a non-empty dir, with a reasoned skip line
   Status: todo
   When uninstall reverts a dir op whose dest still holds other content
   Then the dir stays and a debug skip line reports `will not remove <dest>: directory not empty`
@@ -161,7 +162,7 @@ Scenario: debug logs only the config that differs from defaults
   Then the human log reports the config options differing from defaults only
   And never the full config
 
-Scenario: config show defaults to changed options with sources
+Scenario: config show defaults to changed options, with sources
   Status: tested
   When I invoke `che config show` or `che config show --delta`
   Then the output lists the config options differing from defaults, with sources

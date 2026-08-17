@@ -6,7 +6,7 @@
 `https://konradodwrot.gitlab.io/go-modules/apt` from every che `.deb` in the
 generic package registry.
 
-Scenario: a user installs the latest che via apt
+Scenario: a user apt-installs the latest che
   Status: implemented
   When a `che/vX.Y.Z` tag pipeline runs `publish-che` then `apt-build-che` and `pages-publish-tag`
   Then `che_X.Y.Z_linux_{amd64,arm64}.deb` uploads to the generic package registry and links as a release asset
@@ -16,10 +16,10 @@ Scenario: a user installs the latest che via apt
 Scenario: a user pins an exact che version at install time
   Status: implemented
   When releases accumulate
-  Then the rebuilt pool carries every version's deb, none removed by later releases
+  Then the rebuilt pool keeps every version's deb, none removed by later releases
   And `apt install che=X.Y.Z` installs exactly that version, apt-native, no `che@X.Y.Z` package clones
 
-Scenario: a user verifies the repo signature with the published key
+Scenario: a user verifies the repo signature against the published key
   Status: implemented
   When any Pages deploy runs `publish-apt`
   Then the `Release` file is GPG-signed with the key from `$APT_GPG_PRIVATE_KEY`

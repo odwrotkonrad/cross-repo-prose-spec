@@ -2,9 +2,9 @@
 
 <!-- [>] 🤖🤖 -->
 
-The `verify:` key in packages.yml declares how an install is proven, on a package
-entry (every method) or on an installer item (overriding the entry for its
-method). Values:
+The `verify:` key in packages.yml declares how an install is proven. It sits on a
+package entry (every method) or on an installer item (overriding the entry for
+its method). Values:
 
 - `versionCmd` (default when absent, scalar shorthand or `versionCmd: true`):
   run the entry's command with `--version` (fallback `version`), exit 0 and
@@ -16,8 +16,8 @@ method). Values:
   exit 0 and non-empty output required
 - `cmd: <command>`: run the command, exit 0 alone means verified
 - object form combines: each strategy is its own key, several keys run all of
-  them. `checkInPath: false` (default true) additionally disables the PATH
-  presence probe
+  them. `checkInPath: false` (default true) also disables the PATH presence
+  probe
 
 Scenario: an installed package verifies by running its command by default
   Status: tested
@@ -58,7 +58,7 @@ Scenario: pkgMgrVersionCheck resolves per manager
   When the install e2e runs
   Then each method verifies via its own manager's version query
 
-Scenario: a command-less package opts out of the PATH presence probe (verify.checkInPath)
+Scenario: a command-less package opts out of the PATH probe (verify.checkInPath)
   Status: tested
   Given a `verify:` object with `checkInPath: false` (default true, combinable with the strategy keys and `cmd`)
   When presence checks run (`che packages check`, the post-install check)
@@ -78,7 +78,7 @@ Scenario: an unknown verify value fails at parse time
   When the packages file loads
   Then loading fails naming the allowed values
 
-Scenario: pkgMgrVersionCheck on a manager without a version query fails the test clearly
+Scenario: pkgMgrVersionCheck on a manager without a version query fails clearly
   Status: tested
   Given `verify: pkgMgrVersionCheck` resolving against a method without a version query (e.g. go)
   When the install e2e runs

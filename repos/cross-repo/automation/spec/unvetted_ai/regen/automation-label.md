@@ -3,17 +3,17 @@
 <!-- [>] 🤖🤖 -->
 
 Automation opens merge requests: prose regen fans out one per affected repo.
-Other automation needs to find exactly those and no others — a sweeper that
-lands them when CI goes green, a report that counts what a release propagated,
-a query that tells a human which open MRs are theirs to review.
+Other automation must find exactly those and no others. A sweeper that lands
+them on green CI, a report counting what a release propagated, a query telling a
+human which open MRs are theirs to review.
 
-Nothing in an MR today marks it as machine-opened. Filtering by source branch
+Nothing in an MR marks it as machine-opened today. Filtering by source branch
 seemed close enough, but GitLab's `source_branch_search` matches loosely: a
-sweep filtered on `prose-v` also returned hand-written MRs from three
-unrelated repos. Acting on that set would have merged human work.
+sweep filtered on `prose-v` also returned hand-written MRs from three unrelated
+repos. Acting on that set would have merged human work.
 
-A fixed `[automation]` prefix in the title is the marker: it survives branch
-renames, is visible to a person scanning a list, and is exact to match on.
+A fixed `[automation]` title prefix is the marker. It survives branch renames,
+is visible to anyone scanning a list, and matches exactly.
 
 Scenario: an operator sees at a glance which MRs a machine opened
   Status: todo

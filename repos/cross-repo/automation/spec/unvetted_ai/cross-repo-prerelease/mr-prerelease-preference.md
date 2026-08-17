@@ -2,9 +2,9 @@
 
 <!-- [>] 🤖🤖 -->
 
-Dependent MRs across repos pick up each other's results before merge: an open
-MR with a passing prerelease stage publishes a prerelease, and downstream MRs
-prefer that prerelease over the latest release.
+Dependent MRs pick up each other's results before merge. An open MR whose
+prerelease stage passes publishes a prerelease, and downstream MRs prefer it
+over the latest release.
 
 Scenario: an upstream MR author shares buildable results before merging
   Status: todo

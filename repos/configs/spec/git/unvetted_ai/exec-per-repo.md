@@ -30,7 +30,7 @@ Scenario: interactive progress dashboard refreshes in place
   Then a bold `## Progress <done>/<count> <status> <clock> pid=<run pid> <bar>` header shows overall state: 🕐 while running, then ✅ or ❌, clock = total elapsed, run pid = the exec-per-repo process (the log dir name)
   And the bar (`▱▱▱▱▱` → `▰▰▰▰▱`) fills once per second toward the next tail refresh, updated in place on the header line, dropped on the final frame
   And each repo renders as a bold `### <repo> 🕐 pid=<pid>` block, the repo name right-padded to the longest repo + 2 so status columns align: `log: <log file>`, then `tail: > <most recent log line carrying a letter>` on one line (last 15 lines scanned bottom-up, CR/ANSI stripped, width-truncated, `tail: >` when none qualifies), so block heights stay fixed across redraws
-  And a pending repo carries no clock of its own: every repo starts with the run, so a per-repo elapsed would restate the header's, differing only by sub-second drift
+  And a pending repo carries no clock of its own: every repo starts with the run, so a per-repo elapsed would restate the header's, off only by sub-second drift
   And the dashboard redraws in place every 5s (state polled every 1s), clearing the previous frame, the final frame stays on screen
 
 Scenario: a finished repo leaves the live region and settles above it
@@ -42,7 +42,7 @@ Scenario: a finished repo leaves the live region and settles above it
   And it drops out of the live region, so `## Progress` lists only repos still running
   And the header's `<done>/<count>` agrees with the blocks below it, rather than
     counting completions the body no longer shows
-  So a long fan-out stays short on screen: settled work scrolls up, attention sits on what is left
+  So a long fan-out stays short on screen: settled work scrolls up, attention sits on what remains
 
 Scenario: the relayed tail line is one a human can read
   Status: implemented
@@ -90,14 +90,14 @@ Scenario: repos that did real work are named, not just counted
     the same shape and padding as `## Skipped`
   And it names which repos succeeded, where the `## Done` line only counts them
   And a run with no passes prints no `## Passed` section
-  So "✅ 3" is answerable from the summary alone, without reopening logs
+  So "✅ 3" is answerable from the summary alone, no logs reopened
 
 Scenario: a skipped repo holding stashed work carries its warning into the summary
   Status: implemented
   Given a skipped repo whose wrapper printed a `⚠️ stash: <n> entries` warning
   When the `## Skipped` section renders
   Then that warning is the relayed log line, since it is the repo's last non-empty output
-  So parked work is visible from the one summary, no per-repo log opening
+  So parked work is visible from the summary alone, no per-repo log opening
 
 Scenario: --include/--exclude select repos by name or path
   Status: implemented

@@ -8,7 +8,7 @@ Repo docs are generated, not hand-written: che renders `*.ontoRepo.tpl` onto the
 - Each repo's `che.yml` consumes prose templates as pinned remote sources: `@gitlab.com/konradodwrot/prose//<path>?ref=vX.Y.Z`. The control repo's regen MRs bump the pin.
 - Generated data docs land in `assets/data/`, included via `@` in `CLAUDE.md` and `AGENTS.md`: `makefile.agents.md` (`renderMakefileDoc`), `repo-structure.md` (`renderDirsTree`), `conventions.md` and the repo's `assets/docs-agents/purpose.md` (rendered from their prose sources).
 - `CLAUDE.md` and `AGENTS.md` both render from one `3-audience/AGENTS.md.ontoRepo.tpl`: `CLAUDE.md` keeps `@`-includes, `AGENTS.md` renders them inline (`renderReferencedFiles: true`) for agents that do not resolve `@`.
-- `AGENTS.md`, `CLAUDE.md`, and the `assets/data/` + `assets/docs-agents/` intermediates are gitignored: rendered on demand, never committed. `README.md` and `LICENSE` are rendered and tracked, since forges read them from the repo.
+- `AGENTS.md`, `CLAUDE.md` and the `assets/data/` + `assets/docs-agents/` intermediates are gitignored: rendered on demand, never committed. `README.md` and `LICENSE` are rendered and tracked, since forges read them from the repo.
 
 ## Example
 

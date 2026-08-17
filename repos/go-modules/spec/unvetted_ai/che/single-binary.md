@@ -3,21 +3,21 @@
 <!-- [>] 🤖🤖 -->
 
 che ships five binaries today: `che`, plus `render-tpl`, `render-dirs-tree`,
-`render-makefile-doc` and `render-repo-group-index`. They are not independent
-tools. All four wrap the same render engine (`che/render/render`) through the
-same `checkcmd.Tool` shell, and every one of them is installed, versioned and
-released in lockstep with che.
+`render-makefile-doc` and `render-repo-group-index`. The four render binaries are
+not independent tools. Each wraps the same render engine (`che/render/render`)
+through the same `checkcmd.Tool` shell, installed, versioned and released in
+lockstep with che.
 
-The cost lands on everyone downstream. `che/.goreleaser.yaml` carries five
-builds, five archives and a five-binary deb; `che/.goreleaser.darwin.yaml`
-mirrors it. The sandbox Dockerfile extracts three names out of one tarball. A
-host that has che but missed a render binary fails at a call site, not at
-install time. A new render entrypoint means a new build, a new archive, a new
-tarball member, and an edit in every consumer that unpacks one.
+Downstream pays for it. `che/.goreleaser.yaml` carries five builds, five archives
+and a five-binary deb, and `che/.goreleaser.darwin.yaml` mirrors it. The sandbox
+Dockerfile extracts three names out of one tarball. A host with che but a missing
+render binary fails at a call site, not at install time. A new render entrypoint
+means a new build, a new archive, a new tarball member, and an edit in every
+consumer that unpacks one.
 
-Folding them into `che render <sub>` leaves one artifact to build, ship, pin
-and pull, and makes the render engine discoverable from `che --help` instead of
-from four separate `--version` strings.
+Folding them into `che render <sub>` leaves one artifact to build, ship, pin and
+pull. It also makes the render engine discoverable from `che --help` instead of
+four separate `--version` strings.
 
 ## The command surface
 
@@ -28,7 +28,7 @@ Scenario: an operator installs one artifact and has every render entrypoint
   Then each runs the same engine the standalone binary ran
   And no separate render binary needs installing, pinning or pulling
 
-Scenario: an agent discovers the render entrypoints without knowing their names in advance
+Scenario: an agent discovers the render entrypoints without knowing their names
   Status: implemented
   When the operator runs `che --help`
   Then `render` appears among che's commands
@@ -85,7 +85,7 @@ Scenario: secret rendering in shell hooks goes through che
   And the resolved secret reaches the caller exactly as before
   And a renderer failure is still swallowed where it was swallowed before
 
-Scenario: the workspace index generator depends on one command being present
+Scenario: the workspace index generator depends on one command
   Status: implemented
   Given `control/workspace/scripts/20-index.zsh` guards on a renderer being on PATH
   When it runs after migration

@@ -1,6 +1,6 @@
 # example
 
-Example repo showing the templates convention.
+Example repo for the templates convention.
 
 @assets/docs-agents/purpose.md
 

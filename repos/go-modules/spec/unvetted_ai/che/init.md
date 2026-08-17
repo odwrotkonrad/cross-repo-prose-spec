@@ -4,19 +4,19 @@
 
 `init-remote-sources`: prefetch the remote spec sources into the run cache.
 
-Scenario: a user gets every remote source ready up front, nested refs included
+Scenario: every remote source is ready up front, nested refs included
   Status: tested
   When I invoke `init-remote-sources` standalone or any command that resolves specs
   Then every remote spec source reachable from the root spec clones or pulls into the cache
   And top-level include.sources and every profile's sourced include.profiles refs are covered, recursively
 
-Scenario: conditionally-guarded sources still cache, offline stays safe
+Scenario: guarded sources still cache, so offline stays safe
   Status: tested
   When init reaches a source guarded by runIf conditions
   Then the source still fetches, no condition evaluates
   And discovery later decides what runs
 
-Scenario: a user pays each remote fetch at most once per run, discovery reuses init's checkouts
+Scenario: each remote fetches at most once per run
   Status: tested
   When a che command resolves its specs
   Then init runs before discovery
@@ -32,7 +32,7 @@ Scenario: a cached checkout stands in for an unreachable remote
   When a remote source fails to update but a cached checkout exists
   Then a warning `fetch failed, using cached checkout <path>` logs and the cached checkout is used
 
-Scenario: an operator traces which profile pulled in which remote dependency
+Scenario: a trace line ties each remote dependency to its profile
   Status: tested
   When init-remote-sources detects a profile's remote ref
   Then a trace line logs `detected remote ref profile <profile>: <dependency>`

@@ -1,6 +1,6 @@
 # Claude Agents Convention
 
-Every workspace repo carries two claude agents in `<repo>/.claude/agents/`: `RO-<Repo>` (read-only scoping, planning, review, model fable) and `RW-<Repo>` (executor, model sonnet). On virt machines only, che also renders `<repo>/.claude/settings.json` making `RW-<Repo>` the default main-thread agent. A repo owns nothing but its `che.yml` wiring: one remote profile include of the shared `configs` profile. Rendered outputs never land in vcs.
+Every workspace repo carries two claude agents in `<repo>/.claude/agents/`: `RO-<Repo>` (read-only scoping, planning, review, model fable) and `RW-<Repo>` (executor, model sonnet). On virt machines only, che also renders `<repo>/.claude/settings.json`, making `RW-<Repo>` the default main-thread agent. A repo owns nothing but its `che.yml` wiring: one remote profile include of the shared `configs` profile. Rendered outputs never land in vcs.
 
 ## Naming
 

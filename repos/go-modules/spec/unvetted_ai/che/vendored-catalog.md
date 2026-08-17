@@ -3,15 +3,15 @@
 <!-- [>] 🤖🤖 -->
 
 Once `packages.yml` moves to `konradodwrot/che-packages`, che stops owning the
-data and starts depending on it. The dependency has to be pinned, not floating:
-a build must be reproducible, and a catalog change must never silently alter
-what a che build embeds or what che's own tests assert against.
+data and starts depending on it. The dependency is pinned, not floating: a build
+must be reproducible, and a catalog change must never silently alter what a che
+build embeds or what che's own tests assert against.
 
 che keeps the installer engine (`che/internal/packages`, the apt/brew/nix/go/npm
-/gem/pyenv/nvm/script/binariesRemoteArchive/buildFromSource drivers) and it
-keeps the per-*method* e2e proof. What leaves is the catalog data and the
-per-*package* matrix. The split follows the failure modes: a method breaks when
-this repo's code changes, a package breaks when an upstream registry moves.
+/gem/pyenv/nvm/script/binariesRemoteArchive/buildFromSource drivers) and the
+per-*method* e2e proof. What leaves is the catalog data and the per-*package*
+matrix. The split follows the failure modes: a method breaks when this repo's
+code changes, a package breaks when an upstream registry moves.
 
 Companion specs: [the catalog repo](../../../../che-packages/spec/unvetted_ai/catalog/own-repo.md),
 [e2e install methods](../../vetted_title_only/che/e2e-install-methods.md).
@@ -47,17 +47,14 @@ Scenario: the fetched catalog outranks the embedded one
   And an explicitly passed packages file supersedes both
 
 Scenario: che looks for catalog updates where the catalog now lives
-  Status: todo
-  #[why] deferred on purpose: the URL points at go-modules until konradodwrot/che-packages
-  #  exists and has published a tag. Flipping it early makes every che run warn and fall
-  #  back, 80 warnings on a full configs dry-run. Flip it with the MR that publishes v0.0.1.
+  Status: implemented
   When `che packages update` runs with no override
   Then it resolves versions against the `konradodwrot/che-packages` package registry
   And a fetch failure warns and falls through to the cached or embedded catalog rather than failing the install
 
 ## What stays behind
 
-Scenario: proving an install method works stays with the code that implements it
+Scenario: proving an install method works stays with the code implementing it
   Status: implemented
   When this repo's pipeline runs
   Then the per-method install e2e suite still runs here, over its curated per-method package subset

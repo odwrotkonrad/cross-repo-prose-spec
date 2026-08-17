@@ -11,7 +11,7 @@ Scenario: a branch rebased onto main still reaches its remote
   And finding no remote-only commits, it retries with `--force-with-lease` pinned to
     the tip it just fetched
   And the MR/PR upsert proceeds against the updated remote
-  So the routine cost of rebasing onto main is not a manual push for every repo
+  So rebasing onto main does not cost a manual push per repo
 
 Scenario: a remote holding unseen commits is never overwritten
   Status: implemented
@@ -37,7 +37,7 @@ Scenario: an unchanged branch costs no llm call and no MR edit
   Then it exits 24 before requesting any MR text, leaving the open MR untouched
   And the check runs before the push, so a repeat run costs one fetch and one list call
   And a branch with no open MR still proceeds, so a deleted or closed MR is recreated
-  So fanning the wrapper out over many repos re-describes only what actually moved
+  So a fan-out over many repos re-describes only what moved
 
 Scenario: a first push with no remote branch fails plainly
   Status: implemented

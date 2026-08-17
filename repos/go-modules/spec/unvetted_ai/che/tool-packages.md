@@ -2,15 +2,15 @@
 
 <!-- [>] 🤖🤖 -->
 
-Packages living inside a host tool rather than on PATH (vscode extensions,
-gcloud components, pip/npm libraries later) are declared in a top-level
-`toolPackages:` section of packages.yml, keyed by tool, each entry a package name
-mapping to a version pin (null/empty: rolling). Profiles select them via
+Packages living inside a host tool rather than on PATH (vscode extensions, gcloud
+components, pip/npm libraries later) are declared in a top-level `toolPackages:`
+section of packages.yml, keyed by tool, each entry a package name mapping to a
+version pin (null/empty: rolling). Profiles select them via
 `include.installToolPackages`, the CLI via `che packages install --kind=<tool>`.
 
 Tools differ in what they can version. A tool whose packages carry no version of
-their own declares so, and che refuses pins for it rather than silently dropping
-them.
+their own declares so, and che refuses pins for it instead of dropping them
+silently.
 
 Scenario: a packages file declares tool-scoped packages per host tool
   Status: tested
@@ -34,7 +34,7 @@ Scenario: a user installs tool packages directly via --kind
   And dry-run emits the would-be installs without running the tool
   And `che packages check-present --kind=vscode` errors on missing entries, defaulting to the profiles' selection, else the whole section
 
-Scenario: the tool's own base packages install first, an absent tool skips with a warning
+Scenario: the tool's base packages install first, an absent tool skips with a warning
   Status: tested
   When a tool package installs and `basePackages.<tool>` names the tool's carrier package (vscode: code)
   Then the carrier installs first through the regular pipeline

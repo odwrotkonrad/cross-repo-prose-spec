@@ -3,13 +3,13 @@
 <!-- [>] 🤖🤖 -->
 
 Any remote source pins to a git ref with an `@<tag|sha>` suffix, bound to
-repo+path and placed before the `::<profile>` separator:
-`@<repo>//<path>[@<ref>][::<profile>]`. Profile sources, renderTemplates
-sources and `remoteFile` share one syntax. The `?ref=<ref>` query is a
-deprecated alias: still parsed, never emitted.
+repo+path, placed before the `::<profile>` separator:
+`@<repo>//<path>[@<ref>][::<profile>]`. Profile sources, renderTemplates sources
+and `remoteFile` share the syntax. The `?ref=<ref>` query is a deprecated alias:
+still parsed, never emitted.
 
 A pinned ref is immutable: fetched once into its own checkout, reused offline
-after that. An unpinned source keeps tracking HEAD.
+after that. An unpinned source tracks HEAD.
 
 Scenario: a consumer pins a profile source and stops tracking upstream HEAD
   Status: todo
