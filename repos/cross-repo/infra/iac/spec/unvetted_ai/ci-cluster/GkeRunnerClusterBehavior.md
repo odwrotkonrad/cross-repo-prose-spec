@@ -200,4 +200,12 @@ Scenario: the move is provable one job at a time
   Then only that job moves
   And reverting is a tag change in `.gitlab-ci.yml`, with no infrastructure change
 
+Scenario: a packed node keeps egress for every pod it hosts
+  Status: todo
+  Given private nodes reach the registry and the GitLab API only through the Cloud NAT
+  And a node hosts many pods at once, each opening its own connections
+  When several jobs pull images and talk to GitLab from the same node
+  Then the NAT has ports for all of them, rather than a fixed per-node share sized for one pod
+  And no job fails preparing its environment with a timeout dialling gitlab.com
+
 <!--[<] 🤖🤖 -->

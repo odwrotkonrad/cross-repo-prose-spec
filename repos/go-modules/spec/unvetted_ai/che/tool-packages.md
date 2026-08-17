@@ -2,11 +2,15 @@
 
 <!-- [>] 🤖🤖 -->
 
-Packages living inside a host tool rather than on PATH (vscode extensions today,
-pip/npm libraries later) are declared in a top-level `toolPackages:` section of
-packages.yml, keyed by tool, each entry a package name mapping to a version pin
-(null/empty: rolling). Profiles select them via `include.installToolPackages`,
-the CLI via `che packages install --kind=<tool>`.
+Packages living inside a host tool rather than on PATH (vscode extensions,
+gcloud components, pip/npm libraries later) are declared in a top-level
+`toolPackages:` section of packages.yml, keyed by tool, each entry a package name
+mapping to a version pin (null/empty: rolling). Profiles select them via
+`include.installToolPackages`, the CLI via `che packages install --kind=<tool>`.
+
+Tools differ in what they can version. A tool whose packages carry no version of
+their own declares so, and che refuses pins for it rather than silently dropping
+them.
 
 Scenario: a packages file declares tool-scoped packages per host tool
   Status: tested
@@ -35,5 +39,28 @@ Scenario: the tool's own base packages install first, an absent tool skips with 
   When a tool package installs and `basePackages.<tool>` names the tool's carrier package (vscode: code)
   Then the carrier installs first through the regular pipeline
   And if the tool command is still absent the tool's packages skip with a warning instead of erroring
+
+Scenario: a GKE user gets gcloud components declared, not hand-installed
+  Status: tested
+  Given `basePackages.gcloud` names `gcloud`, so the SDK installs through the regular pipeline first
+  When a profile includes `installToolPackages: {gcloud: [gke-gcloud-auth-plugin]}`
+  Then the component installs via `gcloud components install --quiet <id>`
+  And presence comes from `gcloud components list`, an id whose state is not `Not Installed` counting as installed
+  And a second run reports it already installed and runs nothing
+
+Scenario: an unversionable tool rejects pins instead of ignoring them
+  Status: tested
+  Given gcloud components carry no version of their own, every one tracking the installed SDK version
+  When `toolPackages.gcloud` gives a package a non-empty pin, or a profile ref pins one via `{name, version}`
+  Then che errors naming the tool and the package, saying the pin does not belong
+  And the generated packages schema admits only null values for such a tool
+  And bare entries decode as rolling, as for any other tool
+
+Scenario: an SDK without a component manager warns instead of failing the run
+  Status: tested
+  Given a Google Cloud SDK installed through a package manager that disables component management
+  When the profile's gcloud tool packages install
+  Then they skip with a warning and the che run continues
+  And `--update` refreshes through `gcloud components update`, which moves the whole SDK, the only unit gcloud versions
 
 <!-- [<] 🤖🤖 -->
