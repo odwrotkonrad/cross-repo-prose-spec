@@ -29,6 +29,16 @@ Scenario: the lease pins the tip the wrapper actually inspected
   And a push landing between the fetch and the retry invalidates the lease, failing the push
   So a concurrent session's commit cannot be clobbered by a stale equivalence check
 
+Scenario: an unchanged branch costs no llm call and no MR edit
+  Status: implemented
+  Given a branch whose remote tip already equals HEAD
+  And an MR/PR already open for that branch
+  When `git-mr-upsert.zsh` runs again
+  Then it exits 24 before requesting any MR text, leaving the open MR untouched
+  And the check runs before the push, so a repeat run costs one fetch and one list call
+  And a branch with no open MR still proceeds, so a deleted or closed MR is recreated
+  So fanning the wrapper out over many repos re-describes only what actually moved
+
 Scenario: a first push with no remote branch fails plainly
   Status: implemented
   Given a rejected push for a branch with no counterpart on the remote
