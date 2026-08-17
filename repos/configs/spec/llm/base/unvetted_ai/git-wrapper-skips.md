@@ -8,7 +8,7 @@ Scenario: a repo with nothing to commit is machine-readably skipped, not silentl
   Then it prints `nothing to commit, skipping`
   And it exits 24, the skip code, distinct from 0 (committed) and from any failure
   And no llm commit message is requested, no commit is made
-  So a fan-out wrapper tells "skipped" from "shipped" without parsing logs
+  So a fan-out wrapper tells "skipped" from "shipped" with no log parsing
 
 Scenario: stashed work in a skipped repo surfaces instead of hiding behind a clean tree
   Status: implemented
@@ -18,7 +18,7 @@ Scenario: stashed work in a skipped repo surfaces instead of hiding behind a cle
   Then a `⚠️ stash: <n> entries` warning prints, followed by the `git stash list` lines
   And the warning is the last log line, so a fan-out tail relays it verbatim
   And an empty stash prints no warning
-  So work parked in a stash is never mistaken for a repo with nothing left to do
+  So stashed work is never mistaken for a repo with nothing left to do
 
 Scenario: the full flow reports a skip only when nothing at all happened
   Status: implemented

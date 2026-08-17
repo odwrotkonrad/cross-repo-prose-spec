@@ -4,12 +4,12 @@ Feature: GKE cluster hosting the Linux GitLab runners
 Scenario: the workspace runs its own Linux CI on both architectures
   Status: todo
   Given the applied ci-cluster module provisions a zonal GKE Standard cluster in the `konradodwrot-ci` project
-  And an `linux-arm64` node pool (Axion) and a `linux-amd64` node pool, both tainted `ci=true:NoSchedule`
+  And a `linux-arm64` node pool (Axion) and a `linux-amd64` node pool, both tainted `ci=true:NoSchedule`
   When a job tagged `gke-linux-arm64` or `gke-linux-amd64` is queued
   Then it runs on the pool matching its architecture
   And no job pod lands on the manager pool
 
-Scenario: an arm64 job runs, rather than waiting three minutes to fail
+Scenario: an arm64 job runs instead of waiting three minutes to fail
   Status: todo
   Given GKE taints every Arm node pool `kubernetes.io/arch=arm64:NoSchedule` on its own, whether or not the pool declares it
   And a job pod tolerating only `ci=true` is rejected by that taint
@@ -22,7 +22,7 @@ Scenario: the arm64 taint is visible in the code that causes it
   Given the arch taint is applied by GKE regardless of what terraform declares
   When the arm64 pool is provisioned
   Then the pool declares that taint itself, alongside `ci=true`
-  And a reader learns why arm64 pods need a second toleration without discovering it from a failed job
+  And a reader learns why arm64 pods need a second toleration, without discovering it from a failed job
 
 Scenario: an unschedulable pod does not quietly stall the pool it needs
   Status: todo

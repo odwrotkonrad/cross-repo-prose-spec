@@ -2,10 +2,10 @@
 
 <!-- [>] 🤖🤖 -->
 
-The `workspace/` che profile assembles the local workspace (canonical home
-here, moved from configs' `gitlab/projects`): cloning the group tree,
-linking parent Makefiles and the VS Code workspace file onto the host, and
-generating the non-checked-out subgroup indexes.
+The `workspace/` che profile assembles the local workspace (canonical home here,
+moved from configs' `gitlab/projects`): clones the group tree, links parent
+Makefiles and the VS Code workspace file onto the host, generates the
+non-checked-out subgroup indexes.
 
 Scenario: a fresh host gets every workspace repo with one profile run
   Status: implemented

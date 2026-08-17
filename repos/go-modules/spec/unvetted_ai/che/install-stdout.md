@@ -3,9 +3,9 @@
 <!-- [>] 🤖🤖 -->
 
 At `CHE_LOG_LEVEL=info` (the default) installation-method stdout is noise:
-apt/brew/npm progress drowns che's own log lines. Silenced by default,
-controlled by `--silence-install-stdout` on `che packages install`. Error output
-always stays visible, debug shows everything.
+apt/brew/npm progress drowns che's own log lines. Silenced by default, controlled
+by `--silence-install-stdout` on `che packages install`. Error output always
+stays visible, debug shows everything.
 
 Scenario: at info level the installation method's normal output is silenced
   Status: tested
@@ -21,7 +21,7 @@ Scenario: a failing installation method's output is always visible
   Then its captured output prints with the error
   And the failure is attributable without rerunning at debug
 
-Scenario: a failing install script names its own reason, not just an exit status
+Scenario: a failing install script names its reason, not just an exit status
   Status: todo
   Given a script installer whose script writes its reason to stderr and exits non-0
   When the install runs at any log level, silenced or not
@@ -40,7 +40,7 @@ Scenario: at debug level the installation method's output is visible
   When `che packages install` runs an installation method
   Then the method's stdout streams as it runs
 
-Scenario: e2e packages and e2e install-methods tests keep the plain info behavior
+Scenario: e2e packages and install-methods tests keep the plain info behavior
   Status: tested
   When `make e2e-packages` or `make e2e-install-methods` runs (CHE_LOG_LEVEL=info)
   Then che runs with the default silencing, no flag and no special-casing

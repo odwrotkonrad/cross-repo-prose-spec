@@ -6,7 +6,7 @@ Example repo skeleton: che template rendering, `che.yml`, `.env` secrets, genera
 
 ## Why It Exists
 
-The templates convention needs a runnable reference, not just a description of one.
+The templates convention needs a runnable reference, not a description of one.
 
 ## Goals
 

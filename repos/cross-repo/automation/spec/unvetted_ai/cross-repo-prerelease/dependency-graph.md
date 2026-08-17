@@ -2,21 +2,23 @@
 
 <!-- [>] 🤖🤖 -->
 
-One generated graph names every repo, the artifacts it produces, and the
-dependency edges between them: the supplementary data prerelease preference
-and prose propagation resolve against. A vertex is `repo/artifact`. The graph
-is never hand-maintained: each repo declares its own surface in
-`.repo/cross-repo-interface.yml` (`upstream:` first: consumed vertices as
-`<repo>/<artifact>` strings, repo-level consumption; then `edges:`, a map of
-upstream vertex to the list of this repo's artifacts it lands in
-(`go-modules/lib: [che]`); then `downstream:` produced artifacts as
-`name:` + `type:`, types so far:
-`binary | go-module | oci-image | che-profile | ai-prose | lockfile | pdf | dataset`). Aggregation merges all declarations over
-bootstrap seeds (`deps/seed-interfaces.yml`, shrinking as repos declare) and
-renders `deps/deps-graph.yml`: `repositories:` (vertices) and `edges:`, a map
-of upstream vertex to its downstream vertices, a bare `<repo>` when consumed
-by the repo's pipeline or worktree, `<repo>/<artifact>` when landed in an
-artifact. Canonical generated file: `deps/deps-graph.yml`.
+One generated graph names every repo, the artifacts it produces, and the edges
+between them. Prerelease preference and prose propagation resolve against it. A
+vertex is `repo/artifact`.
+
+Nothing here is hand-maintained. Each repo declares its own surface in
+`.repo/cross-repo-interface.yml`: `upstream:` lists consumed vertices as
+`<repo>/<artifact>` strings (repo-level consumption), `edges:` maps an upstream
+vertex to this repo's artifacts it lands in (`go-modules/lib: [che]`), and
+`downstream:` lists produced artifacts as `name:` + `type:`. Types so far:
+`binary | go-module | oci-image | che-profile | ai-prose | lockfile | pdf | dataset`.
+
+Aggregation merges all declarations over bootstrap seeds
+(`deps/seed-interfaces.yml`, shrinking as repos declare) and renders the
+canonical `deps/deps-graph.yml`: `repositories:` for vertices, `edges:` mapping
+an upstream vertex to its downstream vertices. A bare `<repo>` means the repo's
+pipeline or worktree consumes it, `<repo>/<artifact>` means it lands in an
+artifact.
 
 Scenario: a downstream pipeline knows which upstreams to check for prereleases
   Status: todo

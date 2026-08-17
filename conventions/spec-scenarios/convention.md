@@ -4,8 +4,8 @@
 
 Behavior specs are markdown feature files, all in the `prose` repo: a repo's
 specs under `prose/repos/<repo-path>/spec/<vetting>/<unit>/<feature>.md`,
-prose's own system specs under its `spec/`. Gherkin-style scenarios, each with
-a `Status:` line first. Downstream repos carry no spec trees: edit the
+prose's own system specs under its `spec/`. Gherkin-style scenarios, each
+opening with a `Status:` line. Downstream repos carry no spec trees: edit the
 scenarios here, then implement in the repo.
 
 ## Vetting
@@ -49,7 +49,7 @@ Scenario: <value this scenario brings to an audience, as a one-line description>
   And <further outcomes>
 ```
 
-The title names the audience's gain: what a user, operator, or agent gets or is
+The title names the audience's gain: what a user, operator or agent gets or is
 protected from. Given/When/Then carry the mechanics.
 
 <!-- [<] 🤖🤖 -->

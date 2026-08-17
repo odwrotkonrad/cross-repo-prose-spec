@@ -1,18 +1,17 @@
 <!--[>] 🤖🤖 -->
 Feature: Shared build cache for the GKE runners
 
-The kubernetes executor gives every job a fresh pod and discards its disk when the
-job ends. Without a cache backed by storage outside the pod, every `cache:` block a
-pipeline declares is inert: entries are archived to a disk nobody will read, and every
-restore misses. Observed in `go-modules`, where one job spent 202 seconds archiving
-120000 files no later job could reach, and another compiled 1422 packages from cold
-before its first test ran.
+The kubernetes executor gives every job a fresh pod and discards its disk when the job
+ends. Without storage outside the pod, every `cache:` block a pipeline declares is
+inert: entries archive to a disk nobody will read, and every restore misses. Seen in
+`go-modules`, where one job spent 202 seconds archiving 120000 files no later job could
+reach, and another compiled 1422 packages cold before its first test ran.
 
-This file covers provisioning the cache: the bucket, how the runner reaches it, what
-it is allowed to reach, and how long entries live. What an individual pipeline puts in
-it, and under which keys, is that repo's concern, specified alongside its own jobs —
-including whether a given cost is worth caching at all, which is why `go-modules`
-caches compiler output but refetches its dependencies from the public proxy.
+This file covers provisioning the cache: the bucket, how the runner reaches it, what it
+is allowed to reach, and how long entries live. What a pipeline puts in it, and under
+which keys, is that repo's concern, specified alongside its own jobs. That includes
+whether a given cost is worth caching at all, which is why `go-modules` caches compiler
+output but refetches its dependencies from the public proxy.
 
 ## Reachability
 
@@ -58,7 +57,7 @@ Scenario: the runner can sign the cache URLs it is allowed to use
 
 Scenario: object access alone is not mistaken for cache access
   Status: todo
-  Given a grant of object read and write on the bucket permits the operation but not the signing
+  Given object read and write on the bucket permits the transfer but not the signing
   When the cache is provisioned
   Then the runner is granted both, and the pairing is deliberate
   And a cache that appears correctly configured is not silently inert in every pipeline
@@ -93,7 +92,7 @@ Scenario: a disposable cache is not kept as though it were data
   Given cache contents are reproducible at any time by recompiling
   When the bucket is provisioned
   Then a lifecycle rule deletes objects after a short retention window
-  And object versioning stays off, a superseded cache entry having no recovery value
+  And object versioning stays off, a superseded entry having no recovery value
 
 Scenario: retention is no longer than the entries stay useful
   Status: implemented

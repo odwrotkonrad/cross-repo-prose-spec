@@ -2,19 +2,18 @@
 
 <!-- [>] 🤖🤖 -->
 
-`renderTemplates` is a tree. A node is a leaf (source + dest) or a group
-(shared `source` prefix, `options`, `ctx`, perms, plus nested
-`renderTemplates`). Groups nest arbitrarily deep. The `templates:` key is gone:
-a group's payload is its nested `renderTemplates`.
+`renderTemplates` is a tree. A node is a leaf (source + dest) or a group (shared
+`source` prefix, `options`, `ctx`, perms, plus nested `renderTemplates`). Groups
+nest arbitrarily deep. The `templates:` key is gone: a group's payload is its
+nested `renderTemplates`.
 
-A group's `source` is a prefix joined onto every descendant leaf's `source`. For
-a remote prefix the join recombines rather than concatenates: the pin stays last
-in the resulting ref, so one repo+ref is typed once per repo instead of once per
-file.
+A group's `source` is a prefix joined onto every descendant leaf's `source`. A
+remote prefix recombines rather than concatenates: the pin stays last in the
+resulting ref, so repo+ref is typed once per repo instead of once per file.
 
 Cascade order, outermost first, child wins: perms per field, `ctx` per key,
 `options` per field, `source` and `dest` prefixes by join. Dest-level `options`
-win last, and an explicit `false` beats an inherited `true`.
+win last. An explicit `false` beats an inherited `true`.
 
 `dest` accepts a bare path string. A scalar `dest` is a dest rewrite rule only
 when it looks like one (`s<delim>…` or `<prefix>/**`), otherwise it is a path.

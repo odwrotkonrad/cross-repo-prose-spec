@@ -2,10 +2,10 @@
 
 <!-- [>] 🤖🤖 -->
 
-`.gitlab-ci.yml` runs the repo's `root/` tree onto a fresh linux container twice
-per merge request: a dry run that resolves every op without touching the host,
-and a smoke apply that performs them. Both cover amd64 and arm64, and both come
-from one hidden base so the only difference between them is the dry run itself.
+`.gitlab-ci.yml` loads the repo's `root/` tree onto a fresh linux container twice
+per merge request: a dry run that resolves every op without touching the host, and
+a smoke apply that performs them. Both cover amd64 and arm64. Both extend one
+hidden base, so the dry-run toggle is the only thing separating them.
 
 Scenario: an arm64 host is protected from a change only ever proven on amd64
   Status: implemented
@@ -40,7 +40,7 @@ Scenario: a dry run never reaches into the secret vault
 Scenario: a failing apply is diagnosable without a rerun
   Status: implemented
   When either linux job runs
-  Then che debug output is on, so the op sequence is in the job log the first time
+  Then che debug output is on, so the op sequence lands in the job log on the first run
 
 Scenario: a draft merge request never performs a real apply
   Status: implemented

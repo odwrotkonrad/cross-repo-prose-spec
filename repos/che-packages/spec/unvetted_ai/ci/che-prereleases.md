@@ -4,27 +4,24 @@
 
 `che-pin.env` names the che this catalog targets, in two halves that are one
 coupling: `CHE_VERSION`, the binary the install tests drive, and
-`CHE_SCHEMA_REF`, the git ref the packages schema is read from. The rule
-between them is that content may use only vocabulary the target che
-understands.
+`CHE_SCHEMA_REF`, the git ref the packages schema is read from. The rule between
+them: content may use only vocabulary the target che understands.
 
-That rule makes the ordering strict: che merges and releases new catalog
-vocabulary, then the pin rises here, then the catalog may use it. Until the
-release, a catalog change depending on unmerged che vocabulary cannot be
-validated or installed at all. It fails here, correctly, with no way to prove
-it would pass.
+That makes the ordering strict. che merges and releases new catalog vocabulary,
+then the pin rises here, then the catalog may use it. Until the release, a
+catalog change depending on unmerged che vocabulary cannot be validated or
+installed at all. It fails here, correctly, with no way to prove it would pass.
 
-`configs` already solved the same problem for its own pipeline. On a merge
-request it prefers an open go-modules MR's `0.0.0-mr<iid>` prerelease over the
-newest released tag, treating the lookup as best-effort throughout: a
-prerelease is a convenience, never a reason to redden a pipeline that is not
-about che. This repo wants that mechanism, and wants it to move both halves of
-the pin together, because validating against merged vocabulary while installing
-an unmerged binary proves neither.
+`configs` already solved this for its own pipeline. On a merge request it
+prefers an open go-modules MR's `0.0.0-mr<iid>` prerelease over the newest
+released tag, treating the lookup as best-effort throughout: a prerelease is a
+convenience, never a reason to redden a pipeline that is not about che. This
+repo wants that mechanism, moving both halves of the pin together. Validating
+against merged vocabulary while installing an unmerged binary proves neither.
 
 This is the `go-modules/che` to `che-packages` instance of the workspace policy
-in `control`'s Cross-Repo MR Prerelease Preference, resolved against a
-hardcoded upstream rather than the dependency graph that spec anticipates.
+in `control`'s Cross-Repo MR Prerelease Preference, resolved against a hardcoded
+upstream rather than the dependency graph that spec anticipates.
 
 ## Resolving the prerelease
 

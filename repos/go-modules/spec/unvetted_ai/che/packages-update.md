@@ -8,7 +8,7 @@ latest published definitions into the cache dir (`$XDG_CACHE_HOME/che/packages`)
 Cached definitions supersede the compiled-in builtin when no user packages file
 exists.
 
-Scenario: a host picks up new package definitions without a che upgrade
+Scenario: a host picks up new definitions without a che upgrade
   Status: tested
   When I invoke `che packages update`
   Then che resolves the latest published che-packages version from `latest/version.txt`
@@ -16,7 +16,7 @@ Scenario: a host picks up new package definitions without a che upgrade
   And extracts `packages.yml` + `scripts/` atomically into `<cache>/packages/<version>/`
   And marks the version current and prunes older cached versions
 
-Scenario: installs prefer fresher cached definitions but a user file still wins
+Scenario: installs prefer cached definitions, a user file still wins
   Status: tested
   When packages load for install or inspection
   Then an explicit `--packages-file` supersedes everything

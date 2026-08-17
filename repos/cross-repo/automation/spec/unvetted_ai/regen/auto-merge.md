@@ -4,22 +4,22 @@
 
 A prose release fans out one regen MR per affected repo: a pin bump plus
 whatever `make render-templates` regenerated. Patch and minor bumps carry no
-decision — the content is generated, the diff is mechanical, and a human
-clicking merge on each of eight repos adds nothing but delay.
+decision. The content is generated, the diff is mechanical, and clicking merge
+on each of eight repos adds only delay.
 
-`scripts/regen/regen.zsh` already asks GitLab to merge on green. Two gaps keep
-MRs sitting open anyway:
+`scripts/regen/regen.zsh` already asks GitLab to merge on green. Two gaps leave
+MRs open anyway.
 
-The request is made once, in the seconds after the MR is created. GitLab
-rejects `merge_when_pipeline_succeeds` with a 405 until the MR's pipeline
-exists, so the script retries for 60 seconds. If the pipeline is slow to
-appear, or the MR is momentarily unmergeable, every attempt fails and the MR is
-left with auto-merge unset. Nothing revisits it.
+First, the request is made once, seconds after the MR is created. GitLab rejects
+`merge_when_pipeline_succeeds` with a 405 until the MR's pipeline exists, so the
+script retries for 60 seconds. If the pipeline is slow to appear, or the MR is
+momentarily unmergeable, every attempt fails and auto-merge is left unset.
+Nothing revisits it.
 
-Worse, the fallback for that case merges outright, with no pipeline gate at
-all. It exists for repos whose CI never runs on merge requests, but it cannot
-tell those apart from a repo whose pipeline was merely slow — so a timeout can
-merge an MR whose tests were still running, or had already failed.
+Second, the fallback for that case merges outright, with no pipeline gate. It
+exists for repos whose CI never runs on merge requests, but it cannot tell those
+from a repo whose pipeline was merely slow. A timeout can merge an MR whose
+tests were still running, or had already failed.
 
 Scenario: a mechanical prose bump merges itself once CI is green
   Status: todo

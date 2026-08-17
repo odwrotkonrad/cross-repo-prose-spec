@@ -6,7 +6,7 @@ Example repo skeleton for the purpose convention: three headings, placement in `
 
 ## Why It Exists
 
-The convention needs a runnable reference, not just a description of one.
+The convention needs a runnable reference, not a description of one.
 
 ## Goals
 

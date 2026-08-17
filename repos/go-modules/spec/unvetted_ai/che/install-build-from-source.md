@@ -2,11 +2,10 @@
 
 <!-- [>] 🤖🤖 -->
 
-`buildFromSource` downloads a package's source tarball and runs the autotools
-flow inside it: `./configure --prefix=<prefix>`, `make -j<cpus>`,
-`make install`. The prefix derives from the configured binaries install
-destination (`~/.local/bin` -> `~/.local`), so the default flow stays in user
-space, no sudo.
+`buildFromSource` downloads a package's source tarball and runs autotools in it:
+`./configure --prefix=<prefix>`, `make -j<cpus>`, `make install`. The prefix
+derives from the binaries install destination (`~/.local/bin` -> `~/.local`), so
+the default flow stays in user space, no sudo.
 
 Scenario: a user installs a package from its source tarball
   Status: tested
@@ -22,7 +21,7 @@ Scenario: a system prefix escalates only the install step
   Then only `make install` runs under sudo (linux, non-root)
   And configure and make run unprivileged
 
-Scenario: a single declared checksum guards the platform-independent tarball
+Scenario: one declared checksum guards the platform-independent tarball
   Status: tested
   When the item declares `checksum: sha256:<hex>`
   Then the downloaded tarball must match it, a mismatch aborts the install
@@ -35,7 +34,7 @@ Scenario: platform eligibility gates hosts, absence means everywhere
   Then the method applies only on those `<os>-<arch>` platforms
   And an empty or absent list applies on every platform where `osInstallers` carries `buildFromSource`
 
-Scenario: an installed matching version skips the build
+Scenario: a matching installed version skips the build
   Status: tested
   When the package command is present and its version output carries the pin
   Then the install is skipped as already installed

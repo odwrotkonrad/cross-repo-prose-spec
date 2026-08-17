@@ -4,24 +4,22 @@
 
 `packages.yml` is data: 1203 lines describing what to install and how, per
 manager, per platform. Today it sits inside a Go monorepo as `che-packages/`, a
-module whose entire Go content is one `//go:embed` directive. Every catalog
-edit — a version bump, a new package, a changed apt name — enters through
-`go.work`, a `go.mod`, a Makefile with no-op `build`/`install`/`release-check`
-targets, and a pipeline whose `changes:` rules must name `che-packages/**/*` in
-eight places.
+module whose entire Go content is one `//go:embed` directive. Every catalog edit
+(a version bump, a new package, a changed apt name) enters through `go.work`, a
+`go.mod`, a Makefile with no-op `build`/`install`/`release-check` targets, and a
+pipeline whose `changes:` rules must name `che-packages/**/*` in eight places.
 
-Proving the catalog works costs more still. `che/e2e/install_methods_test.go`
-is 837 lines of Go serving two unrelated purposes: proving each *install
-method* works, and proving each *catalog package* installs. The second drives
-three GitLab stages and a per-package matrix across three platforms. Those two
-concerns change for different reasons — a method breaks when che's installer
-code changes, a package breaks when an upstream registry moves — and they now
-fail together.
+Proving the catalog works costs more still. `che/e2e/install_methods_test.go` is
+837 lines of Go serving two unrelated purposes: proving each *install method*
+works, and proving each *catalog package* installs. The second drives three
+GitLab stages and a per-package matrix across three platforms. A method breaks
+when che's installer code changes, a package breaks when an upstream registry
+moves, and today they fail together.
 
-Splitting the catalog out gives it its own release cadence, its own tag stream
-and its own test suite in a language suited to orchestrating containers and
-asserting shell output. che keeps the engine and the per-method proof, and
-consumes the catalog at a version it pins.
+Splitting the catalog out gives it its own release cadence, tag stream and test
+suite, in a language suited to orchestrating containers and asserting shell
+output. che keeps the engine and the per-method proof, and consumes the catalog
+at a version it pins.
 
 ## What the repo owns
 
@@ -52,8 +50,8 @@ Scenario: a malformed catalog is caught before anyone tries to install from it
 che owns the vocabulary: which installers exist, which tools `toolPackages`
 accepts, what an entry may declare. That vocabulary is generated from che's Go
 models and changes only when che's code changes. This repo owns content
-expressed in that vocabulary. Keeping a copy of the schema here would mean two
-sources of truth for one contract, drifting apart silently.
+expressed in it. A copy of the schema here would mean two sources of truth for
+one contract, drifting apart silently.
 
 Scenario: the schema has exactly one home, and it is not this repo
   Status: implemented

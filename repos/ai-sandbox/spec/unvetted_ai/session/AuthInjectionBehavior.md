@@ -1,7 +1,7 @@
 <!--[>] 🤖🤖 -->
 Feature: Session auth injection
 
-Scenario: a session gets its full identity, one secret crosses the host boundary
+Scenario: a session gets its full identity, with one secret crossing the host boundary
   Status: todo
   Given the host reads only the sandbox SA key from `op://SandboxProgrammaticAccess/sandbox-gcp-sa/keys/sa_key`
   When `session-create` (or `session-attach`) execs into the pod
@@ -19,5 +19,5 @@ Scenario: a session never starts half-authenticated
   Status: todo
   Given the SA key is absent from op and `GCP_SA_KEY` is unset
   When `session-create` or `session-attach` runs
-  Then it exits non-zero naming the missing op path before any exec into the pod
+  Then it exits non-zero naming the missing op path, before any exec into the pod
 <!--[<] 🤖🤖 -->

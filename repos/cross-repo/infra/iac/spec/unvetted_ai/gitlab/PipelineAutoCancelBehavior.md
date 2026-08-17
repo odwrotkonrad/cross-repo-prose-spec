@@ -1,14 +1,14 @@
 <!--[>] 🤖🤖 -->
 Feature: Superseded pipelines stop paying for themselves
 
-CI compute is billed by the minute on spot nodes. A pipeline whose commit has already
-been replaced is producing a result nobody will read: its jobs still hold pods, still
-occupy nodes the autoscaler would otherwise release, and still delay the pipeline that
-supersedes them. Cancelling on the new commit is the whole saving.
+CI compute is billed by the minute on spot nodes. A pipeline whose commit was already
+replaced produces a result nobody will read, while its jobs hold pods, occupy nodes the
+autoscaler would otherwise release, and delay the pipeline superseding them. Cancelling
+on the new commit is the whole saving.
 
 Cancellation is opt-in per job, not blanket. A job with an external side effect must
-finish or not start at all: killing `terraform apply` halfway can leave a held state
-lock that blocks every later pipeline until an operator force-unlocks it, and killing a
+finish or not start at all. Killing `terraform apply` halfway can leave a held state
+lock that blocks every later pipeline until an operator force-unlocks it. Killing a
 publish halfway can leave a half-pushed artifact. Those jobs stay uncancellable, and
 pay for it.
 

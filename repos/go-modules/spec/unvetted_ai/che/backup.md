@@ -7,15 +7,15 @@ differing copies, differing renders) into the per-run archive. Subcommands:
 `backup create`, `backup restore` (by `--run-id`, `--backup-id`, or
 `--timestamp`), `backup ls`.
 
-Scenario: one backup command covers archive, restore, and listing
+Scenario: one command covers archive, restore, and listing
   Status: tested
   When I invoke `backup` with a subcommand
   Then `backup create` archives every would-change dest into a per-run archive
   And `backup restore` restores state by `--run-id` (that run's archives), `--backup-id` (one archive), or `--timestamp` (files present at that time)
   And `backup ls` lists the backup points
-  And bare `backup` with no subcommand prints usage listing the three
+  And bare `backup` prints usage listing the three
 
-Scenario: an operator locates any archive by profile, op, and run from its path alone
+Scenario: an operator locates any archive from its path alone
   Status: tested
   When any backup archive is written
   Then its path is `backups/<profile-slug>/<op>/<ts>-<backup-id>.tar.bz2` under the state dir
@@ -29,7 +29,7 @@ Scenario: a user archives only what the run would touch
   Then every existing dest an op would change archives into one per-run archive
   And settled dests are not archived
   And nothing to change archives nothing
-  And it is the default archive action the run stage and direct ops invoke
+  And it is the default archive action for the run stage and direct ops
 
 Scenario: a user picks a restore point from a newest-first listing
   Status: tested
@@ -45,20 +45,20 @@ Scenario: a user undoes one whole run with a single run id
   Then it restores that run's backup archives exactly
   And a run id matching no run fails with a clear error
 
-Scenario: a user restores one precise archive without touching the rest of its run
+Scenario: a user restores one archive without touching the rest of its run
   Status: tested
   When I invoke `backup restore --backup-id <id>`
   Then it restores the single archive whose filename carries that backup id
   And a backup id matching no archive fails with a clear error
 
-Scenario: a user rolls the host back to how it stood at a chosen moment
+Scenario: a user rolls the host back to a chosen moment
   Status: tested
   When I invoke `backup restore --timestamp <ts>`
   Then each dest restores to the most recent backup at or before the timestamp
   And a dest with no backup at or before the timestamp is left as-is
   And a timestamp before every backup fails with a clear error (nothing to restore)
 
-Scenario: a user recovers pre-run state safely, drifted files are never clobbered
+Scenario: a user recovers pre-run state, drifted files never clobbered
   Status: tested
   When I invoke `backup restore` with a selector matching a known archive
   Then every entry in the archive restores onto its recorded dest
@@ -67,23 +67,23 @@ Scenario: a user recovers pre-run state safely, drifted files are never clobbere
   And dry run reports each restore as `restore <dest> (dry run)`, writing nothing
   And an unreadable archive fails with a clear error
 
-Scenario: a user holds a restore point before any op mutates the host
+Scenario: a restore point exists before any op mutates the host
   Status: tested
   When `run` executes a profile
   Then the backup stage runs after init-remote-sources and discover-profiles, before every other op
   And it archives every existing dest that would change into one per-run archive
 
-Scenario: a user gets one archive per run, not scattered per-op archives
+Scenario: a run yields one archive, not scattered per-op archives
   Status: tested
   When `run` executes its wrapped ops
   Then no wrapped op writes its own backup archive
 
-Scenario: an operator following any ledger record lands on the run's actual archive
+Scenario: every ledger record points at the run's actual archive
   Status: implemented
   When a wrapped op records a mutation
   Then the record's backup reference is the run's backup archive
 
-Scenario: an operator verifies what was backed up and where from two log lines
+Scenario: two log lines tell what was backed up and where
   Status: tested
   When backup archives
   Then a `backup delta <op> (<n> changes), <op> (<n> changes)` line always lists the covered file ops with their deltas
@@ -91,19 +91,19 @@ Scenario: an operator verifies what was backed up and where from two log lines
   And nothing to back up writes and logs nothing more
   And dry run writes no archive, predicting `create <path> (dry run)` instead
 
-Scenario: a user snapshots on demand, settled dests excluded
+Scenario: a user snapshots on demand, settled dests skipped
   Status: tested
   When I invoke `backup create` standalone
   Then every existing dest an op would change archives into the per-run archive
   And settled dests are not archived
   And nothing to change archives nothing
 
-Scenario: a user running a single op directly is still protected by its own backup
+Scenario: a directly invoked op still backs itself up
   Status: tested
   When I invoke an os-mutating op subcommand directly, not wrapped by `run`
   Then the op archives its own dests before mutating, as before
 
-Scenario: an operator confirms backup ran even when nothing needed archiving
+Scenario: backup logs proof it ran even with nothing to archive
   Status: tested
   When the backup stage starts within `run`
   Then a `## backup` heading announces it under the profile heading

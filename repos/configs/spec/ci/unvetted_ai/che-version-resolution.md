@@ -2,11 +2,11 @@
 
 <!-- [>] 🤖🤖 -->
 
-`ci/zsh/scripts/installs/00-ci-deps.zsh` resolves which che a CI job installs.
-Merge request pipelines prefer the newest che prerelease belonging to a still
-open go-modules merge request, so a che change can be exercised against configs
-before it is tagged. Every other pipeline, and every failure along the way,
-resolves the newest released `che/v*` tag as before.
+`ci/zsh/scripts/installs/00-ci-deps.zsh` picks which che a CI job installs.
+Merge request pipelines prefer the newest che prerelease from a still-open
+go-modules merge request, so a che change gets exercised against configs before
+it is tagged. Everything else, and every failure along the way, resolves the
+newest released `che/v*` tag.
 
 Scenario: a configs merge request exercises an unmerged che change
   Status: implemented
@@ -26,7 +26,7 @@ Scenario: main pipelines and local runs keep installing released che
   Status: implemented
   Given the pipeline is not a merge request pipeline
   When che version resolution runs
-  Then it resolves the newest released `che/v*` tag, unchanged from before
+  Then it resolves the newest released `che/v*` tag
   And it queries neither the packages list nor the merge request list
 
 Scenario: a developer's local dev build survives any CI bootstrap
@@ -54,7 +54,7 @@ Scenario: the prerelease preference survives the sudo hop into the CI user
   Given the linux jobs run `make sync-full` through `sudo -u $CI_USER --preserve-env=...`
   When che version resolution runs under that user
   Then `CI_PIPELINE_SOURCE` is among the preserved variables
-  And the merge request branch is reachable, instead of silently resolving the released tag every time
+  And the prerelease is reachable, instead of silently resolving the released tag every time
 
 Scenario: the lookup needs no credentials
   Status: implemented

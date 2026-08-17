@@ -1,6 +1,6 @@
 # Commenting Convention
 
-Comments carry a label prefix, so a reader decides upfront whether to read on. Prefixes also make comments retrievable programmatically. Unprefixed comments have no defined purpose.
+Every comment carries a label prefix, so a reader decides upfront whether to read on. Prefixes also make comments retrievable programmatically. An unprefixed comment has no defined purpose.
 
 ## Syntax
 
@@ -18,8 +18,8 @@ AI-generated content sits in a section named with one or more 🤖. The count en
 
 ## Sectioning
 
-A section starts with `[>]` and ends with `[<]`, both carrying the section name. Nesting repeats the file's comment leader (its first character): the extra-leader count equals the section's depth from the top. Leader `#`: top `##[>] x`, nested `###[>] x`. Leader `//`: `///[>] x`, `////[>] x`.
+A section opens with `[>]` and closes with `[<]`, both carrying the section name. Nesting repeats the file's comment leader (its first character): the extra-leader count equals the section's depth from the top. Leader `#`: top `##[>] x`, nested `###[>] x`. Leader `//`: `///[>] x`, `////[>] x`.
 
 ## Example
 
-Commented files in `example/`: `example.go` (leader `//`), `example.zsh` (leader `#`). Inline, block, and section forms, 🤖 marks.
+Commented files in `example/`: `example.go` (leader `//`), `example.zsh` (leader `#`). Inline, block and section forms, 🤖 marks.
