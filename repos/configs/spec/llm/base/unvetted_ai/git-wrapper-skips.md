@@ -2,7 +2,7 @@
 Feature: git wrappers report a skip apart from real work
 
 Scenario: a repo with nothing to commit is machine-readably skipped, not silently passed
-  Status: todo
+  Status: implemented
   Given a repo whose tree is clean after `git add .`
   When I run `git-commit-upsert.zsh`
   Then it prints `nothing to commit, skipping`
@@ -11,7 +11,7 @@ Scenario: a repo with nothing to commit is machine-readably skipped, not silentl
   So a fan-out wrapper tells "skipped" from "shipped" without parsing logs
 
 Scenario: stashed work in a skipped repo surfaces instead of hiding behind a clean tree
-  Status: todo
+  Status: implemented
   Given a repo skipped for having nothing to commit
   And `git stash list` is non-empty
   When the skip is reported
@@ -21,7 +21,7 @@ Scenario: stashed work in a skipped repo surfaces instead of hiding behind a cle
   So work parked in a stash is never mistaken for a repo with nothing left to do
 
 Scenario: the full flow reports a skip only when nothing at all happened
-  Status: todo
+  Status: implemented
   When I run `git-upsert-all.zsh`
   Then its existing no-op guard (clean tree, on main, main == origin/main) exits 24
   And a 24 from `git-commit-upsert.zsh` means "no commit made", not "stop": the
@@ -31,7 +31,7 @@ Scenario: the full flow reports a skip only when nothing at all happened
   And exit 22 (sync conflicts) still short-circuits the flow
 
 Scenario: exit codes stay a stable contract across the wrappers
-  Status: todo
+  Status: implemented
   Then `22` = sync conflicts, `23` = already merged, `24` = skipped, nothing to do
   And `24` is not a failure: callers treat it as a third class beside pass and fail
   And each wrapper's `#>[what]` header lists the codes it can exit with

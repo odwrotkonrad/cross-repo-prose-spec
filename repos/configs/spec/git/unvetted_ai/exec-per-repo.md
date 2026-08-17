@@ -48,7 +48,7 @@ Scenario: summary report closes the run, failures only
   And the script exits 0 when nothing failed, 1 otherwise
 
 Scenario: repos that skipped are listed apart from repos that did real work
-  Status: todo
+  Status: implemented
   Given a fanned-out command that exits 24 to mean "skipped, nothing to do" (the git-*-upsert wrappers)
   When the run finishes with at least one skip
   Then skipped repos render ⏭️, not ✅ or ❌, in the live `## Progress` blocks
@@ -62,7 +62,7 @@ Scenario: repos that skipped are listed apart from repos that did real work
   So a fan-out over many repos reads as progress, not a wall of identical ✅
 
 Scenario: a skipped repo holding stashed work carries its warning into the summary
-  Status: todo
+  Status: implemented
   Given a skipped repo whose wrapper printed a `⚠️ stash: <n> entries` warning
   When the `## Skipped` section renders
   Then that warning is the relayed log line, since it is the repo's last non-empty output
