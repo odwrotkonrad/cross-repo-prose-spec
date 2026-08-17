@@ -47,6 +47,30 @@ Scenario: a malformed catalog is caught before anyone tries to install from it
   And it fails on an unknown field, a missing required field or a wrong type
   And this job needs no container, no docker and no real install
 
+## Who owns the schema
+
+che owns the vocabulary: which installers exist, which tools `toolPackages`
+accepts, what an entry may declare. That vocabulary is generated from che's Go
+models and changes only when che's code changes. This repo owns content
+expressed in that vocabulary. Keeping a copy of the schema here would mean two
+sources of truth for one contract, drifting apart silently.
+
+Scenario: the schema has exactly one home, and it is not this repo
+  Status: todo
+  Given che generates `packages.schema.json` from its Go models
+  When this repo validates the catalog
+  Then it fetches that published schema rather than reading a copy committed here
+  And no schema file is tracked in this repo
+  And a schema change in che needs no edit here to take effect
+
+Scenario: content never outruns the che that has to read it
+  Status: todo
+  Given the catalog may use only vocabulary a released che understands
+  When an entry uses a field or tool name the pinned che does not know
+  Then validation fails in this repo, naming the unknown term and the che version that rejects it
+  And it fails before any install job spends a container proving it
+  And the fix is to release che first, then raise the pin here
+
 Scenario: an entry that can never install is caught without installing it
   Status: implemented
   When the fast validation job runs
