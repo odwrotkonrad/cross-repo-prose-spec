@@ -249,7 +249,7 @@ Scenario: the move is provable one job at a time
   And reverting is a tag change in `.gitlab-ci.yml`, with no infrastructure change
 
 Scenario: a job never waits on an image its node could already hold
-  Status: todo
+  Status: implemented
   Given every job pod pulls the same runner helper image before its script runs
   And a node's cpu is overcommitted by the jobs already running on it
   When a new job starts on a busy node
@@ -257,7 +257,7 @@ Scenario: a job never waits on an image its node could already hold
   And no job fails preparing its environment because a pull timed out under load
 
 Scenario: a packed node keeps egress for every pod it hosts
-  Status: todo
+  Status: implemented
   Given private nodes reach the registry and the GitLab API only through the Cloud NAT
   And a node hosts many pods at once, each opening its own connections
   When several jobs pull images and talk to GitLab from the same node

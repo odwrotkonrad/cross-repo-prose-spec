@@ -71,4 +71,14 @@ Scenario: an operator reads which platforms a prerelease actually covers
   Then `linux/amd64` and `darwin/arm64` archives exist under that version
   And `linux/arm64` has none, so a consumer on that platform must fall back to a released tag
 
+Scenario: a prerelease covers every linux architecture its consumers test on
+  Status: todo
+  Given `che-packages` runs its install suite on linux amd64 and linux arm64
+  And a consumer cannot drive a prerelease on an architecture it was never built for
+  When a prerelease publishes
+  Then `linux/arm64` has an archive alongside `linux/amd64`
+  And both are built the way the tag pipeline already builds them, one job per architecture
+  And a merge request's build cache stays separate from the cache a tag release restores
+  And this supersedes the platform coverage the preceding scenario records
+
 <!-- [<] 🤖🤖 -->
