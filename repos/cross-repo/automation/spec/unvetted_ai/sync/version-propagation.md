@@ -69,6 +69,14 @@ Scenario: a pin that has fallen behind is visible, not silently stale
   And a pin pointing at a registry or project the producer has left is reported the same way
   And neither is discovered only when a consumer fails on missing content
 
+Scenario: every pin in a repo moves, not only the ones in the expected file
+  Status: todo
+  Given a repo pins the same producer in more than one place
+  When a bump reaches that repo
+  Then every pin of that producer is raised, wherever in the repo it is written
+  And a pin in a file the fan-out was not written to look at is not silently left behind
+  And a repo whose pins disagree with each other is reported, since one of them is stale by definition
+
 Scenario: the consumer list comes from the graph, never a hand-kept list
   Status: todo
   Given repos declare what they produce and consume in their own interface files
