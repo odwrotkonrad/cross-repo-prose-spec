@@ -22,21 +22,21 @@ from four separate `--version` strings.
 ## The command surface
 
 Scenario: an operator installs one artifact and has every render entrypoint
-  Status: todo
+  Status: implemented
   Given a host with the che binary and nothing else from this project
   When the operator invokes `che render tpl`, `che render dirs-tree`, `che render makefile-doc` or `che render repo-group-index`
   Then each runs the same engine the standalone binary ran
   And no separate render binary needs installing, pinning or pulling
 
 Scenario: an agent discovers the render entrypoints without knowing their names in advance
-  Status: todo
+  Status: implemented
   When the operator runs `che --help`
   Then `render` appears among che's commands
   And `che render --help` lists all four entrypoints with their descriptions
   And the generated `docs/cli.md` and `assets/data/cli-usage.md` carry them
 
 Scenario: flags and arguments survive the move unchanged
-  Status: todo
+  Status: implemented
   Given an invocation that worked against a standalone render binary
   When the same flags and arguments are passed to the matching `che render` subcommand
   Then the output is byte-identical
@@ -44,7 +44,7 @@ Scenario: flags and arguments survive the move unchanged
   And a template reading paths in frontmatter, `readBody` or `renderDirsTree` still resolves them against the cwd
 
 Scenario: the check mode that guards generated docs keeps working
-  Status: todo
+  Status: implemented
   Given a lefthook or CI step that ran a render binary with `--check` to catch stale generated files
   When it runs the `che render` subcommand with `--check` instead
   Then a drifted file still fails the step with the same diff output
@@ -53,7 +53,7 @@ Scenario: the check mode that guards generated docs keeps working
 ## Release and distribution
 
 Scenario: a release produces one binary per platform, not five
-  Status: todo
+  Status: implemented
   When a tag pipeline builds che
   Then goreleaser produces a single `che` binary per platform in both the linux and darwin configs
   And the release tarball contains that binary alone
@@ -61,7 +61,7 @@ Scenario: a release produces one binary per platform, not five
   And no `render-*` archive is published
 
 Scenario: consumers stop unpacking binaries that no longer exist
-  Status: todo
+  Status: implemented
   Given the sandbox image builds by extracting named members from the che tarball
   When it extracts after the collapse
   Then it names only `che`
@@ -78,7 +78,7 @@ Scenario: hosts keep working while the rollout is in flight
 ## Callers
 
 Scenario: secret rendering in shell hooks goes through che
-  Status: todo
+  Status: implemented
   Given the glab auth hook and the sandbox session bootstrap pipe a `{{ secret ... }}` template into a renderer
   When they run after migration
   Then they invoke `che render tpl -f /dev/stdin`
@@ -86,7 +86,7 @@ Scenario: secret rendering in shell hooks goes through che
   And a renderer failure is still swallowed where it was swallowed before
 
 Scenario: the workspace index generator depends on one command being present
-  Status: todo
+  Status: implemented
   Given `control/workspace/scripts/20-index.zsh` guards on a renderer being on PATH
   When it runs after migration
   Then it probes for `che`, not for `render-repo-group-index`

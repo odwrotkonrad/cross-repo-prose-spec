@@ -19,7 +19,7 @@ Companion specs: [the catalog repo](../../../../che-packages/spec/unvetted_ai/ca
 ## The pin
 
 Scenario: a che build embeds an exactly known catalog
-  Status: todo
+  Status: implemented
   Given the catalog version is pinned in this repo at a semver tag or commit sha
   When che builds
   Then it fetches that exact catalog version and embeds it
@@ -27,20 +27,20 @@ Scenario: a che build embeds an exactly known catalog
   And a newer catalog release does not change what an unchanged che commit builds
 
 Scenario: taking a newer catalog is a reviewable change
-  Status: todo
+  Status: implemented
   When the pinned version is raised
   Then the change is visible in this repo's history as an edit to the pin
   And the pipeline that runs on it tests che against the catalog it will actually ship
 
 Scenario: a fresh host installs packages with no network round-trip for definitions
-  Status: todo
+  Status: implemented
   Given a freshly installed che and no cached catalog
   When the operator runs `che packages install`
   Then the embedded catalog serves the definitions
   And no fetch from the catalog repo is required for the install to proceed
 
 Scenario: the fetched catalog outranks the embedded one
-  Status: todo
+  Status: implemented
   Given a cached catalog fetched by `che packages update`
   When packages install
   Then the cached catalog is used over the embedded one
@@ -48,6 +48,9 @@ Scenario: the fetched catalog outranks the embedded one
 
 Scenario: che looks for catalog updates where the catalog now lives
   Status: todo
+  #[why] deferred on purpose: the URL points at go-modules until konradodwrot/che-packages
+  #  exists and has published a tag. Flipping it early makes every che run warn and fall
+  #  back, 80 warnings on a full configs dry-run. Flip it with the MR that publishes v0.0.1.
   When `che packages update` runs with no override
   Then it resolves versions against the `konradodwrot/che-packages` package registry
   And a fetch failure warns and falls through to the cached or embedded catalog rather than failing the install
@@ -55,26 +58,26 @@ Scenario: che looks for catalog updates where the catalog now lives
 ## What stays behind
 
 Scenario: proving an install method works stays with the code that implements it
-  Status: todo
+  Status: implemented
   When this repo's pipeline runs
   Then the per-method install e2e suite still runs here, over its curated per-method package subset
   And a change to an installer driver is caught by this repo's own pipeline, before any catalog is involved
 
 Scenario: method tests exercise the catalog che will actually ship
-  Status: todo
+  Status: implemented
   When the method e2e suite selects packages
   Then it reads the catalog at the pinned version
   And a package the suite names but the pinned catalog lacks fails the run rather than silently skipping
 
 Scenario: the per-package matrix is gone from this repo
-  Status: todo
+  Status: implemented
   When a pipeline is created here
   Then no per-package install job and no per-platform package-install stage appears
   And no pipeline rule, release job, module list or workspace entry still names a `che-packages` Go module
   And this repo's generated docs and agent files no longer describe one
 
 Scenario: the packages schema stays authored where the models are
-  Status: todo
+  Status: implemented
   Given the schema is generated from this repo's Go models
   When it is regenerated
   Then it is published for the catalog repo to validate against
