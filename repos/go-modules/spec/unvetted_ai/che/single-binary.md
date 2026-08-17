@@ -68,7 +68,7 @@ Scenario: consumers stop unpacking binaries that no longer exist
   And no build breaks over a missing `render-tpl` or `render-repo-group-index` member
 
 Scenario: hosts keep working while the rollout is in flight
-  Status: todo
+  Status: implemented
   Given consumers across configs, control, infra/sandbox and infra/oci-images call the standalone binaries
   When the subcommands ship
   Then the standalone binaries remain published until every consumer has migrated
