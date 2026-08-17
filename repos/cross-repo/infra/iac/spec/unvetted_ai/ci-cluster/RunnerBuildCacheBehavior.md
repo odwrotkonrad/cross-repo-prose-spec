@@ -48,11 +48,35 @@ Scenario: the cache costs no long-lived key on disk
   Then it authenticates through that same bound identity
   And provisioning the cache introduces no key file and no new secret to rotate
 
+Scenario: the runner can sign the cache URLs it is allowed to use
+  Status: todo
+  Given the cache client reaches GCS through signed URLs
+  And an identity with no key file signs by calling `signBlob` on its own service account
+  When a job archives or restores a cache entry
+  Then the runner signs the URL and the transfer succeeds
+  And no job logs `unable to sign bytes: Permission 'iam.serviceAccounts.signBlob' denied`
+
+Scenario: object access alone is not mistaken for cache access
+  Status: todo
+  Given a grant of object read and write on the bucket permits the operation but not the signing
+  When the cache is provisioned
+  Then the runner is granted both, and the pairing is deliberate
+  And a cache that appears correctly configured is not silently inert in every pipeline
+
+Scenario: a broken cache is noticed rather than absorbed
+  Status: todo
+  Given a cache miss is never a job failure, by design
+  And a permanently unsignable cache therefore fails quietly on every job forever
+  When cache transfers fail for a reason other than a missing entry
+  Then the failure is visible in the job log as an error, not only as a slower pipeline
+  And the cost shows up as repeated cold builds, which is what prompts a look
+
 Scenario: a compromised runner cannot reach beyond its cache bucket
   Status: todo
   Given the runner's service account holds only the roles its jobs need
   When the cache grant is added
   Then it permits object read and write on the cache bucket alone
+  And the signing grant is scoped to the runner's own service account, not the project
   And it grants nothing on any other bucket or project
 
 Scenario: the cache is not a distribution channel
