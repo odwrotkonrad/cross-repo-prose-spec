@@ -72,7 +72,7 @@ Scenario: an operator reads which platforms a prerelease actually covers
   And `linux/arm64` has none, so a consumer on that platform must fall back to a released tag
 
 Scenario: a prerelease covers every linux architecture its consumers test on
-  Status: todo
+  Status: implemented
   Given `che-packages` runs its install suite on linux amd64 and linux arm64
   And a consumer cannot drive a prerelease on an architecture it was never built for
   When a prerelease publishes
