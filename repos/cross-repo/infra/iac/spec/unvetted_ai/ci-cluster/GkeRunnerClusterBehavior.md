@@ -9,9 +9,40 @@ Scenario: the workspace runs its own Linux CI on both architectures
   Then it runs on the pool matching its architecture
   And no job pod lands on the manager pool
 
+Scenario: an arm64 job runs, rather than waiting three minutes to fail
+  Status: todo
+  Given GKE taints every Arm node pool `kubernetes.io/arch=arm64:NoSchedule` on its own, whether or not the pool declares it
+  And a job pod tolerating only `ci=true` is rejected by that taint
+  When a job tagged `gke-linux-arm64` is queued
+  Then its pod tolerates both taints and schedules onto an arm64 node
+  And the job starts instead of failing with `prepare environment: waiting for pod running: timed out waiting for pod to start`
+
+Scenario: the arm64 taint is visible in the code that causes it
+  Status: todo
+  Given the arch taint is applied by GKE regardless of what terraform declares
+  When the arm64 pool is provisioned
+  Then the pool declares that taint itself, alongside `ci=true`
+  And a reader learns why arm64 pods need a second toleration without discovering it from a failed job
+
+Scenario: an unschedulable pod does not quietly stall the pool it needs
+  Status: todo
+  Given the autoscaler adds nodes only for pods a new node could actually run
+  And a pod blocked by an untolerated taint would be blocked on a fresh node too
+  When such a pod is pending
+  Then the autoscaler declines to scale up and says so, rather than growing the pool uselessly
+  And the pool stays at zero, so the fault reads as a scheduling error and not a capacity shortage
+
+Scenario: arm64 nodes can be created at all
+  Status: todo
+  Given C4A (Axion) machines accept `hyperdisk-balanced` and reject `pd-balanced`
+  And the amd64 E2 machines predate hyperdisk and stay on `pd-balanced`
+  When either CI pool creates a node
+  Then each pool uses the disk type its machine family accepts
+  And no pool sits permanently at zero because every node creation was rejected
+
 Scenario: a job gets the memory its SaaS equivalent had, at a fraction of the price
   Status: todo
-  Given job pods request 1.5 vCPU and 6 GB, against the 2 vCPU / 8 GB the default SaaS runner gave
+  Given job pods request 1 vCPU and 6 GB, against the 2 vCPU / 8 GB the default SaaS runner gave
   When any existing Linux job runs on the cluster
   Then it completes without being OOM-killed
   And CPU, not memory, is what was traded away for cost
@@ -22,6 +53,15 @@ Scenario: node overhead is amortised across several jobs, not paid per job
   When several medium jobs for the same architecture are queued
   Then more than one pod schedules onto each node
   And a new node is created only when the next pod's request no longer fits
+
+Scenario: a job reserves what it uses, not what it might peak at
+  Status: todo
+  Given a node offers roughly 3.6 vCPU and 12 GB once daemonsets take their share
+  And a medium job's cpu request is what decides how many fit, memory allowing more
+  When medium jobs are queued
+  Then three pack onto a node rather than two
+  And the same burst is served by a third fewer nodes
+  And the cpu request stays a reservation, not a cap, so a job still bursts into idle capacity
 
 Scenario: a job asks for the size it needs, by name
   Status: todo
@@ -78,6 +118,14 @@ Scenario: a burst of work runs wide, and stops at a known ceiling
   When more than 16 jobs are queued at once
   Then at most 16 job pods exist across at most 8 nodes per pool
   And the remaining jobs wait in the queue rather than provisioning further nodes
+
+Scenario: denser packing lowers the bill without raising the ceiling
+  Status: todo
+  Given the node cap and the concurrency cap are the two ceilings on spend
+  When more job pods fit on each node
+  Then the concurrency cap is what binds first, and the node cap gains headroom
+  And the worst-case node count falls while the worst-case job count is unchanged
+  And the project's cpu quota still covers both pools at their cap
 
 Scenario: an idle cluster costs nothing beyond its floor
   Status: todo

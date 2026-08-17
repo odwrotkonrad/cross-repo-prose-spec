@@ -36,3 +36,33 @@ Scenario: exit codes stay a stable contract across the wrappers
   And `24` is not a failure: callers treat it as a third class beside pass and fail
   And each wrapper's `#>[what]` header lists the codes it can exit with
 <!--[<] 🤖🤖 -->
+
+<!--[>] 🤖🤖 -->
+Scenario: a branch is never named before the commit that gives it its name
+  Status: implemented
+  Given I am on main with uncommitted changes and no commits ahead of `origin/main`
+  When I run `git-branch-name-upsert.zsh`
+  Then it prints `no commits, committing first` and hands the job to `git-commit-upsert.zsh`
+  And that commit-upsert calls back with `GIT_WRAPPER_COMMITTED=1`, so the handover
+    happens at most once
+  And the resulting branch name derives from the commit that now exists
+  So a branch name always describes real work, never the clock
+
+Scenario: nothing to name is a skip, not an invented name
+  Status: implemented
+  Given a clean tree with no commits in the naming range
+    (`origin/main..HEAD` on main, `main..HEAD` off it)
+  When I run `git-branch-name-upsert.zsh`
+  Then it exits 24 with `no commits to name`, making no branch
+  And `git-mr-upsert.zsh` passes that 24 through instead of treating it as a failure,
+    then reports `on main, nothing to MR`
+  And no `tmp/scratch-<datetime>` branch is ever created
+
+Scenario: the name suggester refuses an empty range instead of guessing
+  Status: implemented
+  Given `llm-git-branch-name-suggest.zsh` is called with a range holding no commits
+  When it resolves its template vars
+  Then it logs `no commits in <range>, nothing to name` and exits 1
+  And no llm call is made, no name is emitted
+  So a contract violation by a caller fails loudly rather than leaking a scratch name
+<!--[<] 🤖🤖 -->
