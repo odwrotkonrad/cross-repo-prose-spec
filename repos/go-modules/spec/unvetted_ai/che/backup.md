@@ -13,9 +13,9 @@ Scenario: one command covers archive, restore, and listing
   Then `backup create` archives every would-change dest into a per-run archive
   And `backup restore` restores state by `--run-id` (that run's archives), `--backup-id` (one archive), or `--timestamp` (files present at that time)
   And `backup ls` lists the backup points
-  And bare `backup` prints usage listing the three
+  And bare `backup` with no subcommand prints usage listing the three
 
-Scenario: an operator locates any archive from its path alone
+Scenario: an operator locates any archive by profile, op, and run from its path alone
   Status: tested
   When any backup archive is written
   Then its path is `backups/<profile-slug>/<op>/<ts>-<backup-id>.tar.bz2` under the state dir

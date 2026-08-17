@@ -51,7 +51,7 @@ Scenario: managers list in preference order, the first applicable wins
   And a dependency-pulled package with no applicable installation method is a logged skip
   And an unknown package name is a hard error naming the packages file
 
-Scenario: a manager installed earlier in the run serves later packages
+Scenario: a manager installed earlier in the run serves later packages, no second invocation
   Status: tested
   When one install run installs npm via apt and another package needs npm
   Then resolution runs in rounds: the npm-managed package installs in a later round of the same run
@@ -85,7 +85,7 @@ Scenario: an installed package is left alone by default
   When a package is installed by its selected manager and no version is specified
   Then install leaves it untouched
 
-Scenario: a version pin converges the host on that version, downgrades included
+Scenario: a version pin converges the host on exactly that version, downgrades included
   Status: tested
   When a version is specified (entry-level or item-level `version:`) and the installed version differs
   Then install reinstalls to match the pin: npm installs `name@<pin>`, apt installs `name=<pin>`, go installs `module@v<pin>`, gem installs `-v <pin>`. Unpinnable managers run their update path

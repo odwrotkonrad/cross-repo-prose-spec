@@ -57,7 +57,7 @@ Scenario: the runner can sign the cache URLs it is allowed to use
 
 Scenario: object access alone is not mistaken for cache access
   Status: todo
-  Given object read and write on the bucket permits the transfer but not the signing
+  Given object read and write on the bucket permits the operation but not the signing
   When the cache is provisioned
   Then the runner is granted both, and the pairing is deliberate
   And a cache that appears correctly configured is not silently inert in every pipeline

@@ -8,7 +8,7 @@ Os-mutating commands: `run`, `backup`, `prune-broken-links`, `make-dirs`,
 `make-links`, `make-copies`, `render-templates`, `run-scripts`, `uninstall`
 (ledger-driven, no discovery).
 
-Scenario: every mutating command works from fresh discovery
+Scenario: every mutating command works from fresh discovery, never a stale plan
   Status: tested
   When I invoke an os-mutating che command other than `uninstall` (ledger-driven, no profiles)
   Then discover runs first
