@@ -66,7 +66,7 @@ per-platform checksums rejected at parse time because a source tarball is one
 artifact,
 so that the declaration cannot express a guarantee the method does not give.
 
-### A version pinned where the checksum that describes it lives (todo)
+### A version pinned where the checksum that describes it lives (tested)
 
 I want `installPackages` to accept `checksum: sha256:<hex>` beside `versions` on
 a package ref, that checksum overriding the catalog item's when both are set and
