@@ -1,4 +1,4 @@
-##[>] 🤖
+##[>] 🤖🤖
 workflow:
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -7,16 +7,28 @@ workflow:
 stages:
   - validate
 
+default:
+  image: registry.gitlab.com/konradodwrot/infra/oci-images/ci-linux:latest
+  tags:
+    - gke-linux-amd64
+
+validate-pre-commit-diff:
+  stage: validate
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+  variables:
+    GIT_DEPTH: 0
+  script:
+    - make repo-ci-precommit-diff
+    - git diff --exit-code HEAD
+
 validate-pre-commit-all:
   stage: validate
-  image: golang:1.26-bookworm
-  before_script:
-    - apt-get update && apt-get install -y --no-install-recommends make zsh
-    - go install gitlab.com/konradodwrot/go-modules/che@latest
-    - go install github.com/evilmartians/lefthook@latest
-    - mkdir -p ~/.config/lefthook
-    - '[ -f ~/.config/lefthook/lefthook.yml ] || printf "min_version: 2.1.9\n" > ~/.config/lefthook/lefthook.yml'
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
   script:
     - make repo-ci-precommit-all
     - git diff --exit-code HEAD
-##[<] 🤖
+##[<] 🤖🤖

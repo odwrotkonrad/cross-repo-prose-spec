@@ -1,0 +1,52 @@
+# Feature: Pre-Commit Scope Per Context
+
+<!-- [>] 🤖🤖 -->
+
+Every repo runs the same pre-commit hooks, over a file set matched to the
+moment. A local commit checks what it changes. An MR pipeline checks what the
+branch changes against the default branch, with a manual escape hatch for the
+whole tree. The default branch runs nothing: its content already passed as an
+MR.
+
+## As a developer
+
+Commits locally and opens merge requests. Configures no hooks.
+
+### A commit waits only on the files it touched (todo)
+
+I want pre-commit hooks run over the staged files alone,
+so that untouched files cost the commit no time.
+
+### A whole-repo sweep is available without leaving the MR (todo)
+
+I want a manual job in the validate stage running pre-commit over all files,
+never starting on its own and never blocking the merge request,
+so that coverage beyond the branch diff is one click away.
+
+## As a reviewer
+
+Reads merge requests and trusts the pipeline verdict. Runs no hooks by hand.
+
+### The whole branch is checked, not just its last commit (todo)
+
+I want hooks run over every file differing between the branch and the default
+branch,
+so that a violation introduced in an earlier branch commit still fails the
+pipeline.
+
+## As a CI maintainer
+
+Wires the scopes into pipelines and hooks. Duplicates no hook config per repo.
+
+### The default branch spends no time re-checking merged content (todo)
+
+I want no pre-commit job created on default-branch pipelines,
+so that CI pays only where the check can still find something.
+
+### Scopes are named Makefile targets (todo)
+
+I want CI and git hooks calling a target naming the scope, never a raw lefthook
+command,
+so that the same invocation is runnable locally.
+
+<!-- [<] 🤖🤖 -->
