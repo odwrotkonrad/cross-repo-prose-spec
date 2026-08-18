@@ -66,6 +66,14 @@ per-platform checksums rejected at parse time because a source tarball is one
 artifact,
 so that the declaration cannot express a guarantee the method does not give.
 
+### A version pinned where the checksum that describes it lives (todo)
+
+I want `installPackages` to accept `checksum: sha256:<hex>` beside `versions` on
+a package ref, that checksum overriding the catalog item's when both are set and
+verifying the tarball the pinned version downloads,
+so that a catalog entry can carry the build recipe while the consumer that
+chooses the version also vouches for the artifact.
+
 ### Platform eligibility gating hosts, absence meaning everywhere (tested)
 
 I want `platformEligibility` names to restrict the method to those `<os>-<arch>`

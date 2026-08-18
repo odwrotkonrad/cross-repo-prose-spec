@@ -262,11 +262,13 @@ so that a host with hand-installed tools is not churned.
 
 ### Installs restricted to chosen methods (tested)
 
-I want `--only-methods <mgr>[,...]` (env `CHE_PACKAGES_ONLY_METHODS`) to consider
-only items using a listed manager with no fallthrough, a package with none
-applicable skipping with `no applicable installation method` and an unknown
-manager name failing validation,
-so that one manager is exercised in isolation.
+I want `packages.onlyInstallationMethods` (user config, spec options, profile
+options, `--only-methods` or `CHE_PACKAGES_ONLY_METHODS`) to consider only items
+using a listed manager with no fallthrough, a package with none applicable
+skipping with `no applicable installation method` and an unknown manager name
+failing validation, the restriction lifting for packages pulled in as `requires`
+dependencies so a build's prerequisites still resolve by their own methods,
+so that a profile pins one installation method without starving its deps.
 
 ### A dry run announcing installs without touching the host (tested)
 
