@@ -14,7 +14,7 @@ registries and archives, each installed command run afterwards. Variables:
 Scenario: e2e installation tests are based on packages.yml included in che
   Status: tested
   When any install test runs
-  Then package definitions come from che's vendored builtin `che/internal/packages/builtin/data/packages.yml`, pinned in `che/packages-pin.env`
+  Then package definitions come from che's vendored builtin `che/internal/packages/builtin/data/packages.yml`, vendored at the version the `CHE_PACKAGES_REF` group CI variable names
   And selecting a package absent from that file fails the test
 
 Scenario: developer have ability to run installation test of a their chosen package for every installation method
