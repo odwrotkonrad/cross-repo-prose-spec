@@ -76,6 +76,12 @@ I want indexing exposed as its own profile alongside the combined clone-then-ind
 path, and a named target invoking it,
 so that a refresh is one command that touches no remote.
 
+### A workspace with nothing to index is not a failure (todo)
+
+I want the index to succeed and do nothing when the workspace holds no repos yet
+or does not exist, rather than aborting the run that invoked it,
+so that an image build indexing before its first clone still completes.
+
 ### A skipped step says which gate stopped it (todo)
 
 I want each skip naming its cause, whether the gate lives in the profile or the
