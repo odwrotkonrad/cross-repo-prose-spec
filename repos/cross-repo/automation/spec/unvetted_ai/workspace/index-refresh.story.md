@@ -1,0 +1,84 @@
+# Feature: Workspace Index Refresh On Sync
+
+<!-- [>] 🤖🤖 -->
+
+The subgroup indexes are the map agents read: `assets/data/repo-index.md` plus
+rendered `AGENTS.md`/`CLAUDE.md` in every workspace parent dir. A map is worth
+only its freshness. These went stale, still naming a repo folded away into prose
+and missing three repos since added, because nothing on the ordinary sync path
+regenerated them.
+
+Three gates each stopped it independently: the routine sync skipped the
+`run-scripts` op that carries indexing, the profile gated on `GITLAB_TOKEN` which
+no host shell exports, and the index script gated on that variable again.
+
+Indexing reads dirs already on disk. It needs no token and no network. Cloning
+needs auth, and auth is not one environment variable: the clone discovers
+projects through `glab`, whose credential normally lives in its own config, and
+falls back to SSH. Splitting the two concerns lets each carry the gate it
+actually has.
+
+## As a workspace user
+
+Runs the routine sync on a host. Regenerates no index by hand.
+
+### The routine sync leaves a current map behind (todo)
+
+I want the ordinary sync to regenerate every subgroup index, not only the full
+variant,
+so that the map an agent reads describes the workspace as it is now.
+
+### An index refresh asks for no credential (todo)
+
+I want indexing to run with no gitlab token in the environment and no network
+call, reading only what is on disk,
+so that the map stays current on a host that never exports a token.
+
+### Repos that came and went are reflected (todo)
+
+I want each refresh to list every repo present and drop every repo gone,
+so that no agent plans against a repo that no longer exists.
+
+### Re-syncing changes nothing when nothing changed (todo)
+
+I want a second sync over an unchanged workspace to produce byte-identical
+indexes,
+so that the refresh is safe to run on every sync.
+
+## As a workspace maintainer
+
+Owns the profile's scripts and their gates. Writes each gate once, where the
+dependency is.
+
+### Cloning gates on real authentication, not one mechanism for it (todo)
+
+I want the clone gated on a command predicate asking whether `glab` is
+authenticated, satisfied by a CI token in the environment or by glab's own
+credential,
+so that a host authenticated the ordinary way is not mistaken for one that is not.
+
+### Indexing carries no gate it does not need (todo)
+
+I want the index path free of the token and group gates, keeping only its
+guard against a missing `che`,
+so that an unrelated credential never decides whether the map refreshes.
+
+### The clone and index concerns are separately runnable (todo)
+
+I want indexing exposed as its own profile alongside the combined clone-then-index
+path, and a named target invoking it,
+so that a refresh is one command that touches no remote.
+
+### A skipped step says which gate stopped it (todo)
+
+I want each skip naming its cause, whether the gate lives in the profile or the
+script,
+so that silence is never mistaken for success.
+
+### The generated map credits the repo that generates it (todo)
+
+I want the subgroup index template naming `control` as its origin, one template
+tracked in one place,
+so that no generated file sends a reader to the repo that stopped owning this.
+
+<!-- [<] 🤖🤖 -->

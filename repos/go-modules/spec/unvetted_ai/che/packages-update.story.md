@@ -8,6 +8,9 @@ latest published definitions into the cache dir (`$XDG_CACHE_HOME/che/packages`)
 Cached definitions supersede the compiled-in builtin when no user packages file
 exists.
 
+Where the definitions come from, and which version, is
+[configuration](packages-source.story.md). This spec covers the fetch itself.
+
 ## As an operator
 
 Keeps a host's packages current. Installs che, does not build it.
@@ -27,13 +30,14 @@ state without touching the registry, `--force` to re-check immediately, and an
 already-cached latest version to refresh the check stamp and report up to date,
 so that running update often costs nothing.
 
-### An update check that never breaks offline installs (tested)
+### An update check that never breaks offline installs (todo)
 
-I want `packages.updateCheck.enabled` (default false, env
-`CHE_PACKAGES_UPDATE_CHECK`) to run the update flow at installer construction,
-skipped while the last check is younger than `packages.updateCheck.cooldown`
-(default 15m, env `CHE_PACKAGES_UPDATE_CHECK_COOLDOWN`), a failure warning and
-installs proceeding on the current cache or builtin,
+I want `packages.autoUpdate.enabled` (default true, env
+`CHE_PACKAGES_AUTO_UPDATE`) to run the update flow once per che execution,
+skipped while the last check is younger than
+`packages.autoUpdate.if.refIsLatest.cooldown` (default 15m, env
+`CHE_PACKAGES_AUTO_UPDATE_COOLDOWN`), a failure warning and installs proceeding
+on the current cache or builtin,
 so that a dead registry never blocks an install.
 
 ## As a config author

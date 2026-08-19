@@ -29,7 +29,7 @@ so that running a repo's target needs no cd.
 
 Owns the profile's scripts and its `tree/`. Commits no generated output.
 
-### Every subgroup dir carries a fresh index (implemented)
+### Every subgroup dir carries a fresh index (todo)
 
 I want the index script to write `assets/data/repo-index.md` plus rendered
 `AGENTS.md`/`CLAUDE.md` per subgroup dir, none of it checked into any repo,
