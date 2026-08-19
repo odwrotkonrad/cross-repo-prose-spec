@@ -108,11 +108,11 @@ I want the base overridable, defaulting to the public image,
 so that a developer runs the image build on their own machine unchanged, while
 CI passes the proxy.
 
-### Everything the build pulls goes through the registry (implemented)
+### Everything the build pulls comes from the registry (implemented)
 
-I want the binfmt installer pulled through the proxy as well,
-so that no step is left on a public origin, the docker-in-docker daemon that
-runs it having been authenticated by the same login the pushes use.
+I want the binfmt installer served through the proxy like every other image,
+so that no step is left reaching a public registry, the job identity holding
+read on each repository a build pulls from.
 
 ### Publishing is not silently one-way (todo)
 

@@ -90,6 +90,14 @@ further,
 so that a privileged container reaching the metadata server can fetch images
 and still cannot write one.
 
+### A build pulls under the identity that runs it (implemented)
+
+I want the job identity granted reader on every repository a build may pull
+from, not only the node account the kubelet uses,
+so that a job whose own image resolves can also fetch a base or tool image,
+the two being separate identities and a missing grant reading as a credentials
+fault rather than the IAM one it is.
+
 ### Pushing is a separate identity from pulling (implemented)
 
 I want write access held by a job-pod identity distinct from the node and
