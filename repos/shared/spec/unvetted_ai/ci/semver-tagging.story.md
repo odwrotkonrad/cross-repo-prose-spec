@@ -53,10 +53,11 @@ so that the minted tag follows the remote's latest, not a clone's.
 I want an already-tagged HEAD to report and exit clean,
 so that a re-run never collides with an existing tag.
 
-### A tag pipeline repeats no validation (todo)
+### Minting spends no CI beyond the mint itself (todo)
 
-I want tag pipelines skipping the pre-commit validation the merge already passed,
-so that minting costs one job.
+I want a pushed tag to start no pipeline where none is wanted, and where tag
+pipelines do run, to skip the validation the merge already passed,
+so that a release costs one job and never re-checks merged content.
 
 ### Tagging is a named target, shared not copied (todo)
 

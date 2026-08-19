@@ -42,6 +42,12 @@ Scenario: every predicate must pass before a profile runs (todo)
   When one predicate fails
   Then the profile is skipped regardless of the other
 
+Scenario: a gate executes a binary rather than a shell line (todo)
+  Given a profile with `runIf: [cmd:<argv>]` whose argv contains quotes or a shell operator
+  When the predicate is evaluated
+  Then the argv is split on whitespace and passed to the binary verbatim
+  And no shell interprets the quotes or the operator
+
 Scenario: an empty command predicate is rejected as malformed (todo)
   Given a profile with `runIf: [cmd:]`
   When the predicate is evaluated

@@ -40,6 +40,13 @@ I want `cmd:` usable bare or as `cmd:<argv> == true`, ANDed with the other
 predicates in the list,
 so that a new source needs no new grammar.
 
+### A gate runs a binary, not a shell line (todo)
+
+I want the argv split on whitespace and executed directly, no shell, no quote or
+operator parsing,
+so that a predicate cannot smuggle a pipeline or a redirect into a gate, and a
+command needing shell syntax is written as an explicit interpreter invocation.
+
 ### A malformed gate names its own fault (todo)
 
 I want an empty `cmd:` rejected with an error, and the unknown-source error
