@@ -15,9 +15,14 @@ so that the printed plan is the run.
 
 I want a zero-delta profile skipped wholesale, announced by a debug
 `will not run profile <ref>: no changes` line, config-empty op sets carrying
-reason `options.skipOps` or `options.run.skipOps` and undefined ones
-`not defined`,
+reason `options.run.skipOps` and undefined ones `not defined`,
 so that a settled host reruns fast and says why.
+
+### Naming an op runs it, whatever the run sequence skips (todo)
+
+I want `run.skipOps` to bind to the `run` sequence alone, every direct op
+subcommand executing normally even while listed there,
+so that invoking an op by name is never silently ignored.
 
 ### Each profile's work reads as one uninterrupted block (tested)
 

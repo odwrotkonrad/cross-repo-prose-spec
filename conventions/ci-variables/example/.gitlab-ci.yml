@@ -7,8 +7,13 @@ workflow:
 stages:
   - validate
 
+variables:
+  CI_IMAGE: $GRP_VAR_ARTIFACT_REGISTRY/ci-linux:$GRP_VAR_CI_IMAGES_REF
+  GITLAB_TOKEN: $REPO_VAR_GITLAB_TOKEN
+  CHE_PACKAGES_REF: $GRP_VAR_CHE_PACKAGES_REF
+
 default:
-  image: $GRP_VAR_ARTIFACT_REGISTRY/ci-linux:$GRP_VAR_CI_IMAGES_REF
+  image: $CI_IMAGE
   tags:
     - gke-linux-amd64
 
@@ -22,13 +27,12 @@ validate-pre-commit-diff:
     - make repo-ci-precommit-diff
     - git diff --exit-code HEAD
 
-validate-pre-commit-all:
+publish:
   stage: validate
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-      when: manual
-      allow_failure: true
+    - if: $CI_COMMIT_TAG
+  variables:
+    TF_VAR_github_token: $REPO_VAR_GITHUB_TOKEN
   script:
-    - make repo-ci-precommit-all
-    - git diff --exit-code HEAD
+    - make publish
 ##[<] 🤖🤖

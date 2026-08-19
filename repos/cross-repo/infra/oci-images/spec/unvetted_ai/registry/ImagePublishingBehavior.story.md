@@ -20,19 +20,19 @@ Several stories below exist only because of that split.
 
 Consumes the published images. Does not build them.
 
-### The image a pipeline pins exists to be pulled (todo)
+### The image a pipeline pins exists to be pulled (implemented)
 
 I want each release publishing an immutable version tag to Artifact Registry,
 so that a repo pinning that version gets the same image on every run rather
 than whatever last overwrote a floating tag.
 
-### Both architectures come from one published version (todo)
+### Both architectures come from one published version (implemented)
 
 I want the multi-arch manifest published under a single tag,
 so that an arm64 and an amd64 job name the same version and each receives the
 image matching its node.
 
-### The version to pin is discoverable without reading a build log (todo)
+### The version to pin is discoverable without reading a build log (implemented)
 
 I want the released version recorded where the workspace already reads pinned
 versions from,
@@ -43,64 +43,76 @@ hand.
 
 Owns the Dockerfile, the build jobs and what they publish.
 
-### The build authenticates with no key in the repo (todo)
+### The build authenticates with no key in the repo (implemented)
 
 I want the push authenticated by the job pod's bound identity, taking a
 short-lived token at build time,
 so that publishing needs no service account key stored as a CI variable and
 nothing to rotate.
 
-### Credentials are obtained where they exist (todo)
+### Credentials are obtained where they exist (implemented)
 
 I want the registry login performed in the job container rather than the
 docker-in-docker service,
 so that the token from the metadata server, which only the job pod's identity
 can obtain, is the one the push uses.
 
-### The login works in the image the job actually runs (todo)
+### The login works in the image the job actually runs (implemented)
 
 I want the token read with the tools the docker CLI image ships,
 so that fetching it does not assume a JSON parser or an HTTP client absent from
 a busybox userland, as the version lookup beside it already accounts for.
 
-### A merge request still builds without publishing (todo)
+### A merge request still builds without publishing (implemented)
 
 I want merge request pipelines exporting cache only, as they do now,
 so that moving the destination does not turn every merge request into a
 published image.
 
-### Layer cache is reused instead of refetched over the failing path (todo)
+### Layer cache is reused instead of refetched over the failing path (implemented)
 
 I want the buildx cache written to and read from the same registry as the
 images,
 so that a build does not pull large cache blobs across the public path this
 change exists to leave.
 
-### The dind image keeps building warm (todo)
+### The dind image keeps building warm (implemented)
 
 I want the dind build reading the base image's cache as well as its own,
 so that a target sharing most of its layers is not rebuilt from scratch.
 
-### A cutover leaves no image behind (todo)
+### A cutover leaves no image behind (implemented)
 
 I want both images and both cache references moved together,
 so that no job is left pulling one image from the old registry and another from
 the new.
 
-### The bootstrap job still bootstraps (todo)
+### The bootstrap job still bootstraps (implemented)
 
 I want the validate job continuing to start from a minimal base image rather
 than this repo's own output,
 so that a broken or absent `ci-linux` can still be fixed by a pipeline that
 does not depend on it.
 
-### An unmovable pull is named, not hidden (todo)
+### The base image is fetched through the proxy too (implemented)
 
-I want the binfmt installer, which runs inside the docker-in-docker service and
-so cannot use the job pod's credentials, recorded as remaining on its public
-origin,
-so that a reader is not left believing every pull was moved, and the exception
-is revisited deliberately.
+I want the `FROM` line resolved through the registry rather than named as a
+public image,
+so that a cache-cold build does not reach a public registry for the base layer,
+the build daemon reading this file being a different pull from the runner
+fetching the job image.
+
+### A local build needs no cloud credentials (implemented)
+
+I want the base overridable, defaulting to the public image,
+so that a developer runs the image build on their own machine unchanged, while
+CI passes the proxy.
+
+### Everything the build pulls comes from the registry (implemented)
+
+I want the binfmt installer served through the proxy like every other image,
+so that no step is left reaching a public registry, the job identity holding
+read on each repository a build pulls from.
 
 ### Publishing is not silently one-way (todo)
 
