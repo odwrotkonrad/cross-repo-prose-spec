@@ -1,0 +1,9 @@
+# yaml-language-server: $schema=https://gitlab.com/konradodwrot/go-modules/-/raw/main/che/assets/data/che.schema.json
+##[>] 🤖🤖
+#[why] the repo declares the toolchain its dependency step needs, so no host or image has to be
+#   pre-loaded with every language a workspace might contain
+devEnv:
+  include:
+    installPackages:
+      - ruby
+##[<] 🤖🤖
