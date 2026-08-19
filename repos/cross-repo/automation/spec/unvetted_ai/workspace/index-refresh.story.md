@@ -52,10 +52,17 @@ dependency is.
 
 ### Cloning gates on real authentication, not one mechanism for it (todo)
 
-I want the clone gated on a command predicate asking whether `glab` is
-authenticated, satisfied by a CI token in the environment or by glab's own
-credential,
-so that a host authenticated the ordinary way is not mistaken for one that is not.
+I want the clone gated on a command predicate making an authenticated api call,
+satisfied by a token in the environment or by glab's own credential,
+so that every context that can actually clone is admitted: a host using glab's
+config, and an image build or CI job carrying only the token.
+
+### A gate proves authentication rather than configuration (todo)
+
+I want the probe to be an api call, never a status subcommand that reports
+success whenever a token is merely present,
+so that a rejected or expired credential fails the gate instead of passing it and
+failing later inside the clone.
 
 ### Indexing carries no gate it does not need (todo)
 
