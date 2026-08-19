@@ -84,7 +84,7 @@ so that dependency state reads in one pass.
 
 I want a `## Profile <ref>  (profile workdir: <dir>)` heading one level under
 `# discover-profiles`, listing the working directory and the os-mutating
-commands in execution order, `--skip-ops` ops excluded, every declared op listed
+commands in execution order, `run --skip-ops` ops excluded, every declared op listed
 zero-delta included as `<op>: <changes> (<n> declared)`, debug adding each
 declared item marked changed or unchanged,
 so that the plan states its size before anything runs.

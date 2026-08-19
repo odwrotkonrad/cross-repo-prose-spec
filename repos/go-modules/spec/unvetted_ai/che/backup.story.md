@@ -88,7 +88,7 @@ Works on che's ops and ledger. Owns the run sequence, not the host it lands on.
 
 I want the backup stage to run after init-remote-sources and discover-profiles
 and before every other op, archiving every would-change dest into one per-run
-archive,
+archive while automatic backup stays on,
 so that no mutation ever precedes its own recovery point.
 
 ### One archive per run, not scattered per-op archives (tested)
@@ -99,8 +99,22 @@ so that a run reverts as one unit.
 ### A directly invoked op still backs itself up (tested)
 
 I want an os-mutating op invoked outside `run` to archive its own dests before
-mutating,
+mutating, while automatic backup stays on,
 so that skipping the wrapper never skips protection.
+
+### Disposable hosts pay nothing for a recovery point they will never use (todo)
+
+I want `backup.autoCreate.enabled: false` (`--backup-auto-create=false`,
+`CHE_BACKUP_AUTO_CREATE`) to silence both automatic paths, the `run` stage and a
+direct op's own archiving, default true,
+so that a throwaway CI container skips work whose only product is thrown away
+with it.
+
+### An explicit snapshot ignores the automatic switch (todo)
+
+I want `backup create` to archive even with `backup.autoCreate.enabled: false`,
+so that turning off automatic protection never disarms the command whose whole
+job is protection.
 
 ### Every ledger record points at the run's actual archive (implemented)
 

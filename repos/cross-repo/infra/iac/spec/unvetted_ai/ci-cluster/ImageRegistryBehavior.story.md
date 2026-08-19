@@ -27,33 +27,33 @@ specified in
 
 Tags jobs and reads their logs. Does not provision registries.
 
-### A job starts instead of failing to pull (todo)
+### A job starts instead of failing to pull (implemented)
 
 I want every image a job pod needs served from Artifact Registry in
 `konradodwrot-ci`,
 so that no job fails `prepare environment` with a timeout dialling
 `gitlab.com/jwt/auth`.
 
-### The pinned image is the image that runs (todo)
+### The pinned image is the image that runs (implemented)
 
 I want jobs naming an immutable version rather than a floating tag,
 so that a rebuild upstream never changes what a rerun of an old pipeline
 executes.
 
-### One place names the version every repo pins (todo)
+### One place names the version every repo pins (implemented)
 
 I want the pinned image version published as a group variable on
 `konradodwrot`, like the che-packages catalog version beside it,
 so that raising it for the whole workspace is one change rather than an edit in
 every repo.
 
-### Repos name the registry without knowing its address (todo)
+### Repos name the registry without knowing its address (implemented)
 
 I want the registry path published as a group variable too,
 so that no `.gitlab-ci.yml` hardcodes a hostname that a region or project move
 would invalidate.
 
-### Third-party images stop being a single point of failure (todo)
+### Third-party images stop being a single point of failure (implemented)
 
 I want the runner helper, the docker images, `debian` and `ruby` served through
 remote repositories rather than fetched from their origin per pull,
@@ -64,66 +64,66 @@ every pipeline in the group.
 
 Applies the ci-cluster module. Owns repositories, identity and reachability.
 
-### Pulls leave the public internet entirely (todo)
+### Pulls leave the public internet entirely (implemented)
 
 I want private Google access enabled on the cluster subnetwork and images
 resolved to the private access range,
 so that image traffic never traverses NAT and the failure being fixed cannot
 recur through the same path.
 
-### Jobs keep the egress they legitimately need (todo)
+### Jobs keep the egress they legitimately need (implemented)
 
 I want Cloud NAT kept in place alongside private access,
 so that release downloads, apt, the Go module proxy and the GitLab API keep
 working, only image pulls having moved.
 
-### A remote repository needs no credential to hold (todo)
+### A remote repository needs no credential to hold (implemented)
 
 I want both remote repositories configured against anonymously readable
 upstreams,
 so that provisioning them introduces no stored credential and no rotation.
 
-### The node identity gains only what a pull needs (todo)
+### The node identity gains only what a pull needs (implemented)
 
 I want the node service account granted reader on the registry and nothing
 further,
 so that a privileged container reaching the metadata server can fetch images
 and still cannot write one.
 
-### Pushing is a separate identity from pulling (todo)
+### Pushing is a separate identity from pulling (implemented)
 
 I want write access held by a job-pod identity distinct from the node and
 runner-manager accounts,
 so that the ability to publish an image is granted deliberately rather than
 inherited by everything running on the node.
 
-### A job pod can prove who it is without a key (todo)
+### A job pod can prove who it is without a key (implemented)
 
 I want job pods bound to a service account through Workload Identity,
 so that publishing needs no key file in the cluster and no secret to rotate,
 matching how the runner manager and the build cache already authenticate.
 
-### Job pods are not anonymous by default (todo)
+### Job pods are not anonymous by default (implemented)
 
 I want the runner to name the service account its job pods run as,
 so that pods stop defaulting to the namespace `default` account, which is bound
 to nothing and cannot be granted anything without granting it to every workload
 that also defaults.
 
-### Write access is scoped to what we publish (todo)
+### Write access is scoped to what we publish (implemented)
 
 I want the push grant limited to the repository holding our own images,
 so that a compromised job cannot alter the cached copies of third-party images
 that every pipeline trusts.
 
-### Build cache is stored as the disposable data it is (todo)
+### Build cache is stored as the disposable data it is (implemented)
 
 I want buildx layer cache written to the registry under a retention policy that
 deletes it,
 so that `mode=max` cache does not accumulate indefinitely while published
 version tags are kept.
 
-### The reader learns which images are ours (todo)
+### The reader learns which images are ours (implemented)
 
 I want our published images in a standard repository and third-party ones in
 remote repositories,
@@ -141,13 +141,13 @@ be read by the cluster that produced it.
 
 Reads the billing report. Sets the ceilings, not the repository layout.
 
-### Registry traffic crosses no billed boundary (todo)
+### Registry traffic crosses no billed boundary (implemented)
 
 I want the registry co-located with the cluster's region,
 so that every pull is in-region, with no egress charge for images fetched many
 times a day.
 
-### Cached copies do not grow without bound (todo)
+### Cached copies do not grow without bound (implemented)
 
 I want remote repository contents and build cache both bounded by policy,
 so that storage for reproducible data stays a rounding error against spot

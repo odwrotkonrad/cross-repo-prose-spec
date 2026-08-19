@@ -201,7 +201,7 @@ catalog.
 I want `include.installPackages: [names...]` to run install-packages after
 render-templates and before run-scripts, `exclude.installPackages` dropping
 names, composed profiles' lists concatenating and deduping and
-`--skip-ops install-packages` skipping the stage,
+`run --skip-ops install-packages` skipping the stage,
 so that scripts always find the tools they call.
 
 ### An installed package left alone by default (tested)

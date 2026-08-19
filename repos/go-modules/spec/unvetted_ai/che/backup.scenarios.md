@@ -39,4 +39,34 @@ Scenario: a user snapshots on demand, settled dests skipped (tested)
   And settled dests are not archived
   And nothing to change archives nothing
 
+Scenario: a disposable host runs with no archive written (todo)
+  Given `backup.autoCreate.enabled` is false
+  When I invoke `run`
+  Then no archive is written under the state dir
+  And every op still performs its mutations
+  And a debug line names the option as the reason the stage was skipped
+
+Scenario: a directly invoked op honours the same switch (todo)
+  Given `backup.autoCreate.enabled` is false
+  When I invoke an os-mutating op outside `run`
+  Then it mutates its dests without archiving them first
+  And its ledger records carry no backup reference
+
+Scenario: an explicit snapshot archives whatever the switch says (todo)
+  Given `backup.autoCreate.enabled` is false
+  When I invoke `backup create`
+  Then the archive is written exactly as with the option left on
+
+Scenario: automatic backup stays on unless turned off (todo)
+  Given `backup.autoCreate.enabled` is unset
+  When I invoke `run`
+  Then the backup stage archives every would-change dest
+  And `config show --all` reports `backup.autoCreate.enabled = true (default)`
+
+Scenario: the switch reads from flag, env and config alike (todo)
+  When I set `backup.autoCreate.enabled` in the user config or spec file
+  Then `--backup-auto-create` overrides it
+  And `CHE_BACKUP_AUTO_CREATE` overrides the config layers below it
+  And `config show` attributes the value to the layer it came from
+
 <!-- [<] 🤖🤖 -->
