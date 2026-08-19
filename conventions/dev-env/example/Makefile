@@ -20,9 +20,15 @@ render-templates:
 ##[<] Docs
 
 ##[>] Setup [genai-include]
-#[what] install the toolchain this repo declares, then its dependencies
+#[why] a declared toolchain may still lack the command: debian's ruby ships bundler only as
+#   bundle3.1, so the launcher is installed when the unversioned name is missing
+#[why] path set explicitly: .bundle/config carries it but is gitignored, so a fresh clone would
+#   install system-wide and fail without root
+#[what] install the toolchain this repo declares, then its dependencies, into the checkout
 repo-prepare-deps:
 	@che run --profiles=devEnv
+	@command -v bundle >/dev/null || gem install --user-install --no-document bundler
+	@bundle config set --local path vendor/bundle
 	@bundle install
 
 #[what] install lefthook git hooks
