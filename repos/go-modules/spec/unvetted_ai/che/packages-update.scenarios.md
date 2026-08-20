@@ -11,8 +11,8 @@ Scenario: a host picks up new definitions without a che upgrade (tested)
 
 Scenario: repeated update invocations stay cheap (tested)
   When I invoke `che packages update` within the cooldown window
-  Then the command reports the current cached state without touching the registry
-  And `--force` re-checks the registry immediately
+  Then the command reports the cached state without touching the registry
+  And `--force` re-checks immediately
   And an already-cached latest version refreshes the check stamp and reports up to date
 
 <!-- [<] 🤖🤖 -->

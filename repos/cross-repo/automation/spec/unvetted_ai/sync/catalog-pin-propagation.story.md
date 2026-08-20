@@ -2,23 +2,23 @@
 
 <!-- [>] 🤖🤖 -->
 
-go-modules pins the catalog in `che/packages-pin.env`, a file inside `che/`.
-That location is the whole problem: `release-che` fires on `changes: [che/**/*]`,
-so raising the pin cuts a che release carrying no che change. The tag stream
-stops tracking che and starts tracking the catalog, and every consumer of che
-pays a version bump for data it could have fetched.
+go-modules pinned the catalog in `che/packages-pin.env`, inside `che/`. That
+location was the problem: `release-che` fires on `changes: [che/**/*]`, so
+raising the pin cut a che release with no che change. The tag stream tracked
+the catalog instead of che, and every che consumer paid a version bump for data
+it could have fetched.
 
-Moving the pin out of the tree fixes both halves at once. As a group-wide CI
-variable it is not a file, so it matches no `changes:` rule and releases
-nothing. It is also already the shape che's own config wants: `CHE_PACKAGES_REF`
-feeds `packages.source.ref` with no translation, so CI pins by setting an
-environment variable and a local run, where it is unset, floats to latest.
+Moving the pin out of the tree fixes both. A group CI variable is not a file:
+it matches no `changes:` rule and releases nothing. It is also the shape che's
+config already wants: `CHE_PACKAGES_REF` feeds `packages.source.ref` directly,
+so CI pins by setting an environment variable, and a local run, where it is
+unset, floats to latest.
 
 The variable still has to move when the catalog publishes, and
 [one place carries versions between repos](version-propagation.story.md) says
-where that belongs. A catalog tag triggers control, control evaluates the graph,
-and the repo that owns group configuration applies the raise. The pin lives in
-terraform, which is the only place group CI variables are ever written.
+where: a catalog tag triggers control, control evaluates the graph, the repo
+owning group configuration applies the raise. The pin lives in terraform, the
+only place group CI variables are written.
 
 Companion specs: [version propagation](version-propagation.story.md),
 [catalog source configuration](../../../../go-modules/spec/unvetted_ai/che/packages-source.story.md),
@@ -36,8 +36,8 @@ so that raising it cuts no che release and the tag stream tracks che alone.
 
 ### A build still embedding an exactly known catalog (implemented)
 
-I want the release build to vendor exactly the pinned version rather than
-whatever is newest,
+I want the release build to vendor exactly the pinned version, not whatever is
+newest,
 so that two builds of one commit stay byte-identical.
 
 ### The embedded catalog rising with the pin, on the next release (implemented)
@@ -54,18 +54,18 @@ Owns CI configuration across repos. Owns neither catalog content nor che's code.
 
 I want `CHE_PACKAGES_REF` to feed `packages.source.ref` directly, with no
 translation step in any pipeline,
-so that pinning in CI and pinning in a config file are the same mechanism.
+so that pinning in CI and pinning in a config file are one mechanism.
 
 ### A local run floating where CI pins (implemented)
 
 I want the variable unset outside CI, che resolving latest there,
-so that a developer gets current definitions and CI gets reproducible ones from
-one default.
+so that one default gives a developer current definitions and CI reproducible
+ones.
 
 ### CI updating definitions only when the pin says so (tested)
 
 I want a job's che to fetch the pinned catalog when the variable names one, and
-to skip the check when it does not,
+skip the check when it does not,
 so that pipeline runs never depend on what the registry published mid-run.
 
 ## As a workspace maintainer
@@ -76,7 +76,7 @@ Owns control's graph and fan-out. Keeps no hand-written consumer lists.
 
 I want a catalog tag to trigger control, control to evaluate the graph and drive
 the raise in the repo owning group configuration,
-so that no one raises the pin by hand or remembers that it exists.
+so that no one raises the pin by hand or has to remember it exists.
 
 ### The catalog appearing in the graph like any producer (implemented)
 
@@ -91,13 +91,13 @@ Owns the terraform describing the GitLab group. Owns no repo's pipeline.
 ### Group variables changing only through terraform (implemented)
 
 I want the pin declared as a group CI variable in terraform, applied by a
-pipeline, never set through the UI,
+pipeline, never set in the UI,
 so that the value in effect is the value in version control.
 
 ### A raise being a reviewable change (implemented)
 
 I want the raise to arrive as a change to the declared value, planned before it
 applies,
-so that which catalog every repo's CI pins to is readable from the diff.
+so that the diff shows which catalog every repo's CI pins to.
 
 <!-- [<] 🤖🤖 -->

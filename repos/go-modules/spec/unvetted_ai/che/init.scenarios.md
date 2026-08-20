@@ -8,14 +8,15 @@ Scenario: an unfetchable, uncached remote stops the run (tested)
 
 Scenario: a cached checkout stands in for an unreachable remote (tested)
   When a remote source fails to update but a cached checkout exists
-  Then a warning `fetch failed, using cached checkout <path>` logs and the cached checkout is used
+  Then a warning `fetch failed, using cached checkout <path>` logs
+  And the cached checkout is used
 
 Scenario: each remote's fate logs in one line: cloned, updated, or up to date (tested)
   When init-remote-sources ensures a source
   Then a fresh checkout logs one info line `cloned remote <git-url> into <path>`
-  And an updated checkout logs one info line `updated remote <git-url> into <path>`
-  And an up-to-date checkout logs one info line `up to date remote <git-url> into <path>`
-  And the cache path abbreviates the home prefix to `~`
+  And an updated checkout logs `updated remote <git-url> into <path>`
+  And an up-to-date checkout logs `up to date remote <git-url> into <path>`
+  And the cache path abbreviates home to `~`
 
 Scenario: every remote checkout lands under one predictable cache dir (tested)
   When a remote source clones

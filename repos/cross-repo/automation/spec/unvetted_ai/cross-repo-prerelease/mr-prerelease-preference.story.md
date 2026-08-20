@@ -3,8 +3,8 @@
 <!-- [>] 🤖🤖 -->
 
 Dependent MRs across repos pick up each other's results before merge. An open MR
-whose prerelease stage passes publishes a prerelease, and downstream MRs prefer
-it over the latest release.
+whose prerelease stage passes publishes a prerelease, downstream MRs prefer it
+over the latest release.
 
 ## As an upstream repo owner
 
@@ -19,7 +19,7 @@ so that downstream work starts without waiting for my merge.
 
 ## As a downstream repo owner
 
-Consumes upstream artifacts in an MR pipeline. Chooses no versions by hand.
+Consumes upstream artifacts in an MR pipeline. Picks no versions by hand.
 
 ### Unmerged upstream work is testable now (implemented)
 
@@ -31,6 +31,6 @@ so that a coupled change across two repos is provable before either merges.
 
 I want a fallback to the latest release when the upstream MR is closed, merged,
 or its prerelease stage has not passed,
-so that a downstream pipeline never builds on something that failed.
+so that a downstream pipeline never builds on a failure.
 
 <!-- [<] 🤖🤖 -->

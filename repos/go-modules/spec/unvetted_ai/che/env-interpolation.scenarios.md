@@ -6,8 +6,8 @@ Scenario: a config author parameterizes any string value from the launch env (te
   Given a che.yml with `${{ env.TREE }}/**` in a glob and `${{ env.APP }}` in a ctx value
   And `TREE=root` and `APP=web` are exported
   When I invoke `che discover`
-  Then the discovered plan shows `root/**` and `web` in place of the refs
-  And every mapping key reads exactly as written
+  Then the plan shows `root/**` and `web` in place of the refs
+  And every mapping key reads as written
 
 Scenario: .env feeds the launch env, the shell's export wins (tested)
   Given `.env` beside the root che.yml holds `A=file` and `B=file`
@@ -22,7 +22,7 @@ Scenario: a fallback supplies the value when nothing is exported (tested)
   And `PORT` is unset
   When I invoke `che discover`
   Then the value is the string `8080`
-  And no error is raised under either envUnset policy
+  And no error under either envUnset policy
 
 Scenario: every unset required var is named in one error (tested)
   Given a che.yml with bare `${{ env.A }}` and `${{ env.B }}` at two paths
@@ -30,7 +30,7 @@ Scenario: every unset required var is named in one error (tested)
   And envUnset resolves to `error`
   When I invoke `che discover`
   Then the load fails with one error naming the spec path
-  And the error lists `A` and `B` each with its YAML path
+  And the error lists `A` and `B`, each with its YAML path
 
 Scenario: a selective run ignores vars of profiles it does not execute (tested)
   Given a che.yml with profile `a` using `${{ env.A }}` and profile `b` using `${{ env.B }}`
@@ -76,6 +76,5 @@ Scenario: a template reads a spec env value through gomplate (implemented)
   When I invoke `che render-templates`
   Then the output contains `x`
   And the process env after the profile no longer carries `NAME`
-
 
 <!-- [<] 🤖🤖🤖 -->

@@ -2,10 +2,10 @@
 
 <!-- [>] 🤖🤖 -->
 
-Every merge to main mints one semver tag `vX.Y.Z`, bumping the patch. Prose
-grows by adding files, so an add is not a release event: only a
+Every merge to main mints one semver tag `vX.Y.Z`, patch bump. Prose grows by
+adding files, so an add is not a release event: only a
 `semver: major|minor|patch` commit token lifts a release above patch. The last
-tag is read from the remote, never from the local clone.
+tag comes from the remote, never the local clone.
 
 ## As a prose author
 
@@ -20,13 +20,13 @@ so that anything merged is immediately consumable.
 ### Ship routine prose as a patch (implemented)
 
 I want adds, edits and deletes to bump the patch by default,
-so that ordinary prose growth never inflates the version.
+so that ordinary growth never inflates the version.
 
-### Lift a release above patch when the change warrants it (implemented)
+### Lift a release above patch when warranted (implemented)
 
-I want a `semver: major|minor|patch` token in a commit message to decide the
-bump, largest token winning,
-so that I can signal a breaking or feature-level change deliberately.
+I want a `semver: major|minor|patch` commit token to decide the bump, largest
+token winning,
+so that I signal a breaking or feature-level change deliberately.
 
 ### Keep a stale local tag out of the decision (implemented)
 

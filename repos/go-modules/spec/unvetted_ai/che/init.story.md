@@ -2,7 +2,7 @@
 
 <!-- [>] 🤖🤖 -->
 
-`init-remote-sources`: prefetch the remote spec sources into the run cache.
+`init-remote-sources`: prefetch remote spec sources into the run cache.
 
 ## As an operator
 
@@ -14,11 +14,11 @@ the specs.
 I want every remote spec source reachable from the root spec cloned or pulled
 into the cache, top-level `include.sources` and every profile's sourced
 `include.profiles` refs covered recursively,
-so that a run never stalls mid-way on an unfetched source.
+so that a run never stalls midway on an unfetched source.
 
 ### Guarded sources cached too, so offline stays safe (tested)
 
-I want a source guarded by `runIf` fetched without evaluating the condition,
+I want a `runIf`-guarded source fetched without evaluating the condition,
 discovery deciding later what runs,
 so that a condition flipping offline still finds its source.
 
@@ -35,13 +35,13 @@ so that a flaky remote does not stop a host from converging.
 
 ### An unfetchable, uncached remote stops the run (tested)
 
-I want init to error and abort the command when a source fails to fetch with no
-cached checkout,
+I want init to error and abort when a source fails to fetch with no cached
+checkout,
 so that che never runs against a spec it could not load.
 
 ### Fully offline operation with skipRemoteRefs (tested)
 
-I want `skipRemoteRefs` to attempt no fetch at all,
+I want `skipRemoteRefs` to attempt no fetch,
 so that an air-gapped host runs without network timeouts.
 
 ### Every checkout under one predictable cache dir (tested)
@@ -51,13 +51,13 @@ so that inspecting or clearing the cache needs no search.
 
 ## As an agent
 
-Reads che's output to diagnose a run. Has no host access beyond the log.
+Reads che's output to diagnose a run. No host access beyond the log.
 
 ### Each remote's fate in one line: cloned, updated, or up to date (tested)
 
 I want one info line per source, `cloned`, `updated` or `up to date remote
 <git-url> into <path>`, the cache path abbreviating home to `~`,
-so that the state of every dependency reads off a single pass.
+so that every dependency's state reads off one pass.
 
 ### Each remote dependency tied to its profile (tested)
 

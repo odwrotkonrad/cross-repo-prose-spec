@@ -2,78 +2,75 @@
 
 <!-- [>] 🤖🤖 -->
 
-`ci/zsh/scripts/installs/00-ci-deps.zsh` picks which che a CI job installs.
-Merge request pipelines prefer the newest che prerelease from a still-open
-go-modules merge request, so a che change gets exercised against configs before
-it is tagged. Everything else, and every failure along the way, resolves the
-newest released `che/v*` tag.
+`ci/zsh/scripts/installs/00-ci-deps.zsh` picks the che a CI job installs. MR
+pipelines prefer the newest che prerelease from an open go-modules MR, so a che
+change runs against configs before it is tagged. Everything else, and every
+failure on the way, resolves the newest released `che/v*` tag.
 
 ## As a che maintainer
 
-Changes che, needs it proven against configs before tagging a release.
+Changes che, needs it proven against configs before tagging.
 
-### An unmerged che change is exercised against configs (implemented)
+### An unmerged che change runs against configs (implemented)
 
-I want a configs merge request pipeline to install the newest `0.0.0-mr<iid>`
-prerelease from an open go-modules merge request,
+I want a configs MR pipeline installing the newest `0.0.0-mr<iid>` prerelease
+from an open go-modules MR,
 so that a che change is validated before it becomes a tag.
 
-### A closed merge request stops dictating che versions (implemented)
+### A closed MR stops dictating che versions (implemented)
 
-I want prerelease candidates filtered down to `<iid>`s still open in
-go-modules, falling back to the newest released tag when none remain,
+I want prerelease candidates filtered to `<iid>`s still open in go-modules,
+the newest released tag when none remain,
 so that abandoned work never pins a later pipeline.
 
 ## As a CI maintainer
 
-Owns pipeline reliability, does not own che's release cadence.
+Owns pipeline reliability, not che's release cadence.
 
-### Released che everywhere it belongs (implemented)
+### Released che everywhere else (implemented)
 
-I want non merge request runs to resolve the newest released `che/v*` tag
-without querying merge requests or prereleases,
+I want non-MR runs resolving the newest released `che/v*` tag without querying
+MRs or prereleases,
 so that main pipelines and local runs stay predictable and cheap.
 
 ### A che prerelease never reddens an unrelated pipeline (implemented)
 
-I want every lookup failure, timeout, parse error, unsupported platform such as
-`linux/arm64`, and failed prerelease install to fall back to the released tag,
-retrying the install once,
+I want every lookup failure, timeout, parse error, unsupported platform
+(`linux/arm64`) and failed prerelease install falling back to the released tag,
+the install retried once,
 so that a pipeline about something else survives che's prerelease machinery.
 
 ### The prerelease preference survives the sudo hop (implemented)
 
 I want `CI_PIPELINE_SOURCE` preserved through
 `sudo -u $CI_USER --preserve-env=...` into `make sync-full`,
-so that the prerelease is reachable instead of silently resolving to the
-released tag every time.
+so that the prerelease is reachable instead of silently falling back every time.
 
 ### No credentials in the version lookup (implemented)
 
-I want the package list and open merge request list read unauthenticated from
-public go-modules,
+I want the package list and open MR list read unauthenticated from public
+go-modules,
 so that the lookup needs no token.
 
 ## As a developer
 
 Runs the CI bootstrap locally, builds che from source.
 
-### A local dev build survives any CI bootstrap (implemented)
+### A local dev build survives the CI bootstrap (implemented)
 
-I want resolution to keep the existing binary and install nothing when the
-installed che reports version `dev`, printing that it did so,
-so that a local build is never clobbered mid session.
+I want resolution keeping the existing binary, installing nothing and saying so,
+when the installed che reports version `dev`,
+so that a local build is never clobbered mid-session.
 
-### A surprising result is diagnosable from the log alone (implemented)
+### A surprising result is diagnosable from the log (implemented)
 
-I want the chosen version logged with its reason, naming the merge request for
-a prerelease,
-so that no rerun is needed to explain the version installed.
+I want the chosen version logged with its reason, the MR named for a prerelease,
+so that no rerun is needed to explain the installed version.
 
 ### A skipped prerelease names its cause (todo)
 
-I want the skip line naming whether the merge request list failed, the package
-list failed or no open merge request had a prerelease,
+I want the skip line saying which: MR list failed, package list failed, no open
+MR had a prerelease,
 so that a fallback is explained without rerunning the job.
 
 <!-- [<] 🤖🤖 -->

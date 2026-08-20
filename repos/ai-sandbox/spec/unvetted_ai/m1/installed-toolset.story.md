@@ -14,18 +14,18 @@ so that a session is useful the moment it starts.
 
 ### The shell, terminal and editor behave as on the host (implemented)
 
-I want zsh, tmux and vim running configured as they are on the host,
+I want zsh, tmux and vim configured as on the host,
 so that muscle memory carries into the sandbox.
 
 ### Every workspace repo builds without setup (implemented)
 
 I want go, python and ruby present,
-so that no session begins with a toolchain install.
+so that no session starts with a toolchain install.
 
 ### The js repos build like the rest (todo)
 
 I want node present,
-so that no session begins with an nvm install.
+so that no session starts with an nvm install.
 
 ### GCP is reachable from the shell (implemented)
 
@@ -39,7 +39,7 @@ Decides which profiles the image carries. Does not use the tools day to day.
 ### The dev profile tree lands whole (implemented)
 
 I want the configs dev virt linux profile applied at image build,
-so that the image tracks configs rather than a hand-kept list.
+so that the image tracks configs, not a hand-kept list.
 
 ### No dev profile is left behind (todo)
 

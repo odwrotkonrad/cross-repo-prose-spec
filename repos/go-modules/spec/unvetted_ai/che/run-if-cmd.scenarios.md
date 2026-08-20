@@ -26,10 +26,10 @@ Scenario: a gate over mutable state is never answered from cache (tested)
   And a `builtin:` predicate in the same evaluator still runs once
 
 Scenario: a decision-only probe leaves the output clean (implemented)
-  Given a profile with `runIf: [cmd:<argv>]` and a command writing to stdout and stderr
+  Given a profile with `runIf: [cmd:<argv>]` whose command writes to stdout and stderr
   When the predicate is evaluated
   Then neither stream appears in che's output
-  And only the exit code decides the predicate
+  And only the exit code decides
 
 Scenario: a command gate composes with the existing literal form (tested)
   Given a profile with `runIf: [cmd:<argv> == true]`
@@ -46,7 +46,7 @@ Scenario: a gate executes a binary rather than a shell line (implemented)
   Given a profile with `runIf: [cmd:<argv>]` whose argv contains quotes or a shell operator
   When the predicate is evaluated
   Then the argv is split on whitespace and passed to the binary verbatim
-  And no shell interprets the quotes or the operator
+  And no shell interprets it
 
 Scenario: an empty command predicate is rejected as malformed (tested)
   Given a profile with `runIf: [cmd:]`

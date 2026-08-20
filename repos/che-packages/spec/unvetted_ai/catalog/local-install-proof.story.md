@@ -2,23 +2,20 @@
 
 <!-- [>] 🤖🤖 -->
 
-`make test-install PACKAGE=jq` already runs one package in a fresh container,
-and `TARGET_ARCH` already picks amd64 or arm64. What it cannot express is an
-operating system. The arch is passed straight to `docker run --platform
-linux/<arch>`, so linux is not a default that could be overridden, it is an
-assumption baked into the one line that starts a container.
+`make test-install PACKAGE=jq` runs one package in a fresh container, and
+`TARGET_ARCH` picks amd64 or arm64. Neither names an operating system: the arch
+goes straight to `docker run --platform linux/<arch>`, so linux is not a default
+but an assumption baked into the line that starts the container.
 
-That assumption holds until the catalog has to prove a darwin package. darwin
-arm64 is not another `--platform` value: it needs a different virtualisation
-engine entirely, and no amount of arch selection reaches it. A single
-`TARGET_ARCH=all` would be worse than the gap, quietly meaning "both linux
-arches" while reading as "everything".
+That breaks the day the catalog must prove a darwin package. darwin arm64 is not
+another `--platform` value, it needs a different virtualisation engine. A
+`TARGET_ARCH=all` would be worse than the gap: it reads as "everything" and
+means "both linux arches".
 
-So the axis splits. `TARGET_OS` and `TARGET_ARCH` name a platform between them,
-each selection explicit and each one platform. linux runs where it runs today.
-darwin has a name and no engine yet, and says so, which is the honest state and
-a place to add one. CI passes the same two variables to the same target, so a
-matrix job and a local run differ in their values alone.
+So the axis splits. `TARGET_OS` and `TARGET_ARCH` together name one platform,
+each explicit. linux runs as today. darwin has a name, no engine yet, and says
+so. CI passes the same two variables to the same target, so a matrix job and a
+local run differ only in values.
 
 Companion spec: [the catalog repo](own-repo.story.md).
 
@@ -30,20 +27,19 @@ Edits `packages.yml` and its install scripts. Writes no Go, owns no schema.
 
 I want `TARGET_OS` and `TARGET_ARCH` to select the platform together, each
 naming exactly one,
-so that asking for a platform never means "some platforms" and never silently
-means linux.
+so that asking for a platform never means "some platforms" or silently linux.
 
 ### Proving one package on the arch that broke it (implemented)
 
-I want to select a package and an architecture and get that install and its
-verify commands in a fresh container,
+I want to pick a package and an architecture and get its install and verify
+commands in a fresh container,
 so that reproducing an arm64-only failure costs no pipeline.
 
 ### An unproven platform saying so (implemented)
 
-I want a platform with no virtualisation engine wired to fail naming itself,
-never falling through to another platform's engine,
-so that a darwin request cannot pass by having run on linux.
+I want a platform with no virtualisation engine to fail naming itself, never
+falling through to another platform's engine,
+so that a darwin request cannot pass by running on linux.
 
 ### The host's own platform as the default (implemented)
 
@@ -57,14 +53,14 @@ che's installer code.
 
 ### CI and a local run being the same command (implemented)
 
-I want matrix jobs to invoke the same make target with the same two variables,
-carrying no test logic of their own,
+I want matrix jobs to call the same make target with the same two variables and
+no test logic of their own,
 so that a green pipeline and a green local run prove the same thing.
 
 ### The matrix still generated from the catalog (implemented)
 
 I want the per-package jobs to keep following `packages.yml`,
-so that adding the os axis does not reintroduce a hand-listed job set.
+so that the os axis does not bring back a hand-listed job set.
 
 ### Matrix drift fails before merge (todo)
 

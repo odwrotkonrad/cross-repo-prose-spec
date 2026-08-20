@@ -2,7 +2,7 @@
 
 <!-- [>] 🤖🤖 -->
 
-`discover-profiles`: expose the resolved runtime spec `che run` would execute.
+`discover-profiles`: print the resolved runtime spec `che run` would execute.
 
 Os-mutating commands: `run`, `backup`, `prune-broken-links`, `make-dirs`,
 `make-links`, `make-copies`, `render-templates`, `run-scripts`, `uninstall`
@@ -27,14 +27,14 @@ so that the plan is visible by default.
 
 ### Discovered profiles readable as headings, ops beneath (tested)
 
-I want each discovered profile logged as a `### Profile <ref>` heading with its
-ops indented beneath,
+I want each discovered profile logged as a `### Profile <ref>` heading, ops
+indented beneath,
 so that a long plan scans by profile.
 
 ### A directly invoked op still prints the full plan first (tested)
 
 I want an os-mutating command invoked outside `run` to discover first and log
-the profiles with their operations,
+profiles with their operations,
 so that skipping the wrapper never costs the preview.
 
 ### Opting out of auto-discovery gets a clear ask for --profiles (tested)
@@ -50,14 +50,13 @@ Owns che's run sequence. Cares where discovery sits, not what a spec says.
 ### Every mutating command works from fresh discovery (tested)
 
 I want discovery to run first for every os-mutating command except `uninstall`
-(ledger-driven), its result fixing the profile execution sequence,
-so that no command ever acts on a stale plan.
+(ledger-driven), its result fixing the profile execution order,
+so that no command acts on a stale plan.
 
 ### Discovery costs once per run (tested)
 
-I want `run` to discover once, not per wrapped command, every wrapped command
-reusing that discovery,
-so that a run pays remote resolution a single time.
+I want `run` to discover once, every wrapped command reusing that result,
+so that a run pays remote resolution once.
 
 ### The runtime spec logs once, at the top (tested)
 

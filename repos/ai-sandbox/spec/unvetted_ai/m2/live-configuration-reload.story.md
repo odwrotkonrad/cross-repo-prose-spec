@@ -8,13 +8,13 @@ Works inside a running sandbox. Consumes configuration, does not deliver it.
 
 ### A configuration change costs no pod and no task (todo)
 
-I want an update to land on the session filesystem with the pod neither
-recreated nor restarted, a long agent task running through it,
+I want an update landing on the session filesystem, pod neither recreated nor
+restarted, a long agent task running through it,
 so that configuration moves without interrupting work.
 
 ### Tools started after the update pick it up (todo)
 
-I want a tool launched after the change to behave by the new configuration,
+I want a tool launched after the change following the new configuration,
 so that the update takes effect without leaving the session.
 
 ### Local edits survive the update (todo)
@@ -29,18 +29,18 @@ individual sessions.
 
 ### One update reaches every running session (implemented)
 
-I want a single configuration update fanned out to all running sessions,
-so that the fleet stays uniform without per-session action.
+I want one configuration update fanned out to all running sessions,
+so that the fleet stays uniform with no per-session action.
 
 ### The update lands in a running session's home (todo)
 
-I want the rebuilt configuration present in every running session's home after
-the update,
+I want the rebuilt configuration in every running session's home after the
+update,
 so that a fleet-wide update changes more than the image a pod boots from.
 
 ### The image stays the single source of truth (implemented)
 
-I want a session created after a live change to boot with that same
+I want a session created after a live change booting with that same
 configuration, no session holding configuration the image does not define,
 so that live delivery never forks from the image.
 

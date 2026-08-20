@@ -4,21 +4,21 @@
 
 ## As a sandbox operator
 
-Sizes the cluster against the machine. Does not tune a session's workload.
+Sizes the cluster to the machine. Does not tune session workloads.
 
 ### The machine stays usable while sessions run hot (implemented)
 
-I want combined session usage held inside a cluster-wide cpu and memory cap,
-so that no set of sessions can take the host down with it.
+I want total session usage held under a cluster-wide cpu and memory cap,
+so that no set of sessions can take the host down.
 
 ### The cap fits inside the machine (todo)
 
-I want the cluster-wide limits cap sized within the vm's cpu and memory,
-so that the cap is a bound and not a number.
+I want the cluster-wide cap sized within the vm's cpu and memory,
+so that the cap is a bound, not a number.
 
 ### A runaway session dies instead of the machine (implemented)
 
-I want a pod crossing its memory limit stopped at that limit,
+I want a pod killed at its memory limit,
 so that a leak costs one session, not the cluster.
 
 ## As a session user
@@ -32,13 +32,13 @@ so that spinning one up is never a capacity decision.
 
 ### Idle capacity is there when the work needs it (implemented)
 
-I want a session bursting well beyond its requests on an idle cluster,
-so that a build or a test run is not throttled to its reservation.
+I want a session bursting well past its requests on an idle cluster,
+so that a build or test run is not throttled to its reservation.
 
 ### A busy neighbour does not block a new session (implemented)
 
-I want a second session scheduling and receiving at least its requests while the
-first consumes everything it is allowed,
+I want a second session scheduled and given at least its requests while the
+first consumes all it is allowed,
 so that one session can never starve another.
 
 <!--[<] 🤖🤖 -->

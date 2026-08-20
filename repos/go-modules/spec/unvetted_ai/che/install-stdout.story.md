@@ -3,9 +3,9 @@
 <!-- [>] 🤖🤖 -->
 
 At `CHE_LOG_LEVEL=info` (the default) installation-method stdout is noise:
-apt/brew/npm progress drowns che's own log lines. Silenced by default, controlled
+apt/brew/npm progress drowns che's own lines. Silenced by default, controlled
 by `--silence-install-stdout` on `che packages install`. Error output always
-stays visible, debug shows everything.
+shows, debug shows everything.
 
 ## As an operator
 
@@ -14,9 +14,8 @@ drivers.
 
 ### Che's own lines readable at the default level (tested)
 
-I want the installation method's normal stdout suppressed at
-`CHE_LOG_LEVEL=info` while che's install, installed, skip and warn lines still
-print,
+I want installation-method stdout suppressed at `CHE_LOG_LEVEL=info` while
+che's install, installed, skip and warn lines still print,
 so that the run reads as che's log, not apt's.
 
 ### A failing method's output always visible (tested)
@@ -33,15 +32,15 @@ so that the cause is in the first run's output.
 ### A script failure's error line carrying the reason (todo)
 
 I want the `<pkg>: install script: exit status <n>` error to carry the script's
-stderr rather than the bare exit status,
+stderr, not the bare exit status,
 so that the reason survives where only the error line is read.
 
 ### Full method output on demand (tested)
 
-I want `CHE_LOG_LEVEL=debug` (or `trace`) to stream the method's stdout as it
-runs, and `--silence-install-stdout=false` to stream it even at info while
-`--silence-install-stdout` silences it even at debug,
-so that verbosity is mine to choose in either direction.
+I want `CHE_LOG_LEVEL=debug` (or `trace`) to stream the method's stdout live,
+`--silence-install-stdout=false` to stream it even at info,
+`--silence-install-stdout` to silence it even at debug,
+so that verbosity is mine in either direction.
 
 ## As a CI maintainer
 
@@ -49,9 +48,9 @@ Owns the e2e suites and their assertions. Does not tune log levels per job.
 
 ### E2E suites keeping the plain info behavior (tested)
 
-I want `make e2e-packages` and `make e2e-install-methods` to run che with the
-default silencing, no flag and no special-casing, asserting against che's own
-log lines,
-so that the tests prove the behavior operators actually get.
+I want `make e2e-packages` and `make e2e-install-methods` to run che with
+default silencing, no flag, no special-casing, asserting against che's own log
+lines,
+so that the tests prove what operators actually get.
 
 <!-- [<] 🤖🤖 -->

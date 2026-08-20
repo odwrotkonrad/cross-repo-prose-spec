@@ -18,14 +18,14 @@ so that the Dockerfile holds no configuration of its own.
 
 ### The configuration image is rendered, not assembled (implemented)
 
-I want che rendering the configuration image's contents from a profile on a host
-holding the sources,
-so that there is no build script to drift.
+I want che rendering the configuration image from a profile on a host holding
+the sources,
+so that no build script exists to drift.
 
 ### One profile set serves both layers (implemented)
 
 I want the installs layer and the configuration layer running the same profiles,
-each applying only the ops belonging to it,
+each applying only its own ops,
 so that a profile is authored once.
 
 ### The same sources yield the same image (todo)

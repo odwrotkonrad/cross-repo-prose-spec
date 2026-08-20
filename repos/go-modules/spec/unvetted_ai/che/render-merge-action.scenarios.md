@@ -45,7 +45,7 @@ Scenario: a key absent from the dest is written whatever the action (tested)
   Then `.env` holds `REF=new`
 
 Scenario: a key the user added stays (tested)
-  Given a dest `.env` holding `MINE=1` and the template not naming `MINE`
+  Given a dest `.env` holding `MINE=1` and a template not naming `MINE`
   When I invoke `che render-templates`
   Then `.env` still holds `MINE=1`
 
