@@ -4,15 +4,15 @@ Repo docs are generated, not hand-written: che renders `*.ontoRepo.tpl` onto the
 
 ## Layout
 
-- Doc templates are authored in the `prose` repo: shared `2-data` templates under `prose/templates/2-data/`, per-repo `3-audience` templates under `prose/repos/<repo-path>/templates/3-audience/`. A repo keeps locally only what is repo-specific: `templates/1-env` (env vars, secrets) and code-generating templates (CI includes, terraform files).
-- Each repo's `che.yml` consumes prose templates as pinned remote sources: `@gitlab.com/konradodwrot/prose//<path>?ref=vX.Y.Z`. The control repo's regen MRs bump the pin.
+- Doc templates are authored in the `prose` repo: shared `2-data` templates under `prose/templates/2-data/`, per-repo `3-audience` templates under `prose/repos/<repo-path>/templates/3-audience/`. A repo keeps locally only what is repo-specific: `.env.tpl` at the root (the one env template, rendered to `.env`: plain values, `{{ secret "op://..." }}`, `{{ shell "glab variable get ..." }}`) and code-generating templates (CI includes, terraform files).
+- Each repo's `che.yml` consumes prose templates as remote sources at the version in the `PROSE_REF` env var: `@gitlab.com/konradodwrot/prose//<path>?ref=${{ env.PROSE_REF }}`. The repo's `.env.tpl` seeds `PROSE_REF` into `.env` from the `GRP_KO_VAR_PROSE_REF` group variable (`{{ shell "glab variable get ..." }}`, `make repo-render-env`), CI derives it in the top-level `variables:` block, `infra/iac` declares the value, control's regen MRs bump that one line.
 - Generated data docs land in `assets/data/`, included via `@` in `CLAUDE.md` and `AGENTS.md`: `makefile.agents.md` (`renderMakefileDoc`), `repo-structure.md` (`renderDirsTree`), `conventions.md` and the repo's `assets/docs-agents/purpose.md` (rendered from their prose sources).
 - `CLAUDE.md` and `AGENTS.md` both render from one `3-audience/AGENTS.md.ontoRepo.tpl`: `CLAUDE.md` keeps `@`-includes, `AGENTS.md` renders them inline (`renderReferencedFiles: true`) for agents that do not resolve `@`.
 - `AGENTS.md`, `CLAUDE.md` and the `assets/data/` + `assets/docs-agents/` intermediates are gitignored: rendered on demand, never committed. `README.md` and `LICENSE` are rendered and tracked, since forges read them from the repo.
 
 ## Example
 
-Runnable version in `example/`: `che.yml`, `Makefile`, all three template subdirs (`1-env`, `2-data`, `3-audience`), generated `assets/data/makefile.agents.md`, `CLAUDE.md`, `AGENTS.md`. `.env` is rendered, never committed. The example uses local template sources to stay self-contained. Real repos pull the same templates from prose via pinned remote sources.
+Runnable version in `example/`: `che.yml`, `Makefile`, `.env.tpl`, the `2-data` and `3-audience` template subdirs, generated `assets/data/makefile.agents.md`, `CLAUDE.md`, `AGENTS.md`. `.env` is rendered from `.env.tpl`, never committed. The example uses local template sources to stay self-contained. Real repos pull the same templates from prose via pinned remote sources.
 
 ## Wiring
 
@@ -22,5 +22,6 @@ Runnable version in `example/`: `che.yml`, `Makefile`, all three template subdir
 
 - Prefer gomplate built-ins over custom plugins or scripts.
 - che funcs cover repo docs: `renderMakefileDoc "Makefile"` harvests `[genai-include]` Makefile sections, `renderDirsTree` emits the tracked-file directory tree for `repo-structure.md`, `renderRepoGroupIndex "<dir>"` emits a subgroup's repo-index (direct child repos with inlined purpose, direct child subgroups linked to their own index) for `repo-index.md`.
-- `remoteFile "gitlab.com/konradodwrot/prose//conventions/comments/convention.md?ref=v0.0.1"` inlines a file from any git repo at render time. One string, go-getter style: `<repo>//<path>[?ref=<branch|tag>]`, default branch when `ref` is omitted, https first with ssh-agent fallback for private repos. `remoteFile` output is inserted verbatim, never re-evaluated, so a wrapper template `{{- remoteFile "..." -}}` raw-copies a gomplate-bearing source byte-for-byte.
-- `op://` secret refs resolve at render time (env templates). Never commit resolved values.
+- `remoteFile "gitlab.com/konradodwrot/prose//conventions/comments/convention.md?ref=v0.0.1"` inlines a file from any git repo at render time. A prose source builds its ref from the env: `remoteFile (printf "%s?ref=%s" "gitlab.com/konradodwrot/prose//<path>" (env.Getenv "PROSE_REF"))`. One string, go-getter style: `<repo>//<path>[?ref=<branch|tag>]`, default branch when `ref` is omitted, https first with ssh-agent fallback for private repos. `remoteFile` output is inserted verbatim, never re-evaluated, so a wrapper template `{{- remoteFile "..." -}}` raw-copies a gomplate-bearing source byte-for-byte.
+- `op://` secret refs and `shell` calls resolve at render time (`.env.tpl`). Never commit resolved values.
+- Under `writeType: mergeUpsert` a value decides whether it overwrites the dest's existing key: `shell` and `secret` values update by default, everything else keeps, `| alwaysUpdate` / `| keepIfExisting` after the expression override per line.

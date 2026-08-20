@@ -54,6 +54,16 @@ I want a bump to raise every pin of that producer wherever it is written, and
 disagreeing pins reported,
 so that a pin in an unexpected file is not silently left behind.
 
+### Every released artifact version is carried to iac, published as a variable (implemented)
+
+I want each producer release (a prose tag, a che-packages tarball, a che
+binary, an image) to reach `infra/iac` through control as one MR bumping that
+artifact's tfvars line, iac publishing it as a `GRP_KO_VAR_<ARTIFACT>_REF` group
+variable holding the latest version, consumers reading the variable and
+receiving only a content regen,
+so that every artifact's current version has one home, GitLab variables always
+name the latest, and no consumer carries a pin to sed.
+
 ## As a workspace maintainer
 
 Owns control's graph and fan-out. Keeps no hand-written consumer lists.

@@ -15,8 +15,8 @@ The templates convention needs a runnable reference, not a description of one.
 
 ## Goals
 
-- Show the `che.yml` wiring for `.env` and agent files.
-- Show the `templates/` layout: `1-env`, `2-data`, `3-audience`.
+- Show the `che.yml` wiring for `.env.tpl` → `.env` and agent files.
+- Show the `templates/` layout: `2-data`, `3-audience`.
 
 ## How To Use
 
@@ -67,6 +67,5 @@ assets
   data
   docs-agents
 templates
-  1-env
   2-data
   3-audience
