@@ -20,20 +20,20 @@ so that a broken layer is caught before a session needs it.
 
 ### The test borrows the host's credentials (implemented)
 
-I want it building both images with the host's credentials and holding no
-identity of its own,
+I want it building both images with the host's credentials, holding no identity
+of its own,
 so that running the test grants nothing new.
 
 ### The session interface is exercised, not just present (tested)
 
 I want the test creating, listing, renaming and stopping a session, each target
 doing what it promises,
-so that the interface is verified as a whole.
+so that the interface is verified whole.
 
 ### Attaching is proven, not assumed (todo)
 
 I want the test attaching to a session and landing in its shell,
-so that the one target every run starts with is verified too.
+so that the target every run starts with is verified too.
 
 ### A config update is proven to reach a session (tested)
 
@@ -60,12 +60,11 @@ so that a red run points at the fix.
 ### The host is left as it was found (tested)
 
 I want the sessions the test created gone at the end,
-so that running it leaves no session behind.
+so that a run leaves no session behind.
 
 ### A passing run takes its cluster with it (todo)
 
-I want the cluster the test created gone when the run passes, without being
-asked,
-so that running it costs no cleanup.
+I want the cluster the test created gone on a pass, unasked,
+so that a run costs no cleanup.
 
 <!--[<] 🤖🤖 -->

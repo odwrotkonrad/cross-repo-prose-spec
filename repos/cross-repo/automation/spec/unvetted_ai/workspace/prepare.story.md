@@ -2,15 +2,15 @@
 
 <!-- [>] 🤖🤖 -->
 
-Cloning fills the workspace with repos that are not yet checkouts. The index that
-follows inlines each repo's rendered purpose doc, so on a freshly cloned
-workspace every entry reads `_(no purpose.md)_`: the map lists the repos and can
-say nothing about any of them.
+Cloning fills the workspace with repos that are not yet checkouts. The index
+that follows inlines each repo's rendered purpose doc, so on a fresh clone every
+entry reads `_(no purpose.md)_`: a list of repos that says nothing about any of
+them.
 
 A preparation pass runs between cloning and indexing, calling each repo's own
 `repo-prepare-dev-env` (specified in
 `repos/shared/spec/unvetted_ai/dev-env/prepare.story.md`). Repos own what
-preparing means; the workspace only drives it, in order, over whatever was
+preparing means. The workspace only drives it, in order, over whatever was
 cloned.
 
 ## As a workspace user
@@ -25,10 +25,10 @@ so that a new workspace needs no second pass to become usable.
 
 ### The map describes the repos it lists (implemented)
 
-I want preparation to run before indexing, so each repo's purpose exists when the
-index inlines it,
-so that a freshly cloned workspace yields a map with real purposes rather than a
-list of unexplained names.
+I want preparation to run before indexing, each repo's purpose existing when
+the index inlines it,
+so that a fresh clone yields a map with real purposes, not a list of unexplained
+names.
 
 ## As a workspace maintainer
 
@@ -49,6 +49,6 @@ the convention.
 ### Preparing is separate from indexing (implemented)
 
 I want the credential-free index path to carry no preparation,
-so that refreshing the map stays a local read needing no network and no toolchain.
+so that refreshing the map stays a local read needing no network or toolchain.
 
 <!-- [<] 🤖🤖 -->

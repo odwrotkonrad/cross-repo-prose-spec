@@ -6,17 +6,17 @@ One generated graph names every repo, the artifacts it produces, and the edges
 between them. Prerelease preference and prose propagation resolve against it. A
 vertex is `repo/artifact`.
 
-Nothing here is hand-maintained. Each repo declares its own surface in
+Nothing is hand-maintained. Each repo declares its surface in
 `.repo/cross-repo-interface.yml`: `upstream:` lists consumed vertices as
 `<repo>/<artifact>` strings (repo-level consumption), `edges:` maps an upstream
-vertex to this repo's artifacts it lands in (`go-modules/lib: [che]`), and
+vertex to the artifacts of this repo it lands in (`go-modules/lib: [che]`),
 `downstream:` lists produced artifacts as `name:` + `type:`. Types so far:
 `binary | go-module | oci-image | che-profile | ai-prose | lockfile | pdf | dataset`.
 
 Aggregation merges all declarations over bootstrap seeds
-(`deps/seed-interfaces.yml`, shrinking as repos declare) and renders the
-canonical `deps/deps-graph.yml`: `repositories:` for vertices, `edges:` mapping
-an upstream vertex to its downstream vertices. A bare `<repo>` means the repo's
+(`deps/seed-interfaces.yml`, shrinking as repos declare) and renders
+`deps/deps-graph.yml`: `repositories:` for vertices, `edges:` mapping an
+upstream vertex to its downstream vertices. A bare `<repo>` means the repo's
 pipeline or worktree consumes it, `<repo>/<artifact>` means it lands in an
 artifact.
 
@@ -27,11 +27,11 @@ Declares what the repo consumes and produces. Maintains no cross-repo list.
 ### Upstreams come from the graph, not per-repo config (todo)
 
 I want an MR pipeline to read its upstreams from the generated graph,
-so that resolving dependencies needs nothing configured locally.
+so that resolving dependencies needs no local config.
 
 ### Prerelease resolution is per artifact (todo)
 
-I want the exact artifact vertex depended on to be resolved,
+I want the exact artifact vertex depended on resolved,
 so that a prerelease of `go-modules/che` leaves `go-modules/lib` untouched.
 
 ## As a workspace maintainer

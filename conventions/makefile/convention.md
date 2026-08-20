@@ -2,10 +2,10 @@
 
 ## Sectioning (makefile docs autogeneration)
 
-Targets group into `##[>] Section [genai-include]` ... `##[<] Section` blocks. `[genai-include]` marks a section for harvesting into the generated `assets/data/makefile.agents.md` (via `templates/2-data/makefile-agents.md.ontoRepo.tpl` + che), included in `CLAUDE.md` and `AGENTS.md`.
+Targets group into `##[>] Section [genai-include]` ... `##[<] Section` blocks. `[genai-include]` marks a section for harvesting into the generated `assets/data/makefile.agents.md` (`templates/2-data/makefile-agents.md.ontoRepo.tpl` + che), included in `CLAUDE.md` and `AGENTS.md`.
 
-- Every target gets a `#[what]` one-liner above it.
-- Env vars get `#[what]` + `#[vals]` above their `export`.
+- Every target: a `#[what]` one-liner above it.
+- Env vars: `#[what]` + `#[vals]` above their `export`.
 
 ## Shell
 

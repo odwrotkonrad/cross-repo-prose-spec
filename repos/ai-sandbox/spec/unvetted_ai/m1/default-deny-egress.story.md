@@ -8,13 +8,13 @@ Owns the whitelist. Does not decide what a session tries to reach.
 
 ### One component decides what leaves the cluster (tested)
 
-I want cilium installed as the only CNI and the only enforcer of network policy,
-so that no unmanaged path out exists to reason about.
+I want cilium as the only CNI and the only network policy enforcer,
+so that no unmanaged path out exists.
 
 ### An unlisted destination is unreachable by name or by ip (implemented)
 
 I want an unwhitelisted domain refused at resolution and any off-cluster address
-denied for a pod covered by no rule,
+denied for a pod no rule covers,
 so that skipping DNS buys nothing.
 
 ### A rule grants exactly what it names (implemented)

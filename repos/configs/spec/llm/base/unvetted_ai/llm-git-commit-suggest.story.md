@@ -4,12 +4,12 @@
 
 ## As a reviewer
 
-Reads the generated commit message, does not read the diff first.
+Reads the generated commit message before the diff.
 
 ### A big commit message groups by feature (implemented)
 
-I want an `area:` group carrying several features giving each feature its own
+I want an `area:` group with several features to give each its own
 `<feature>:` subline,
-so that a wide commit is scannable at the group level.
+so that a wide commit scans at group level.
 
 <!-- [<] 🤖🤖 -->

@@ -10,12 +10,12 @@ Owns the image's profile declaration. Does not author the configs profiles.
 
 I want the sandbox repo's configuration-image che profile naming the profiles
 the image is built from,
-so that the image's contents are read in one place.
+so that one place says what the image holds.
 
 ### Configs stays upstream, never forked (tested)
 
-I want those sources resolving to the configs repo as a remote, with no copy of
-a configs profile in the sandbox repo,
-so that configs changes need no sandbox-side edit.
+I want those sources resolving to the configs repo as a remote, no configs
+profile copied into the sandbox repo,
+so that a configs change needs no sandbox-side edit.
 
 <!--[<] 🤖🤖 -->

@@ -3,24 +3,24 @@
 <!-- [>] 🤖🤖 -->
 
 Behavior specs are markdown files, all in the `prose` repo, under
-`prose/repos/<repo-path>/spec/<vetting>/<unit>/`. Prose is a repo like any
-other: its own system specs sit under `repos/prose/`. Behavior every repo shares
-sits under `repos/shared/`. Downstream repos carry no spec trees: edit the spec
-here, then implement in the repo.
+`prose/repos/<repo-path>/spec/<vetting>/<unit>/`. Prose's own system specs sit
+under `repos/prose/`, behavior every repo shares under `repos/shared/`.
+Downstream repos carry no spec trees: edit the spec here, then implement in the
+repo.
 
 Two forms, two files:
 
-- `<feature>.story.md`: user stories. The default form.
-- `<feature>.scenarios.md`: Gherkin scenarios. Only for behavior meant for
-  automated BDD.
+- `<feature>.story.md`: user stories. The default.
+- `<feature>.scenarios.md`: Gherkin scenarios. Only for behavior automated BDD
+  will drive.
 
 ## Picking A Form
 
-Write a user story. It states who gains what, without Given/When/Then mechanics.
+Write a user story: who gains what, no Given/When/Then mechanics.
 
-Write Gherkin scenarios only when the behavior is automation-bound: a BDD runner
-will drive it, the trigger is deterministic (a CLI invocation, an API call) and
-the outcome is observable. Everything else stays a story.
+Write Gherkin scenarios only when a BDD runner will drive the behavior, the
+trigger is deterministic (a CLI invocation, an API call) and the outcome is
+observable. Everything else stays a story.
 
 A scenarios file always accompanies a story file of the same stem. A story file
 may stand alone.
@@ -59,15 +59,14 @@ so that I can attribute load to the right agent.
 ```
 
 - H1 `# Feature: <name>`.
-- H2 `## As a <role>` / `## As an <role>`. The role is stated once, every story
-  below inherits it. Several roles per file allowed, each its own H2.
-- Under the H2, one line describing the persona: what they do, what they do not.
-  Stated once per role, never repeated in a story.
-- H3: the story title, the audience's gain in one line, never restating the
-  role, closing with the status in parentheses: `(todo)`.
-- Body: `I want ...,` / `so that ...`, two lines, role never repeated.
-- A leading prose paragraph under the H1 is welcome where the feature needs
-  framing.
+- H2 `## As a <role>` / `## As an <role>`. Stated once, every story below
+  inherits it. Several roles per file allowed, one H2 each.
+- Under the H2, one line on the persona: what they do, what they do not. Never
+  repeated in a story.
+- H3: the story title, the audience's gain in one line, role not restated,
+  status in parentheses at the end: `(todo)`.
+- Body: `I want ...,` / `so that ...`, two lines, role not repeated.
+- A prose paragraph under the H1 is fine where the feature needs framing.
 
 ## Shape: Gherkin Scenario
 
@@ -89,12 +88,12 @@ a human vetted, so what AI may touch:
 
 - `spec/vetted/`: fully vetted. AI never touches.
 - `spec/vetted_title_only/`: titles vetted. AI never touches H3 story titles or
-  `Scenario:` lines, edits the rest freely. The trailing status in parentheses
-  is not part of the title: AI keeps it accurate.
+  `Scenario:` lines, edits the rest freely. The trailing status is not part of
+  the title: AI keeps it accurate.
 - `spec/unvetted_ai/`: unvetted. AI free rein. All new AI specs land here.
 
-Moving files, stories and scenarios between dirs must come from human will: the
-move is the vetting act.
+Moving files, stories and scenarios between dirs is the vetting act: human will
+only.
 
 `technical-requirements.md` lives under a vetting dir too, prefer `vetted/`.
 Unvetted requirements poison the spec tree. On add or change, AI urges the human
@@ -110,14 +109,14 @@ Statuses: todo | implemented | tested (implemented, tests in place).
 - `implemented`: behavior exists, no test pins it
 - `tested`: behavior exists and tests pin it
 
-Every story and every scenario closes its title with the status in parentheses.
-One place to read it, one place to change it.
+Every story and scenario closes its title with the status in parentheses. One
+place to read it, one to change it.
 
-On a scenario, `tested` means tests pin every Then clause. On a story, it means
-tests pin the behavior the story describes, which in practice means a
-`.scenarios.md` counterpart exists and its scenarios are `tested`.
+On a scenario, `tested` means tests pin every Then clause. On a story, tests pin
+the described behavior, in practice a `.scenarios.md` counterpart whose
+scenarios are `tested`.
 
-Keep the status accurate: promote to `tested` only once a test pins the
-behavior, demote when implementation or tests go away.
+Keep it accurate: promote to `tested` only once a test pins the behavior,
+demote when implementation or tests go away.
 
 <!-- [<] 🤖🤖 -->

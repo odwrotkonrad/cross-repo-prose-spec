@@ -3,14 +3,14 @@
 <!-- [>] 🤖🤖 -->
 
 A local watcher keeps generated files fresh in local worktrees. On a new prose
-tag it re-renders, per checkout, only outputs git does not track. Tracked files
-change through the regen MR flow alone.
+tag it re-renders, per checkout, only untracked outputs. Tracked files change
+through regen MRs alone.
 
 ## As a developer
 
-Works in local worktrees, never runs render commands by hand.
+Works in local worktrees, runs no render commands by hand.
 
-### Have my local gitignored outputs follow prose releases (implemented)
+### Have my gitignored outputs follow prose releases (implemented)
 
 I want the watcher to re-render them in place on a new prose tag,
 so that my worktree matches the release without me running anything.
@@ -22,7 +22,7 @@ so that their updates arrive only as reviewable regen MRs.
 
 ### Get a clean no-op in a worktree without a prose pin (implemented)
 
-I want the watcher to change nothing and report the repo as unpinned,
+I want the watcher to change nothing and report the repo unpinned,
 so that unrelated checkouts stay untouched.
 
 <!-- [<] 🤖🤖 -->

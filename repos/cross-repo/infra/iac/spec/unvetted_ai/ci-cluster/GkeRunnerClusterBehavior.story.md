@@ -10,34 +10,35 @@ Tags jobs and reads their logs. Does not provision nodes.
 
 I want `linux-arm64` (Axion) and `linux-amd64` node pools tainted
 `ci=true:NoSchedule` in a zonal GKE Standard cluster in the CI project,
-so that a job tagged `gke-linux-arm64` or `gke-linux-amd64` runs on the pool
-matching its architecture and never on the manager pool.
+so that a job tagged `gke-linux-arm64` or `gke-linux-amd64` lands on the pool
+for its architecture, never on the manager pool.
 
 ### An arm64 job runs instead of timing out (implemented)
 
 I want job pods tolerating both `ci=true` and the
-`kubernetes.io/arch=arm64:NoSchedule` taint GKE applies on its own,
-so that the job starts rather than failing with `prepare environment: waiting
+`kubernetes.io/arch=arm64:NoSchedule` taint GKE adds itself,
+so that the job starts instead of failing with `prepare environment: waiting
 for pod running: timed out waiting for pod to start`.
 
 ### A job asks for its size by name (implemented)
 
-I want runners offering `small`, `medium` and `big` pod sizes per architecture,
-defaulting to `medium`,
+I want `small`, `medium` and `big` pod sizes per architecture, default
+`medium`,
 so that a tagged job gets that size's cpu and memory requests and an untagged
 one matches the SaaS runner it replaces.
 
 ### The SaaS memory budget survives the move (implemented)
 
-I want job pods at 1 vCPU requested and a 6 GB memory limit against the SaaS
+I want job pods at 1 vCPU requested and a 6 GB memory limit, against the SaaS
 2 vCPU / 8 GB,
-so that existing jobs complete without OOM kills, cpu being what was traded for
+so that existing jobs finish without OOM kills. Cpu is what was traded for
 cost.
 
 ### Cheap jobs stop paying for a build's capacity (implemented)
 
 I want a `small` size for lint, render and validate jobs,
-so that several pack onto one node instead of reserving build-sized memory.
+so that several pack onto one node instead of each reserving build-sized
+memory.
 
 ### Every validate job runs small (todo)
 
@@ -47,9 +48,8 @@ so that no lint job reserves a build's memory.
 
 ### A heavy job gets room without upsizing the rest (implemented)
 
-I want a `big` size, taken by the goreleaser builds,
-so that a heavy job receives larger requests while the sizes other jobs use are
-unchanged.
+I want a `big` size, used by the goreleaser builds,
+so that a heavy job gets larger requests and every other size stays put.
 
 ### Image builds and e2e runs take the big size (todo)
 
@@ -60,39 +60,38 @@ so that they stop sharing a medium pod's 6 GB limit.
 ### A job is never throttled below available capacity (implemented)
 
 I want a cpu request and no cpu limit on job pods,
-so that a job bursts into idle node cycles and, on a busy node, shares cpu in
-proportion to what it reserved.
+so that a job bursts into idle cycles and, on a busy node, gets cpu in
+proportion to its reservation.
 
 ### An out-of-memory job fails fast (implemented)
 
 I want a memory limit on job pods,
-so that exceeding it kills or evicts the pod promptly instead of leaving a
+so that exceeding it kills or evicts the pod at once instead of leaving a
 starved job limping far past its normal duration.
 
 ### Docker-in-docker jobs keep working (implemented)
 
 I want privileged containers available to job pods on `gke-linux-*` runners,
-so that `infra/oci-images` and `go-modules` builds produce images matching the
-previous runner.
+so that `infra/oci-images` and `go-modules` builds produce the same images as
+on the previous runner.
 
 ### The move is provable one job at a time (implemented)
 
 I want runners registered under new tags while existing jobs keep theirs,
-so that repointing a single job moves only that job and reverting is a tag
-change in `.gitlab-ci.yml`.
+so that repointing one job moves only that job and reverting is a tag change
+in `.gitlab-ci.yml`.
 
 ### A job never waits on an image its node already holds (implemented)
 
 I want the runner helper image already in a busy node's image cache,
-so that no job fails preparing its environment because a pull timed out under
+so that no job fails `prepare environment` on a pull that timed out under
 overcommitted cpu.
 
 ### A packed node keeps egress for every pod (implemented)
 
 I want Cloud NAT ports allocated for all of a node's pods, not a fixed
 per-node share sized for one,
-so that no job fails preparing its environment with a timeout dialling
-gitlab.com.
+so that no job fails `prepare environment` on a timeout dialling gitlab.com.
 
 ## As an infra operator
 
@@ -100,23 +99,23 @@ Applies the ci-cluster module. Owns pools, taints, identity and caps.
 
 ### The arm64 taint is visible in the code that causes it (todo)
 
-I want the arm64 pool to declare the arch taint itself alongside `ci=true`,
-so that a reader learns why arm64 pods need a second toleration without
-discovering it from a failed job.
+I want the arm64 pool to declare the arch taint itself, beside `ci=true`,
+so that a reader sees why arm64 pods need a second toleration instead of
+learning it from a failed job.
 
 ### An untolerated pod reads as a scheduling error (implemented)
 
-I want the autoscaler to decline scaling for a pod a fresh node could not run,
+I want the autoscaler to refuse scaling for a pod a fresh node could not run,
 and say so,
-so that the pool stays at zero and the fault does not read as a capacity
+so that the pool stays at zero and the fault does not look like a capacity
 shortage.
 
 ### Arm64 nodes can be created at all (implemented)
 
 I want `hyperdisk-balanced` on the C4A pool and `pd-balanced` on the amd64 E2
 pool,
-so that each family gets the disk type it accepts and no pool sits permanently
-at zero from rejected node creations.
+so that each family gets a disk type it accepts and no pool sits at zero
+forever on rejected node creations.
 
 ### Node overhead is amortised across jobs (implemented)
 
@@ -126,52 +125,52 @@ next request no longer fits.
 
 ### Three medium pods per node, not two (implemented)
 
-I want the medium cpu request set to what a job uses rather than its peak,
-against roughly 3.6 vCPU and 12 GB usable per node,
-so that a burst is served by a third fewer nodes while the request stays a
+I want the medium cpu request set to what a job uses, not its peak, against
+roughly 3.6 vCPU and 12 GB usable per node,
+so that a burst needs a third fewer nodes while the request stays a
 reservation, not a cap.
 
 ### Scheduling counts requests, not worst-case limits (implemented)
 
 I want each size's memory request at half its limit,
-so that scheduling fits twice as many pods as the limits alone would allow.
+so that scheduling fits twice the pods the limits alone would allow.
 
 ### Bursty jobs use idle capacity instead of reserving it (implemented)
 
 I want a pod bursting above its request into an idle neighbour's capacity, up
 to its limit,
-so that spiky CI jobs are not billed for headroom while idle.
+so that spiky CI jobs are not billed for idle headroom.
 
 ### A burst runs wide and stops at a known ceiling (implemented)
 
 I want concurrency capped at 16 and `max_node_count` at 6 per pool, 2 per
 fallback pool,
-so that excess jobs queue rather than provisioning further nodes.
+so that excess jobs queue instead of provisioning more nodes.
 
 ### The primary pools reach eight nodes once quota allows (todo)
 
-I want `max_node_count` at 8 on `linux-arm64` and `linux-amd64`, the cpu quota
+I want `max_node_count` at 8 on `linux-arm64` and `linux-amd64`, cpu quota
 raised to fit,
-so that a wide burst runs on the intended ceiling rather than the one the
-current quota admits.
+so that a wide burst runs at the intended ceiling, not the one current quota
+admits.
 
 ### An idle cluster costs only its floor (implemented)
 
 I want both CI pools autoscaling from `min_node_count = 0`,
-so that after the idle window the only running node is the single always-on
-manager node.
+so that after the idle window the only running node is the always-on manager
+node.
 
 ### Capacity is released promptly (implemented)
 
 I want the autoscaler on the optimize-utilization profile,
-so that a finished node goes sooner than under the default profile, the next
-cold start accepted in exchange.
+so that a finished node goes sooner than under the default profile, at the
+price of the next cold start.
 
 ### A queued job wakes the cluster unattended (implemented)
 
 I want the runner manager on the always-on pool receiving `gke-linux-*` jobs
 while both CI pools sit at zero,
-so that the matching pool scales up and the job starts without anyone touching
+so that the matching pool scales up and the job starts with nobody touching
 the cluster.
 
 ### Capacity tracks the queue with no extra component (implemented)
@@ -179,14 +178,14 @@ the cluster.
 I want one runner manager creating a pod per queued job and the cluster
 autoscaler adding nodes for unschedulable pods,
 so that pod count follows queue depth and node count follows pod count, with no
-queue-polling autoscaler deployed.
+queue-polling autoscaler.
 
 ### One manager serves every architecture and size (implemented)
 
-I want a single manager deployment holding one runner entry per architecture
-and size,
-so that adding a size or architecture adds an entry, not another manager to run
-and pay for.
+I want one manager deployment holding one runner entry per architecture and
+size,
+so that a new size or architecture is an entry, not another manager to run and
+pay for.
 
 ### CI compute is billed at spot prices (implemented)
 
@@ -195,15 +194,14 @@ so that nodes created for queued jobs are spot instances.
 
 ### Preemption never takes out the dispatcher (implemented)
 
-I want the `manager` pool on standard on-demand capacity while only the CI
-pools use spot,
+I want the `manager` pool on on-demand capacity, only the CI pools on spot,
 so that the manager keeps receiving jobs through a full preemption and
-schedules replacement pods when spot returns.
+schedules replacements when spot returns.
 
 ### The cluster sits where spot capacity is deep (implemented)
 
 I want placement in `us-central1`, a large long-established region at the
-lowest price tier, a zonal cluster having no fallback zone,
+lowest price tier (a zonal cluster has no fallback zone),
 so that both machine types and their spot capacity are available and moving
 region is a variable change.
 
@@ -238,17 +236,16 @@ so that reads of the sandbox auth project or any other project are denied.
 ### The node identity yields almost nothing (implemented)
 
 I want nodes running as a dedicated service account with only logging,
-monitoring and image-pull roles, not the default compute account carrying
-Editor,
-so that a privileged container reaching the metadata server obtains an identity
-that cannot read secrets, alter the cluster, or create resources.
+monitoring and image-pull roles, not the default compute account with Editor,
+so that a privileged container reaching the metadata server gets an identity
+that cannot read secrets, alter the cluster or create resources.
 
 ### Workspace CI toggles are declared once (implemented)
 
 I want `GRP_KO_VAR_ENABLE_DARWIN_CI` as a group variable on `konradodwrot`
 owned by the gitlab module, unprotected and unmasked,
-so that every project reads it without its own declaration, it being a behavior
-flag rather than a secret.
+so that every project reads it without declaring it. It is a behavior flag,
+not a secret.
 
 ## As an account owner watching spend
 
@@ -256,24 +253,24 @@ Reads the billing report. Sets the ceilings, not the pod sizes.
 
 ### Denser packing lowers the bill without raising the ceiling (implemented)
 
-I want more job pods per node against the fixed node and concurrency caps,
+I want more job pods per node under the fixed node and concurrency caps,
 so that concurrency binds first, worst-case node count falls, worst-case job
-count is unchanged, and the project cpu quota still covers both pools at cap.
+count holds, and the project cpu quota still covers both pools at cap.
 
 ### A runaway matrix cannot spin up unbounded nodes (implemented)
 
 I want jobs beyond `max_node_count` and the concurrency cap to queue,
-so that the cluster's worst-case hourly cost stays bounded and known.
+so that worst-case hourly cost stays bounded and known.
 
 ### Cluster spend is legible without filtering (implemented)
 
 I want the cluster in its own project,
-so that a billing report grouped by project shows CI cost as one figure,
-separate from sandbox spend.
+so that a billing report grouped by project shows CI cost as one figure, apart
+from sandbox spend.
 
 ### CI spend is named for what it is (todo)
 
-I want the CI project named `konradodwrot-ci` rather than `staging`,
+I want the CI project named `konradodwrot-ci`, not `staging`,
 so that the billing line reads as CI without a lookup.
 
 <!-- [<] 🤖🤖 -->

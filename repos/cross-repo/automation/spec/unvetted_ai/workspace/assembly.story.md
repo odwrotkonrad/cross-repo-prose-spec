@@ -17,7 +17,7 @@ I want the clone script to fetch every non-archived project of each
 `$GITLAB_GROUPS` pair into `$WORKSPACE_DIR` mirroring the group tree,
 fast-forwarding clean checkouts and skipping dirty or diverged ones with a
 report,
-so that setup is one command and no local work is ever overwritten.
+so that setup is one command and no local work is overwritten.
 
 ### A child repo's targets run from its parent dir (implemented)
 

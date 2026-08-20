@@ -12,7 +12,7 @@ Scenario: a command's stdout renders into the template (implemented)
 Scenario: a failing command fails the render by name (tested)
   Given a template with `{{ shell "exit 3" }}`
   When I invoke `che render-templates`
-  Then the render fails naming the template, the command and the exit status
+  Then the render fails naming template, command, exit status and stderr
   And no output file is written
 
 Scenario: skipVariables withholds templates that shell out (tested)
@@ -20,7 +20,7 @@ Scenario: skipVariables withholds templates that shell out (tested)
   And `options.renderTemplates.skipVariables` is true
   When I invoke `che render-templates`
   Then the template without the call renders
-  And the other is skipped, its dest logged with `options.renderTemplates.skipVariables`
+  And the other skips, its dest logged with `options.renderTemplates.skipVariables`
 
 Scenario: skipSecrets does not touch shell calls (tested)
   Given a template with a `shell` call and no secret ref

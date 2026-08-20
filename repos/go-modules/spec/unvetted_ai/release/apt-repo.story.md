@@ -2,7 +2,7 @@
 
 <!-- [>] 🤖🤖 -->
 
-`publish-apt`: every Pages deploy rebuilds the signed apt repo tree at
+`publish-apt`: every Pages deploy rebuilds the signed apt repo at
 `https://konradodwrot.gitlab.io/go-modules/apt` from every che `.deb` in the
 generic package registry.
 
@@ -14,19 +14,17 @@ Installs che with apt on debian. Builds nothing, reads no pipeline.
 
 I want `che_X.Y.Z_linux_{amd64,arm64}.deb` in the registry and served from
 `apt/dists/stable` component `main`,
-so that `apt update && apt install che` puts che and the render CLIs in
-`/usr/bin`.
+so that `apt update && apt install che` puts che in `/usr/bin`.
 
 ### An exact version installs, apt-native (implemented)
 
-I want the rebuilt pool to keep every version's deb, none removed by later
-releases,
+I want the rebuilt pool to keep every version's deb,
 so that `apt install che=X.Y.Z` works with no `che@X.Y.Z` package clones.
 
 ### The repo signature verifies against a published key (implemented)
 
-I want the `Release` file GPG-signed with `$APT_GPG_PRIVATE_KEY` and the armored
-public key served at `apt/gpg.key`,
+I want `Release` GPG-signed with `$APT_GPG_PRIVATE_KEY` and the armored public
+key served at `apt/gpg.key`,
 so that `signed-by` has a key to point at.
 
 ## As a pipeline maintainer

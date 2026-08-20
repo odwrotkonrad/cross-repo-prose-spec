@@ -11,7 +11,7 @@ Scenario: a user pins an exact che version at install time (implemented)
   When a `che/vX.Y.Z` tag pipeline runs `publish-brew`
   Then `Formula/che@X.Y.Z.rb` also commits to the tap
   And its class name follows Homebrew's formula naming, `che@0.0.67` -> `CheAT0067`
-  And `brew install che@X.Y.Z` installs exactly that version
+  And `brew install che@X.Y.Z` installs that version
 
 Scenario: an operator dry-renders both formulae locally, no tap write (implemented)
   Given `RENDER_ONLY=1`

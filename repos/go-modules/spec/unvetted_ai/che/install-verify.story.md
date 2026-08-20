@@ -2,9 +2,9 @@
 
 <!-- [>] 🤖🤖 -->
 
-The `verify:` key in packages.yml declares how an install is proven. It sits on a
-package entry (every method) or on an installer item (overriding the entry for
-its method). Values:
+`verify:` in packages.yml declares how an install is proven. It sits on a
+package entry (every method) or an installer item (overriding the entry for its
+method). Values:
 
 - `versionCmd` (default when absent, scalar shorthand or `versionCmd: true`):
   run the entry's command with `--version` (fallback `version`), exit 0 and
@@ -12,12 +12,10 @@ its method). Values:
 - `pkgMgrVersionCheck` (scalar shorthand or `pkgMgrVersionCheck: true`): ask the
   installing manager for the installed version (apt: `dpkg-query -W`, brew:
   `brew list --versions`, brew/cask: `brew list --cask --versions`, npm:
-  `npm ls --global`),
-  exit 0 and non-empty output required
-- `cmd: <command>`: run the command, exit 0 alone means verified
-- object form combines: each strategy is its own key, several keys run all of
-  them. `checkInPath: false` (default true) also disables the PATH presence
-  probe
+  `npm ls --global`), exit 0 and non-empty output required
+- `cmd: <command>`: run it, exit 0 alone means verified
+- object form combines: one key per strategy, all run. `checkInPath: false`
+  (default true) also disables the PATH presence probe
 
 ## As a catalog author
 
@@ -33,20 +31,19 @@ so that the common package declares nothing.
 
 ### One strategy declared once for every method (tested)
 
-I want an entry-level `verify:` to verify each of its methods' installs,
+I want an entry-level `verify:` to verify every method's install,
 so that a package states its proof once.
 
 ### One method overriding the entry's proof (tested)
 
-I want an item-level `verify:` to apply to its method while the entry's applies
-to the rest,
+I want an item-level `verify:` to apply to its method, the entry's to the rest,
 so that an odd manager does not force the whole entry off the default.
 
 ### Several proofs combined, all required (tested)
 
 I want a `verify:` object with several strategy keys to run each and require
 each to pass,
-so that a weak single check is not the only proof available.
+so that a weak single check is not the only proof.
 
 ### A binary-less package proven by its manager (implemented)
 
@@ -59,14 +56,14 @@ so that a package shipping no binary is still verifiable.
 ### A command-less package opting out of the PATH probe (tested)
 
 I want `checkInPath: false` to stop `che packages check` and the post-install
-check probing for a command on PATH and firing a "missing" warning, the entry's
-verify strategy still proving the install,
+check probing PATH and firing a "missing" warning, the entry's verify strategy
+still proving the install,
 so that a package that is not a binary stops reporting as missing.
 
 ### An arbitrary command as proof (tested)
 
-I want `verify: {cmd: <command>}` to run after the install, exit 0 verifying and
-non-0 failing with no output requirement,
+I want `verify: {cmd: <command>}` to run after the install, exit 0 verifying,
+non-0 failing, no output required,
 so that a package with its own health check uses it.
 
 ### A bad verify declaration caught at load (tested)

@@ -14,7 +14,7 @@ so that there is one permission set to audit.
 
 ### The credential inventory is closed (implemented)
 
-I want the declared identities enumerating gcp and gitlab,
+I want the declared identities to enumerate gcp and gitlab,
 so that every grant has a declaration to read.
 
 ### No undeclared credential reaches a session (todo)

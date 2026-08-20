@@ -2,24 +2,24 @@
 
 <!-- [>] 🤖🤖 -->
 
-`packages.yml` is data: 1203 lines describing what to install and how, per
-manager, per platform. Today it sits inside a Go monorepo as `che-packages/`, a
-module whose entire Go content is one `//go:embed` directive. Every catalog edit
-(a version bump, a new package, a changed apt name) enters through `go.work`, a
-`go.mod`, a Makefile with no-op `build`/`install`/`release-check` targets, and a
-pipeline whose `changes:` rules must name `che-packages/**/*` in eight places.
+`packages.yml` is data: 1203 lines of what to install and how, per manager, per
+platform. It sat inside a Go monorepo as `che-packages/`, a module whose whole
+Go content was one `//go:embed` directive. Every catalog edit (a version bump, a
+new package, a changed apt name) went through `go.work`, a `go.mod`, a Makefile
+of no-op `build`/`install`/`release-check` targets, and a pipeline whose
+`changes:` rules named `che-packages/**/*` in eight places.
 
-Proving the catalog works costs more still. `che/e2e/install_methods_test.go` is
-837 lines of Go serving two unrelated purposes: proving each *install method*
-works, and proving each *catalog package* installs. The second drives three
-GitLab stages and a per-package matrix across three platforms. A method breaks
-when che's installer code changes, a package breaks when an upstream registry
-moves, and today they fail together.
+Proving the catalog cost more. `che/e2e/install_methods_test.go` was 837 lines
+of Go doing two unrelated jobs: proving each *install method* works, and
+proving each *catalog package* installs. The second drove three GitLab stages
+and a per-package matrix across three platforms. A method breaks when che's
+installer changes, a package breaks when an upstream registry moves, and they
+failed together.
 
-Splitting the catalog out gives it its own release cadence, tag stream and test
-suite, in a language suited to orchestrating containers and asserting shell
-output. che keeps the engine and the per-method proof, and consumes the catalog
-at a version it pins.
+Its own repo gives the catalog its own release cadence, tag stream and test
+suite, in a language suited to driving containers and asserting shell output.
+che keeps the engine and the per-method proof, and pins the catalog version it
+consumes.
 
 ## As a catalog maintainer
 
@@ -28,12 +28,11 @@ Edits `packages.yml` and its install scripts. Writes no Go, owns no schema.
 ### An edit is one YAML change, no Go toolchain in the way (implemented)
 
 I want the catalog in its own repo, validated by its own pipeline,
-so that adding a package or bumping a pin touches `packages.yml` and nothing
-else.
+so that adding a package or bumping a pin touches `packages.yml` only.
 
 ### Breakage is caught before a container is ever started (implemented)
 
-I want a fast schema job on every merge request, rejecting unknown fields,
+I want a fast schema job on every merge request rejecting unknown fields,
 missing required fields and wrong types,
 so that a malformed catalog never reaches an install job.
 
@@ -41,7 +40,7 @@ so that a malformed catalog never reaches an install job.
 
 I want validation to prove every entry resolves to at least one method on a
 supported platform and derives its verify commands,
-so that a dead entry is caught by a job costing no container.
+so that a dead entry is caught by a job that starts no container.
 
 ### Vocabulary never outruns the che that must read it (implemented)
 
@@ -55,14 +54,14 @@ so that the pin to raise is read off the failure, not worked out.
 
 ### One package is provable locally before a push (implemented)
 
-I want a command selecting a single package, or package and method, running in a
-fresh container,
+I want a command running one package, or one package and method, in a fresh
+container,
 so that I get the failing install and verify commands without burning a
 pipeline.
 
 ### A trigger can be narrowed to one method (implemented)
 
-I want a method variable set when triggering a manual per-package job,
+I want a method variable on a manually triggered per-package job,
 so that I retry one broken method instead of the entry's whole set.
 
 ## As a schema owner
@@ -72,9 +71,9 @@ content.
 
 ### The contract has exactly one source of truth (implemented)
 
-I want the catalog to fetch che's published `packages.schema.json` rather than a
-copy committed here,
-so that a vocabulary change in che takes effect with no edit in the catalog.
+I want the catalog to fetch che's published `packages.schema.json`, not a copy
+committed here,
+so that a vocabulary change in che takes effect with no catalog edit.
 
 ## As a pipeline maintainer
 
@@ -85,7 +84,7 @@ che's installer code.
 
 I want the first N packages of each method (N configurable, default 2) to
 install for real on both arches,
-so that a method broken everywhere fails without anyone clicking a job.
+so that a method broken everywhere fails with nobody clicking a job.
 
 ### The rest of the catalog stays one click away (implemented)
 
@@ -95,25 +94,25 @@ so that full coverage exists without every pipeline paying for it.
 
 ### Isolation makes a pass mean something (implemented)
 
-I want each (package, method) case in its own fresh debian container, with an
-already-present package counted as a failure, not a pass,
+I want each (package, method) case in its own fresh debian container, an
+already-present package counted as a failure,
 so that no case passes on a dependency another case installed.
 
 ### Reruns are fast without weakening isolation (implemented)
 
 I want apt archives, apt lists and che-downloaded assets shared across runs,
-checksummed, while the container stays bare,
-so that caching buys speed and never a false pass.
+checksummed, the container staying bare,
+so that caching buys speed, never a false pass.
 
 ### Both supported architectures are proven, natively (implemented)
 
 I want linux amd64 and linux arm64 covered on their own runners,
-so that arm64 results are real, with no emulation, macOS runner or local VM.
+so that arm64 results are real: no emulation, macOS runner or local VM.
 
 ### The matrix follows the catalog with no pipeline edit (implemented)
 
 I want one job per package per architecture generated from `packages.yml`,
-so that a hand-listed job set can never fall behind the catalog.
+so that no hand-listed job set can fall behind the catalog.
 
 ### Matrix drift fails before merge (todo)
 
@@ -122,7 +121,7 @@ so that a catalog edit never merges with a job set behind it.
 
 ### The matrix never starves other repos' runners (implemented)
 
-I want the per-package dind jobs manual and optional, non-blocking on failure,
+I want the per-package dind jobs manual, optional and non-blocking on failure,
 so that a shared runner queue survives a catalog merge request.
 
 ## As a catalog consumer

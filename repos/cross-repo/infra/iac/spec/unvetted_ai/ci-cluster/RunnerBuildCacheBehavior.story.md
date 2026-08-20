@@ -2,17 +2,17 @@
 
 <!-- [>] 🤖🤖 -->
 
-The kubernetes executor gives every job a fresh pod and discards its disk when the job
-ends. Without storage outside the pod, every `cache:` block a pipeline declares is
-inert: entries archive to a disk nobody will read, and every restore misses. Seen in
-`go-modules`, where one job spent 202 seconds archiving 120000 files no later job could
-reach, and another compiled 1422 packages cold before its first test ran.
+The kubernetes executor gives every job a fresh pod and throws its disk away at
+the end. Without storage outside the pod, every `cache:` block is inert: entries
+archive to a disk nobody reads, every restore misses. Seen in `go-modules`: one
+job spent 202 seconds archiving 120000 files no later job could reach, another
+compiled 1422 packages cold before its first test.
 
-This file covers provisioning the cache: the bucket, how the runner reaches it, what it
-is allowed to reach, and how long entries live. What a pipeline puts in it, and under
-which keys, is that repo's concern, specified alongside its own jobs. That includes
-whether a given cost is worth caching at all, which is why `go-modules` caches compiler
-output but refetches its dependencies from the public proxy.
+This file covers provisioning the cache: the bucket, how the runner reaches it,
+what it may reach, how long entries live. What a pipeline caches, under which
+keys, is that repo's concern, specified beside its jobs. So is whether a cost is
+worth caching at all: `go-modules` caches compiler output but refetches
+dependencies from the public proxy.
 
 ## As a CI maintainer
 
@@ -22,14 +22,13 @@ Writes the `cache:` blocks and reads the job logs. Owns keys, not buckets.
 
 I want the runner to declare a distributed cache backed by a bucket in the CI
 project,
-so that an archived entry is readable by a later job instead of logging `No URL
+so that a later job can read an archived entry instead of logging `No URL
 provided, cache will not be downloaded from shared cache server`.
 
 ### Sibling jobs and later pipelines start warm (implemented)
 
 I want one populated cache key readable across pipelines,
-so that a merge request opened after an earlier one compiles warm rather than
-cold.
+so that a merge request opened after an earlier one compiles warm.
 
 ### A cache miss never fails a job (implemented)
 
@@ -40,12 +39,12 @@ so that CI slows without breaking.
 ### Signing failures are visible in the log (implemented)
 
 I want transfer failures other than a missing entry logged as errors,
-so that a permanently unsignable cache is noticed rather than absorbed as
-repeated cold builds forever.
+so that a permanently unsignable cache gets noticed instead of absorbed as
+endless cold builds.
 
 ### Keying stays with the pipeline that owns it (implemented)
 
-I want what to cache and under which keys specified alongside each repo's jobs,
+I want what to cache and under which keys specified beside each repo's jobs,
 so that this module guarantees only persistence, reachability and expiry.
 
 ### The cache is not a trust boundary (implemented)
@@ -62,21 +61,19 @@ Provisions the bucket and the grants. Pays the storage bill.
 
 I want cache reads and writes authenticated through the runner's existing
 Workload Identity binding,
-so that provisioning the cache introduces no key file and no new secret to
-rotate.
+so that the cache adds no key file and no secret to rotate.
 
 ### The runner can sign the URLs it uses (implemented)
 
 I want `iam.serviceAccounts.signBlob` on the runner's own service account
-alongside object access,
-so that archive and restore succeed instead of logging `unable to sign bytes:
+beside object access,
+so that archive and restore work instead of logging `unable to sign bytes:
 Permission 'iam.serviceAccounts.signBlob' denied`.
 
 ### Object access alone is not mistaken for cache access (implemented)
 
-I want both grants made deliberately as a pair,
-so that a cache that looks correctly configured is not silently inert in every
-pipeline.
+I want both grants made together, as a pair,
+so that a cache that looks configured is not silently inert in every pipeline.
 
 ### A compromised runner reaches nothing else (implemented)
 
@@ -87,66 +84,66 @@ so that no other bucket or project is reachable.
 ### The bucket is not a distribution channel (implemented)
 
 I want public access prevented and uniform bucket-level access enforced,
-so that no per-object ACL can widen reach to compiler output.
+so that no per-object ACL can expose compiler output.
 
 ### Disposable data is not kept like data (implemented)
 
 I want a lifecycle rule deleting objects and versioning off,
-so that reproducible cache contents are not retained as though a superseded
-entry had recovery value.
+so that reproducible cache contents are not kept as if a superseded entry had
+recovery value.
 
 ### Retention is one day, not a week (implemented)
 
-I want the window set to one day, every pipeline rewriting the keys it touches,
-so that storage falls roughly sevenfold at an unchanged hit rate, the whole
-cost being one cold build for a branch left idle overnight.
+I want a one-day window, every pipeline rewriting the keys it touches,
+so that storage falls roughly sevenfold at the same hit rate. The whole cost:
+one cold build for a branch left idle overnight.
 
 ### Deleted entries stop being billed at once (implemented)
 
-I want soft delete disabled outright,
+I want soft delete off,
 so that constantly superseded objects are not billed through the seven-day
-default that would silently undo the short lifecycle window.
+default that would quietly undo the short lifecycle window.
 
 ### Abandoned uploads do not accumulate (implemented)
 
 I want a lifecycle rule aborting incomplete multipart uploads older than a day,
-so that parts orphaned by a preempted pod, reachable by no object-age rule,
+so that parts orphaned by a preempted pod, which no object-age rule reaches,
 stop being billed.
 
 ### The bucket tears down without hand-emptying (implemented)
 
 I want destroy or replace to succeed on a never-empty bucket holding nothing
-worth preserving,
+worth keeping,
 so that no operator deletes objects first.
 
 ### Storage stays bounded over weeks (implemented)
 
-I want expired objects removed without operator intervention,
+I want expired objects removed with no operator action,
 so that steady-state cache storage is bounded and known, like the node caps in
-[GkeRunnerClusterBehavior.md](GkeRunnerClusterBehavior.story.md).
+[GkeRunnerClusterBehavior.story.md](GkeRunnerClusterBehavior.story.md).
 
 ### The cheapest class the access pattern allows (implemented)
 
 I want the default storage class standard,
-so that entries deleted within days incur no minimum-storage-duration charge
-from nearline or coldline.
+so that entries deleted within days pay no nearline or coldline
+minimum-storage-duration charge.
 
 ### Cache traffic crosses no billed boundary (implemented)
 
-I want a single-region bucket co-located with the cluster's zone,
-so that every read and write is in-region, with no egress charge and no
-multi-region replication paid for disposable data.
+I want a single-region bucket in the cluster's zone,
+so that every read and write is in-region: no egress charge, no multi-region
+replication paid for disposable data.
 
 ### Cache spend stays a rounding error (todo)
 
 I want steady-state cache cost held to a small fraction of spot compute spend,
-so that the pipeline time removed is worth more than the storage, the retention
-window shortening rather than the cache being abandoned if that stops holding.
+so that the pipeline time saved is worth more than the storage. If that stops
+holding, the retention window shortens before the cache is dropped.
 
 ### Nothing bad persists past the window (implemented)
 
 I want a stale, corrupt or poisoned entry to age out on its own,
-so that no cache entry is trusted indefinitely on the strength of having once
-been written.
+so that no entry is trusted forever on the strength of having once been
+written.
 
 <!-- [<] 🤖🤖 -->

@@ -8,8 +8,8 @@ Builds and ships the base image. Does not configure tools in it.
 
 ### One image serves every session (implemented)
 
-I want every session pod running the one built session image, with no
-per-session build,
+I want every session pod running the one built session image, no per-session
+build,
 so that there is a single artifact to reason about.
 
 ### A session start pulls nothing (todo)
@@ -19,13 +19,13 @@ so that creation is not gated on a registry.
 
 ### The base holds only what a session cannot install itself (implemented)
 
-I want zsh, the session user's home and che present, with no configuration-image
+I want zsh, the session user's home and che present, no configuration-image
 content baked in,
 so that the base changes rarely.
 
 ### Nothing a profile installs rides the base (todo)
 
-I want tmux, vim, gcc and python3 arriving by the installs layer,
+I want tmux, vim, gcc and python3 arriving via the installs layer,
 so that the base changes only when che or the session user does.
 
 ## As a session user
@@ -40,7 +40,7 @@ so that nothing runs as root by default.
 ### Root is one sudo away when the work needs it (implemented)
 
 I want passwordless sudo for the session user,
-so that the pod boundary carries the risk instead of a password prompt.
+so that the pod boundary carries the risk, not a password prompt.
 
 ### Root-group files are readable without escalation (implemented)
 

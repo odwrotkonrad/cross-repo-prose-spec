@@ -8,9 +8,8 @@ Pushes work for review. Does not decide what lands on main.
 
 ### Work in progress ships to a branch and an MR (implemented)
 
-I want a push to an unprotected branch and an opened merge request both
-succeeding,
-so that a session's output arrives where a human reads it.
+I want a push to an unprotected branch and an MR open both succeeding,
+so that a session's output lands where a human reads it.
 
 ## As a security owner
 

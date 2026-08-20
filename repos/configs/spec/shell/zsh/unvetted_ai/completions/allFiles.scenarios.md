@@ -5,8 +5,8 @@
 Scenario Outline: a query with no path separator searches a single path segment (implemented)
   Given the typed query "<query>"
   When I press TAB
-  Then the query fuzzy-matches a single filepath segment: the match's own segment for its group
-  And a match against a shallower segment does not carry a match into a deeper group
+  Then the query fuzzy-matches one path segment: the match's own segment for its group
+  And a match on a shallower segment never carries into a deeper group
   And the listed matches are exactly "<matches>"
 
   Examples:
@@ -19,9 +19,9 @@ Scenario Outline: a query with no path separator searches a single path segment 
 Scenario Outline: a query with path separators splits per segment, matching in order, gaps allowed (implemented)
   Given the typed query "<query>"
   When I press TAB
-  Then the query divides on / into per-segment queries
-  And each per-segment query fuzzy-matches a path segment, in typed order, skipped segments allowed between them
-  And the last per-segment query matches the match's own segment for its group
+  Then the query splits on / into per-segment queries
+  And each fuzzy-matches a path segment, in typed order, segments skippable between them
+  And the last matches the match's own segment for its group
   And the listed matches are exactly "<matches>"
 
   Examples:

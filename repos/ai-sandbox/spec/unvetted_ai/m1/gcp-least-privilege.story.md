@@ -23,9 +23,9 @@ so that read-only is enforced, not conventional.
 
 ### Access exists only where the image put it (implemented)
 
-I want a session created with no configuration image authenticating to gcp not
-at all,
-so that gcp access is never the default state.
+I want a session created without the configuration image unable to authenticate
+to gcp,
+so that gcp access is never the default.
 
 ## As a session user
 
@@ -33,9 +33,9 @@ Uses gcp from the session. Does not handle credentials.
 
 ### GCP works without being handed a credential (implemented)
 
-I want the sandbox service account present in the configuration image and
+I want the sandbox service account baked into the configuration image and
 authenticating at session start,
-so that no secret passes through the session start path.
+so that no secret passes through session start.
 
 ### Every session authenticates identically (implemented)
 

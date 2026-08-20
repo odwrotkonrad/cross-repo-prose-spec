@@ -31,7 +31,7 @@
 
 ## E2E Installation Testing
 
-Local installs never touch the bare-metal host. Each run virtualizes per platform.
+Local installs never touch the host. Each run is virtualized per platform.
 
 - `darwin-arm64`: tart macOS VM
 - `linux-arm64`, `linux-amd64`: docker container
