@@ -48,7 +48,7 @@ I want a `verify:` object with several strategy keys to run each and require
 each to pass,
 so that a weak single check is not the only proof available.
 
-### A binary-less package proven by its manager (tested)
+### A binary-less package proven by its manager (implemented)
 
 I want `verify: pkgMgrVersionCheck` to prove an apt item via
 `dpkg-query -W -f '${Version}\n' <packageName>`, using the manager-side

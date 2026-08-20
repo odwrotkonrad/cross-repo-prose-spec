@@ -13,7 +13,7 @@ a separate `skipVariables` option skips templates that shell out, as
 
 Writes `*.tpl` files che renders. Uses stock gomplate syntax.
 
-### A command's output lands in the template (tested)
+### A command's output lands in the template (implemented)
 
 I want `{{ shell "<command>" }}` to run the command with `-c` under the
 user's shell, resolved as `$SHELL`, else the account's login shell from the

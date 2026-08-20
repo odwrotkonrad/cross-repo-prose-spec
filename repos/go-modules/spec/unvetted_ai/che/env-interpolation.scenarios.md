@@ -64,7 +64,7 @@ Scenario: a sourced ref's env reaches the referenced spec at load (tested)
   When I invoke `che discover` in the consumer
   Then the referenced spec's values read `web`
 
-Scenario: discover reports the tree's env requirements (tested)
+Scenario: discover reports the tree's env requirements (implemented)
   Given a spec tree with one bare ref set, one bare ref unset and one defaulted ref
   When I invoke `che discover`
   Then an env requirements section lists each ref per spec

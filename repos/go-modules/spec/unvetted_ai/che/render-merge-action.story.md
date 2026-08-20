@@ -17,7 +17,7 @@ user.
 
 Writes `.env.tpl`. Wants fetched values fresh and hand-set ones untouched.
 
-### A fetched value overwrites by default (tested)
+### A fetched value overwrites by default (implemented)
 
 I want a key whose value comes from `{{ shell "..." }}` or
 `{{ secret "..." }}` to replace the existing value in the dest on every
@@ -40,7 +40,7 @@ today,
 so that a knob I set in `.env` survives every render unless the template
 says otherwise.
 
-### The action names itself on error (tested)
+### The action names itself on error (implemented)
 
 I want an unknown action (`| alwaysUpdat`) to fail the render naming the
 template and the function, as any undefined template function does,

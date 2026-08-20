@@ -18,26 +18,26 @@ output but refetches its dependencies from the public proxy.
 
 Writes the `cache:` blocks and reads the job logs. Owns keys, not buckets.
 
-### A cache entry outlives the pod that wrote it (todo)
+### A cache entry outlives the pod that wrote it (implemented)
 
-I want the runner to declare a distributed cache backed by a bucket in the
-`konradodwrot-ci` project,
+I want the runner to declare a distributed cache backed by a bucket in the CI
+project,
 so that an archived entry is readable by a later job instead of logging `No URL
 provided, cache will not be downloaded from shared cache server`.
 
-### Sibling jobs and later pipelines start warm (todo)
+### Sibling jobs and later pipelines start warm (implemented)
 
 I want one populated cache key readable across pipelines,
 so that a merge request opened after an earlier one compiles warm rather than
 cold.
 
-### A cache miss never fails a job (todo)
+### A cache miss never fails a job (implemented)
 
 I want a job to proceed and succeed against an unreachable, misconfigured or
 empty cache,
 so that CI slows without breaking.
 
-### Signing failures are visible in the log (todo)
+### Signing failures are visible in the log (implemented)
 
 I want transfer failures other than a missing entry logged as errors,
 so that a permanently unsignable cache is noticed rather than absorbed as
@@ -58,27 +58,27 @@ so that nobody assumes the shared bucket isolates keys on its own.
 
 Provisions the bucket and the grants. Pays the storage bill.
 
-### No long-lived key on disk (todo)
+### No long-lived key on disk (implemented)
 
 I want cache reads and writes authenticated through the runner's existing
 Workload Identity binding,
 so that provisioning the cache introduces no key file and no new secret to
 rotate.
 
-### The runner can sign the URLs it uses (todo)
+### The runner can sign the URLs it uses (implemented)
 
 I want `iam.serviceAccounts.signBlob` on the runner's own service account
 alongside object access,
 so that archive and restore succeed instead of logging `unable to sign bytes:
 Permission 'iam.serviceAccounts.signBlob' denied`.
 
-### Object access alone is not mistaken for cache access (todo)
+### Object access alone is not mistaken for cache access (implemented)
 
 I want both grants made deliberately as a pair,
 so that a cache that looks correctly configured is not silently inert in every
 pipeline.
 
-### A compromised runner reaches nothing else (todo)
+### A compromised runner reaches nothing else (implemented)
 
 I want the cache grant scoped to object read and write on the cache bucket and
 signing scoped to the runner's own service account,
@@ -107,19 +107,19 @@ I want soft delete disabled outright,
 so that constantly superseded objects are not billed through the seven-day
 default that would silently undo the short lifecycle window.
 
-### Abandoned uploads do not accumulate (todo)
+### Abandoned uploads do not accumulate (implemented)
 
 I want a lifecycle rule aborting incomplete multipart uploads older than a day,
 so that parts orphaned by a preempted pod, reachable by no object-age rule,
 stop being billed.
 
-### The bucket tears down without hand-emptying (todo)
+### The bucket tears down without hand-emptying (implemented)
 
 I want destroy or replace to succeed on a never-empty bucket holding nothing
 worth preserving,
 so that no operator deletes objects first.
 
-### Storage stays bounded over weeks (todo)
+### Storage stays bounded over weeks (implemented)
 
 I want expired objects removed without operator intervention,
 so that steady-state cache storage is bounded and known, like the node caps in
@@ -143,7 +143,7 @@ I want steady-state cache cost held to a small fraction of spot compute spend,
 so that the pipeline time removed is worth more than the storage, the retention
 window shortening rather than the cache being abandoned if that stops holding.
 
-### Nothing bad persists past the window (todo)
+### Nothing bad persists past the window (implemented)
 
 I want a stale, corrupt or poisoned entry to age out on its own,
 so that no cache entry is trusted indefinitely on the strength of having once

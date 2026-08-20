@@ -18,7 +18,7 @@ I want a zero-delta profile skipped wholesale, announced by a debug
 reason `options.run.skipOps` and undefined ones `not defined`,
 so that a settled host reruns fast and says why.
 
-### Naming an op runs it, whatever the run sequence skips (todo)
+### Naming an op runs it, whatever the run sequence skips (tested)
 
 I want `run.skipOps` to bind to the `run` sequence alone, every direct op
 subcommand executing normally even while listed there,

@@ -29,8 +29,8 @@ Tags jobs and reads their logs. Does not provision registries.
 
 ### A job starts instead of failing to pull (implemented)
 
-I want every image a job pod needs served from Artifact Registry in
-`konradodwrot-ci`,
+I want every image a job pod needs served from Artifact Registry in the CI
+project,
 so that no job fails `prepare environment` with a timeout dialling
 `gitlab.com/jwt/auth`.
 
@@ -157,8 +157,13 @@ times a day.
 
 ### Cached copies do not grow without bound (implemented)
 
-I want remote repository contents and build cache both bounded by policy,
+I want build cache bounded by policy,
 so that storage for reproducible data stays a rounding error against spot
 compute spend.
+
+### Remote repository contents expire too (todo)
+
+I want a cleanup policy on both remote repositories,
+so that cached third-party layers nobody pulls any more stop being stored.
 
 <!-- [<] 🤖🤖 -->

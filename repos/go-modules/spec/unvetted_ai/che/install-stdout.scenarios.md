@@ -8,17 +8,21 @@ Scenario: at info level the installation method's normal output is silenced (tes
   Then the method's normal stdout is not printed
   And che's own log lines (install, installed, skip, warn) still print
 
-Scenario: a failing installation method's output is always visible (implemented)
+Scenario: a failing installation method's output is always visible (tested)
   Given any log level and any `--silence-install-stdout` value
   When an installation method exits non-0
   Then its captured output prints with the error
   And the failure is attributable without rerunning at debug
 
-Scenario: a failing install script names its reason, not just an exit status (todo)
+Scenario: a failing install script names its reason, not just an exit status (implemented)
   Given a script installer whose script writes its reason to stderr and exits non-0
   When the install runs at any log level, silenced or not
   Then the script's stderr prints with the failure
-  And the log line is not only `<pkg>: install script: exit status <n>`
+
+Scenario: a script failure's error line carries the reason (todo)
+  Given a script installer whose script writes its reason to stderr and exits non-0
+  When the install runs at any log level, silenced or not
+  Then the error line is not only `<pkg>: install script: exit status <n>`
 
 Scenario: --silence-install-stdout on the install command overrides the default (tested)
   When I invoke `che packages install --silence-install-stdout=false`

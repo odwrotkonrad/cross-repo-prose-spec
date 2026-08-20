@@ -68,13 +68,17 @@ so that adding a test job cannot silently inherit a disabled feature.
 
 Declares every CI variable in `infra/iac`. Does not edit pipelines.
 
-### Every key in GitLab is a resource in iac (todo)
+### Every key in GitLab is a resource in iac (implemented)
 
-I want every group and project variable GitLab holds to be a
-`gitlab_group_variable` or `gitlab_project_variable` in `infra/iac`, and a
-key found in GitLab with no resource imported or deleted,
-so that `glab variable list` over the group and every project matches the
-terraform state and nothing is clicked into the UI.
+I want every group and project variable declared as a
+`gitlab_group_variable` or `gitlab_project_variable` in `infra/iac`,
+so that nothing is clicked into the UI.
+
+### Drift between GitLab and iac is caught (todo)
+
+I want a job listing variables over the group and every project and diffing
+them against the terraform state, an unmanaged key imported or deleted,
+so that a clicked-in value cannot outlive the next pipeline.
 
 ### The bare name is never defined in GitLab (implemented)
 

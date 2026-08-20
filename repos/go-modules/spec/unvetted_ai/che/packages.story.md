@@ -110,7 +110,7 @@ tap-qualified name and install, a tap-qualified `packageName` a parse error
 naming the registries block, and a reference to an absent tap a hard error,
 so that tap knowledge sits in one place.
 
-### A nix item installing from nixpkgs via nix profile (implemented)
+### A nix item installing from nixpkgs via nix profile (tested)
 
 I want a `- nix` item eligible on linux and darwin and last in preference order,
 the `nix` basePackages group bootstrapping nix via the Determinate Systems
@@ -126,7 +126,7 @@ carrying `#`, `@` or `=` plus `platformEligibility`, `extractBinaries` and
 `archScheme` on a nix item all parse errors,
 so that nixpkgs is reachable without preempting a native manager.
 
-### A nix pin expressed as a registry-repo revision (implemented)
+### A nix pin expressed as a registry-repo revision (tested)
 
 I want `versionMap: {"<binary-version>": "<revision>"}` (exactly one pair) to
 install the resolved ref `<registry-url>/<revision>#<attr>`, the drift check
@@ -183,7 +183,7 @@ I want a relative script `path:` in a superseding or override packages file
 directory, never falling back to a same-named builtin script,
 so that a user's file is self-contained.
 
-### A json schema of the packages file structure (tested)
+### A json schema of the packages file structure (implemented)
 
 I want `make render-docs` to generate `assets/data/packages.schema.json` from
 the Go source alongside che.schema.json, packages files opening with a
@@ -215,7 +215,7 @@ I want resolution to run in rounds so a package needing npm installs in a later
 round of the same run that installed npm,
 so that ordering a bootstrap by hand is unnecessary.
 
-### An npm package bootstrapping node on a bare host (implemented)
+### An npm package bootstrapping node on a bare host (tested)
 
 I want the npm `basePackages` group installed first (`node`, pulling `nvm` via
 requires, nvm's script pulling curl, git, tar, unzip), nested base groups
@@ -247,7 +247,7 @@ I want an override file (`--packages-override` or
 append new names, `--packages-file` and `packages.file` relocating the base,
 so that one changed package does not mean maintaining a whole catalog.
 
-### Everything refreshed on demand (tested)
+### Everything refreshed on demand (implemented)
 
 I want `che packages install --update` to update unpinned installed packages via
 their manager (brew upgrade, apt-get install --only-upgrade, npm update -g),
@@ -260,7 +260,7 @@ I want `--if-missing` to skip any package whose canonical command exists
 anywhere on PATH, regardless of manager,
 so that a host with hand-installed tools is not churned.
 
-### Installs restricted to chosen methods (tested)
+### Installs restricted to chosen methods (implemented)
 
 I want `packages.onlyInstallationMethods` (user config, spec options, profile
 options, `--only-methods` or `CHE_PACKAGES_ONLY_METHODS`) to consider only items
@@ -303,7 +303,7 @@ install of the run, at most once and re-armed when a new apt registry is
 configured, managers querying live registries (npm, gem, go) running none,
 so that a fresh package is found without a stale-index failure.
 
-### Downloads cached across runs (tested)
+### Downloads cached across runs (implemented)
 
 I want `--download-cache-dir <dir>` (env `CHE_PACKAGES_DOWNLOAD_CACHE_DIR`) to
 store assets at `<dir>/<sha256(url)>-<basename>` and reuse them without curl, a
@@ -311,7 +311,7 @@ checksum mismatch deleting the cached file before failing and an empty value
 keeping the per-install temp-dir behavior,
 so that repeated runs and CI jobs stop re-downloading the same archives.
 
-### An install run ending by proving the commands exist (tested)
+### An install run ending by proving the commands exist (implemented)
 
 I want check-present to run over the installed set after a real run and warn on
 missing commands, with no other check running automatically,

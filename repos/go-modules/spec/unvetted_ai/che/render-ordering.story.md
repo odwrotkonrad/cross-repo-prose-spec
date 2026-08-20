@@ -37,39 +37,39 @@ say what they depend on; che should read it.
 Owns a repo's `che.yml` and its generated docs. Adds includes, does not order
 renders.
 
-### A generated file rendering after what it includes (todo)
+### A generated file rendering after what it includes (tested)
 
 I want a template whose dest opts into `renderReferencedFiles` and includes a
 path another item renders to have that file rendered first, the including file
 resolving it, a clean checkout rendering as well as a working copy,
 so that generated docs build on CI, not only where stale artifacts survive.
 
-### Order taken from the templates, not from block position (todo)
+### Order taken from the templates, not from block position (tested)
 
 I want the dependency to decide the order when spec order contradicts it, moving
 either block in `che.yml` changing nothing,
 so that adding an include never requires reordering a file by hand.
 
-### A repo with no cross-render includes unchanged (todo)
+### A repo with no cross-render includes unchanged (implemented)
 
 I want a profile whose templates include nothing another item renders to render
 in spec order with no output difference,
 so that ordering costs nothing where it is not needed.
 
-### An include of a file this pass does not render left to existing rules (todo)
+### An include of a file this pass does not render left to existing rules (tested)
 
 I want an `@`-include naming a path no item produces to create no ordering edge,
 the file expected on disk and failing or warning exactly as
 [missing sources](render-templates-missing-sources.story.md) specifies,
 so that one feature does not quietly redefine another's behavior.
 
-### A cycle failing instead of picking a winner (todo)
+### A cycle failing instead of picking a winner (tested)
 
 I want two dests each including the other to fail the render naming the files in
 the cycle, exiting non-zero with neither dest written from a guessed order,
 so that an impossible dependency is reported, not resolved arbitrarily.
 
-### A dry run predicting the order a real run takes (todo)
+### A dry run predicting the order a real run takes (implemented)
 
 I want `--dry-run` to report the same order the real render would use, a dest a
 real run would resolve not reported as failing,

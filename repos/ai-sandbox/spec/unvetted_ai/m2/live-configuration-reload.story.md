@@ -27,12 +27,18 @@ so that live delivery never overwrites work done in the session.
 Publishes configuration to the fleet and owns the image. Does not touch
 individual sessions.
 
-### One update reaches every running session (todo)
+### One update reaches every running session (implemented)
 
-I want a single configuration update applied across all running sessions,
+I want a single configuration update fanned out to all running sessions,
 so that the fleet stays uniform without per-session action.
 
-### The image stays the single source of truth (todo)
+### The update lands in a running session's home (todo)
+
+I want the rebuilt configuration present in every running session's home after
+the update,
+so that a fleet-wide update changes more than the image a pod boots from.
+
+### The image stays the single source of truth (implemented)
 
 I want a session created after a live change to boot with that same
 configuration, no session holding configuration the image does not define,

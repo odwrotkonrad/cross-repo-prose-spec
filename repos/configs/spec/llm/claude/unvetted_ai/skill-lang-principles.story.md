@@ -18,7 +18,7 @@ so that every Go target in scope is judged by the user's own Go taste.
 I want `lang python` printing the Python principles into the same section,
 so that a Python codebase gets the same treatment as a Go one.
 
-### Ruby the same way (todo)
+### Ruby the same way (implemented)
 
 I want `lang ruby` printing the Ruby principles into the same section,
 so that Ruby stops being the language the skills cannot judge.
@@ -35,7 +35,7 @@ so that a typo never silently drops the principles.
 Authors the rules files, owns how they reach the host, does not repeat himself
 across them.
 
-### Ruby principles carry Ruby's own idiom (todo)
+### Ruby principles carry Ruby's own idiom (implemented)
 
 I want the Ruby file covering objects, modules, duck typing, blocks and
 Enumerable as Ruby's own concerns, design-level only, no frontmatter paths key,

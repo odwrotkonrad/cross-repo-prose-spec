@@ -17,12 +17,19 @@ artifact is not a shipped deliverable.
 
 Pins a remote che include or a template ref. Reads no branch to find a version.
 
-### Pin any repo I depend on (todo)
+### Pin any repo I depend on (implemented)
 
-I want every repo carrying semver tags,
+I want every minting repo carrying `vX.Y.Z` tags, go-modules its
+`<module>/vX.Y.Z`,
 so that an include names a version instead of tracking a moving branch.
 
-### Take a dependency on a merge as soon as it lands (todo)
+### iac and sandbox join the tagging flow (todo)
+
+I want infra/iac and infra/sandbox in `tagging_projects` with the shared
+tag-mint job, oci-images pinning iac's lock file at a tag,
+so that no repo is consumable only from a branch.
+
+### Take a dependency on a merge as soon as it lands (implemented)
 
 I want a merge to the default branch minting the next tag with no manual step,
 starting at `v0.0.1`,
@@ -32,40 +39,53 @@ so that anything merged is immediately pinnable.
 
 Merges changes and lets CI mint. Pushes no tag by hand.
 
-### Routine change ships as a patch (todo)
+### Routine change ships as a patch (implemented)
 
 I want the bump to default to patch,
 so that ordinary growth never inflates a version.
 
-### Signal a larger change deliberately (todo)
+### Signal a larger change deliberately (implemented)
 
 I want a `semver: major|minor|patch` commit token to decide the bump, the largest
 token winning,
 so that a breaking or feature-level change is marked by intent, not inferred.
 
-### A stale local tag decides nothing (todo)
+### Local copies give way to the shared targets (todo)
+
+I want che-packages, go-modules and oci-images minting through `semver-next`
+and `tag-mint` rendered from prose, gaining the `semver:` token and the
+already-tagged guard their own scripts lack,
+so that one flow carries every rule here.
+
+### A stale local tag decides nothing (implemented)
 
 I want the last tag read from the remote,
 so that the minted tag follows the remote's latest, not a clone's.
 
-### Re-running on a tagged commit mints nothing (todo)
+### Re-running on a tagged commit mints nothing (implemented)
 
 I want an already-tagged HEAD to report and exit clean,
 so that a re-run never collides with an existing tag.
 
-### Minting spends no CI beyond the mint itself (todo)
+### Minting spends no CI beyond the mint itself (implemented)
 
 I want a pushed tag to start no pipeline where none is wanted, and where tag
 pipelines do run, to skip the validation the merge already passed,
 so that a release costs one job and never re-checks merged content.
 
-### Tagging is a named target, shared not copied (todo)
+### Tag pipelines skip validation everywhere (todo)
+
+I want che-packages' `validate-catalog` and oci-images' pre-commit job excluded
+from tag pipelines,
+so that a mint there re-checks nothing the merge already passed.
+
+### Tagging is a named target, shared not copied (implemented)
 
 I want the next-version and mint steps as Makefile targets over scripts authored
 once in prose and consumed at a pinned ref,
 so that the same invocation runs locally and no repo carries its own copy.
 
-### No repo gains a release it does not ship (todo)
+### No repo gains a release it does not ship (implemented)
 
 I want minting to create a tag only, never a release object,
 so that a Releases page means a shipped artifact wherever it is non-empty.
@@ -74,16 +94,21 @@ so that a Releases page means a shipped artifact wherever it is non-empty.
 
 Grants CI the reach to push a tag, no credential beyond that.
 
-### Minting identity is declared, not clicked (todo)
+### Minting identity is declared, not clicked (implemented)
 
 I want one group-level tagger identity in terraform, exposing a masked and
 protected token variable per project it must tag,
 so that adding a repo to the flow is a declared change, not a console visit.
 
-### Branch protection admits the minter (todo)
+### Branch protection admits the minter (implemented)
 
-I want each default branch's protection permitting the tagger to push tags and
-nothing further,
-so that minting works without widening what CI may do.
+I want each tagging project's protection permitting the tagger to push tags,
+so that minting works without a console visit.
+
+### The minter reaches tags and nothing further (todo)
+
+I want a `v*` tag protection admitting the tagger alone, its token scoped no
+wider,
+so that a leaked token mints tags and cannot push a branch.
 
 <!-- [<] 🤖🤖 -->

@@ -6,18 +6,18 @@
 
 Pays the GCP invoice. Wants warning before it arrives, not after.
 
-### Overspend surfaces before the invoice (todo)
+### Overspend surfaces before the invoice (implemented)
 
 I want a budget on the whole billing account, $100, notifying at half the
 amount and again at the amount,
 so that total GCP exposure across every project is visible early.
 
-### A bad trend warns while it can still be stopped (todo)
+### A bad trend warns while it can still be stopped (implemented)
 
 I want a forecasted-spend threshold alongside the actual ones,
 so that a projected month-end overrun notifies with time left to act.
 
-### Alerts land where they are read (todo)
+### Alerts land where they are read (implemented)
 
 I want an email notification channel plus the default billing-administrator
 notification,
@@ -34,7 +34,7 @@ mechanism that actually bounds spend.
 
 Applies terraform. Changes ceilings and recipients, not resource shapes.
 
-### The ceiling moves without touching code (todo)
+### The ceiling moves without touching code (implemented)
 
 I want the budget amount and alert address as terraform variables,
 so that raising the ceiling or changing the recipient is a variable value

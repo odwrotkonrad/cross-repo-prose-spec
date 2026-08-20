@@ -31,7 +31,7 @@ Owns pipeline reliability, does not own che's release cadence.
 ### Released che everywhere it belongs (implemented)
 
 I want non merge request runs to resolve the newest released `che/v*` tag
-without querying packages or merge requests,
+without querying merge requests or prereleases,
 so that main pipelines and local runs stay predictable and cheap.
 
 ### A che prerelease never reddens an unrelated pipeline (implemented)
@@ -52,7 +52,7 @@ released tag every time.
 
 I want the package list and open merge request list read unauthenticated from
 public go-modules,
-so that no token is plumbed into the job.
+so that the lookup needs no token.
 
 ## As a developer
 
@@ -67,7 +67,13 @@ so that a local build is never clobbered mid session.
 ### A surprising result is diagnosable from the log alone (implemented)
 
 I want the chosen version logged with its reason, naming the merge request for
-a prerelease and the cause whenever a prerelease was skipped,
+a prerelease,
 so that no rerun is needed to explain the version installed.
+
+### A skipped prerelease names its cause (todo)
+
+I want the skip line naming whether the merge request list failed, the package
+list failed or no open merge request had a prerelease,
+so that a fallback is explained without rerunning the job.
 
 <!-- [<] 🤖🤖 -->

@@ -12,10 +12,16 @@ MR.
 
 Commits locally and opens merge requests. Configures no hooks.
 
-### A commit waits only on the files it touched (todo)
+### A commit waits only on the files it touched (implemented)
 
 I want pre-commit hooks run over the staged files alone,
 so that untouched files cost the commit no time.
+
+### che-packages gets the pre-commit job (todo)
+
+I want che-packages carrying the hooks, the `repo-ci-precommit-all` target and
+the validate job,
+so that its merge requests are checked like every other repo's.
 
 ### A whole-repo sweep is available without leaving the MR (todo)
 
@@ -38,12 +44,19 @@ pipeline.
 
 Wires the scopes into pipelines and hooks. Duplicates no hook config per repo.
 
-### The default branch spends no time re-checking merged content (todo)
+### The default branch spends no time re-checking merged content (implemented)
 
 I want no pre-commit job created on default-branch pipelines,
 so that CI pays only where the check can still find something.
 
-### Scopes are named Makefile targets (todo)
+### Every default branch skips the sweep (todo)
+
+I want prose, notes, control, resume-md-pdf, oci-images and sandbox gating
+their pre-commit job on merge request pipelines, as configs, go-modules and iac
+do,
+so that no main pipeline re-runs a check its MR already passed.
+
+### Scopes are named Makefile targets (implemented)
 
 I want CI and git hooks calling a target naming the scope, never a raw lefthook
 command,

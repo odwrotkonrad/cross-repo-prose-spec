@@ -29,10 +29,17 @@ so that I can review it at a glance.
 
 ### Take safe updates unattended and hold breaking ones (implemented)
 
-I want patch and minor regen MRs to auto-merge on green CI while major bumps
-wait,
+I want pin-bumping regen MRs to auto-merge on green CI for patch and minor
+while major bumps wait,
 so that routine churn never reaches my review queue and breaking changes always
 do.
+
+### A major release holds content-only regens too (todo)
+
+I want the trigger forwarding the previous tag and content-only regens deriving
+their bump from it instead of assuming patch,
+so that a breaking prose release waits for review in every consumer, not only
+where the pin lives.
 
 ### Block propagation on a red pipeline instead of shipping a break (implemented)
 

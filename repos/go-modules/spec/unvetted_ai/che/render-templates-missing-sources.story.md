@@ -64,7 +64,7 @@ I want a body line starting with `@` and carrying whitespace left as content
 with no missing-source error,
 so that writing about an `@` handle does not break a render.
 
-### A broken include never mistaken for work already done (tested)
+### A broken include never mistaken for work already done (implemented)
 
 I want a dest whose render would fail on a missing `@`-include reported as
 unsettled,

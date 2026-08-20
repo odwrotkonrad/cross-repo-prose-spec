@@ -17,50 +17,67 @@ pay for it.
 
 Owns each repo's `.gitlab-ci.yml`. Declares which jobs may be killed.
 
-### Superseded pipelines stop burning minutes at once (todo)
+### Superseded pipelines stop burning minutes at once (implemented)
 
 I want a new commit on a branch to cancel the running pipeline's cancellable
 jobs immediately,
 so that their pods release nodes instead of producing a result for a commit
 nobody will merge.
 
-### Cancellability declared once per repo (todo)
+### Cancellability declared once per repo (implemented)
 
 I want interruptibility set in the existing `default:` block beside shared tags
 and retry rules,
 so that every job inherits it and an exception is an explicit visible override.
 
-### Both halves are required (todo)
+### No repo is left paying for superseded pipelines (todo)
+
+I want che-packages, control and prose carrying the same `default:` line, their
+release and trigger jobs exempted,
+so that their superseded pipelines are cancelled like every other repo's.
+
+### Both halves are required (implemented)
 
 I want the project setting and job-level interruptible declared together,
 so that nobody enables the setting alone and gets zero saving because GitLab
 cancels only jobs marked cancellable.
 
-### Terraform is never killed holding the state lock (todo)
+### Terraform is never killed holding the state lock (implemented)
 
 I want terraform jobs exempt from cancellation and run to completion,
 so that no later pipeline blocks on a lock left held with no owner, waiting for
 a hand force-unlock.
 
-### A release is never left half-published (todo)
+### A release is never left half-published (implemented)
 
-I want release, tag and registry-publish jobs to finish rather than cancel,
-so that no partially pushed image, tag or package is left behind.
+I want go-modules' release and publish jobs and oci-images' release to finish
+rather than cancel,
+so that no partially pushed package, tag or apt tree is left behind.
 
-### Exemptions are stated, not discovered (todo)
+### A tag mint or image push is never cut halfway (todo)
+
+I want `tag-mint` in configs, notes and resume-md-pdf and the pushing image
+builds in oci-images exempt too,
+so that no half-moved tag or partially pushed manifest is left behind.
+
+### Exemptions are stated, not discovered (implemented)
 
 I want the uncancellable set to cover only jobs with an external side effect,
-each saying so at the job,
-so that a reader sees why a job is exempt without inferring it, tests, lint,
-validate and build staying cancellable where the saving is.
+so that tests, lint, validate and build stay cancellable where the saving is.
 
-### An exempt job still stops before it starts (todo)
+### Every exemption says why at the job (todo)
+
+I want iac's `plan` and `apply`, oci-images' `trigger-control-regen` and each
+go-modules release job stating its side effect where the exemption is declared,
+so that a reader never infers why a job is exempt.
+
+### An exempt job still stops before it starts (implemented)
 
 I want protection to apply to work in progress, not work not yet begun,
 so that an exempt job in an already-superseded pipeline may be skipped before
 it acquires a lock or pushes anything.
 
-### Cancellation does not consume the retry budget (todo)
+### Cancellation does not consume the retry budget (implemented)
 
 I want a cancelled job treated as cancelled, not failed,
 so that it is not retried and the retry budget stays reserved for genuine
@@ -71,13 +88,13 @@ infrastructure faults.
 Applies the terraform module that creates every project. Does not touch repos
 one by one.
 
-### The setting is applied in one place (todo)
+### The setting is applied in one place (implemented)
 
 I want auto-cancel applied by the single project module,
 so that every project carries it without declaring it and a new repo inherits
 it on creation.
 
-### Peak node count falls without lowering a cap (todo)
+### Peak node count falls without lowering a cap (implemented)
 
 I want cancellation in force during rapid pushes, when the pools are scaled
 furthest up,
