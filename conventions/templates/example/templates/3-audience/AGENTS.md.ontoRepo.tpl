@@ -4,7 +4,7 @@ Example repo for the templates convention.
 
 @assets/docs-agents/purpose.md
 
-{{ remoteFile "gitlab.com/konradodwrot/prose//conventions/comments/convention.md?ref=v1.0.0" }}
+{{ remoteFile (printf "gitlab.com/konradodwrot/prose//conventions/comments/convention.md?ref=%s" (env.Getenv "PROSE_REF")) }}
 
 @assets/data/makefile.agents.md
 
