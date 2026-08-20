@@ -3,7 +3,7 @@ ontoRepo:
     autoDiscover: true
   include:
     renderTemplates:
-      - source: templates/1-env/local.env.ontoRepo.tpl
+      - source: .env.tpl
         dest:
           - path: .env
             options:

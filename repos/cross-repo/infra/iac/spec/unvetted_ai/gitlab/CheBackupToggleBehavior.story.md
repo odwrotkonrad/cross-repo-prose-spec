@@ -59,9 +59,9 @@ I want the value declared as a group variable in this repo, never clicked into
 the UI,
 so that what CI runs with is reviewable and changing it is a merge request.
 
-### The prefix says where the value comes from (todo)
+### The prefix says where the value comes from (implemented)
 
-I want the group-scoped name carrying the `GRP_VAR_` prefix and each pipeline
+I want the group-scoped name carrying the `GRP_KO_VAR_` prefix and each pipeline
 assigning it to the name che reads,
 so that a reader at the point of use knows which scope defined it and where to
 change it.
