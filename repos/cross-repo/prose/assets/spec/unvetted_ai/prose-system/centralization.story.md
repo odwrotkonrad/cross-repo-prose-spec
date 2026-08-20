@@ -50,10 +50,15 @@ so that the only checked-in source of their content is prose.
 I want prose to render the join itself,
 so that I place the artifact instead of re-assembling its pieces.
 
-### Get the workspace repo index generated, never checked in (todo)
+### Get the workspace repo index generated, never checked in (implemented)
 
-I want the index derived from prose's repos tree without a clone sweep,
-so that no repo carries a stale copy and local worktrees refresh it like any
-other generated output.
+I want the index generated into the workspace dir, outside any repo,
+so that no repo carries a stale copy.
+
+### Derive the index from prose's repos tree (todo)
+
+I want the index read from `repos/<repo-path>/purpose.md` in prose instead of a
+clone sweep,
+so that local worktrees refresh it like any other generated output.
 
 <!-- [<] 🤖🤖 -->

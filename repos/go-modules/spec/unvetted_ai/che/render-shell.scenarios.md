@@ -2,7 +2,7 @@
 
 <!-- [>] 🤖🤖🤖 -->
 
-Scenario: a command's stdout renders into the template (tested)
+Scenario: a command's stdout renders into the template (implemented)
   Given a template with `{{ shell "printf '%s' \"$NAME\"" }}`
   And the profile declares `env: {NAME: x}`
   When I invoke `che render-templates`

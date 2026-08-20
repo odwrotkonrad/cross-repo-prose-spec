@@ -19,17 +19,22 @@ I want the installation method's normal stdout suppressed at
 print,
 so that the run reads as che's log, not apt's.
 
-### A failing method's output always visible (implemented)
+### A failing method's output always visible (tested)
 
 I want a non-0 installation method to print its captured output with the error
 at any log level and any `--silence-install-stdout` value,
 so that a failure is attributable without a rerun at debug.
 
-### A failing install script naming its reason (todo)
+### A failing install script naming its reason (implemented)
 
-I want a script installer's stderr printed with the failure rather than only
-`<pkg>: install script: exit status <n>`,
+I want a script installer's stderr printed with the failure,
 so that the cause is in the first run's output.
+
+### A script failure's error line carrying the reason (todo)
+
+I want the `<pkg>: install script: exit status <n>` error to carry the script's
+stderr rather than the bare exit status,
+so that the reason survives where only the error line is read.
 
 ### Full method output on demand (tested)
 

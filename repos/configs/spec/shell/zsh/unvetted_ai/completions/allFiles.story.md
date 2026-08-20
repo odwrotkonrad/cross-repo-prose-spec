@@ -18,8 +18,9 @@ so that a sibling or a grandchild is one TAB away, not a typed path.
 
 I want a slash-anchored prefix (`/dir/`, `~/`, `~name/`) listing `<base>/*`,
 `<base>/*/*`, `<base>/*/*/*`, omitting the relative-up and `~*` levels, the
-query after the last `/` fuzzy-matching, an absolute prefix inserting the
-absolute path and a `~` prefix listing and inserting in `~` form,
+query after the last `/` fuzzy-matching, an absolute prefix listing and
+inserting the path shortened to `~` or `~name` where `$HOME` or a named dir
+covers it, and a `~` prefix listing and inserting in `~` form,
 so that an anchored request never drags in results from elsewhere.
 
 ### A single fragment finds a segment at any depth (implemented)

@@ -28,11 +28,18 @@ I want profile sources, renderTemplates sources and `remoteFile` to accept the
 same `@<ref>` suffix,
 so that pinning is one thing to learn.
 
-### Two pins of one repo coexisting in a run (todo)
+### Two pins of one repo coexisting in a run (implemented)
 
-I want two sources of the same repo pinned to different refs to resolve from
-their own checkouts, neither overwriting the other's working tree,
+I want two renderTemplates or `remoteFile` sources of the same repo pinned to
+different refs to resolve from their own checkouts, neither overwriting the
+other's working tree,
 so that a staged migration can pin one consumer ahead of another.
+
+### Two profile sources of one repo pinned apart (todo)
+
+I want two profile sources of the same repo pinned to different refs checked
+out separately, neither resetting the other's working tree,
+so that a staged migration can pin one included profile ahead of another.
 
 ### One leaf pinning apart from its neighbours, unambiguously (todo)
 
@@ -57,16 +64,29 @@ Runs che where the network is unreliable. Reads failures, does not edit specs.
 I want an already-fetched pinned source reused from cache without fetching,
 so that a pinned host converges offline.
 
-### An unresolvable pin failing loudly (todo)
+### An unresolvable pin failing loudly (tested)
 
-I want a ref that does not exist upstream to abort the run naming the source and
-the ref, with no stale cached checkout substituted,
+I want a renderTemplates or `remoteFile` ref that does not exist upstream to
+fail the run naming the source and the ref, with no stale cached checkout
+substituted,
 so that a bad pin is never papered over with old content.
 
-### An unpinned source keeping its resilient update behavior (todo)
+### An unresolvable profile pin failing loudly (todo)
 
-I want a failed fetch on an unpinned source with a cached checkout to warn and
-proceed on the cache,
+I want a profile source pinned to a ref that does not exist upstream to abort
+the run naming the source and the ref, with no cached checkout substituted,
+so that a bad profile pin is never papered over with old content.
+
+### An unpinned source keeping its resilient update behavior (tested)
+
+I want a failed fetch on an unpinned profile source with a cached checkout to
+warn and proceed on the cache,
 so that tracking HEAD stays tolerant of a flaky remote.
+
+### An unpinned template source surviving a flaky remote (todo)
+
+I want a failed fetch on an unpinned renderTemplates or `remoteFile` source
+with a cached checkout to warn and render from the cache,
+so that every unpinned source kind tolerates a flaky remote alike.
 
 <!-- [<] 🤖🤖 -->

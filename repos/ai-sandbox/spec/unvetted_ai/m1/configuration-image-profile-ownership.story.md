@@ -6,13 +6,13 @@
 
 Owns the image's profile declaration. Does not author the configs profiles.
 
-### One file says what the image is made of (todo)
+### One file says what the image is made of (tested)
 
 I want the sandbox repo's configuration-image che profile naming the profiles
 the image is built from,
 so that the image's contents are read in one place.
 
-### Configs stays upstream, never forked (todo)
+### Configs stays upstream, never forked (tested)
 
 I want those sources resolving to the configs repo as a remote, with no copy of
 a configs profile in the sandbox repo,

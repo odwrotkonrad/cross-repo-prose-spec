@@ -18,8 +18,13 @@ Scenario: flags and arguments survive the move unchanged (implemented)
   Given an invocation that worked against a standalone render binary
   When the same flags and arguments are passed to the matching `che render` subcommand
   Then the output is byte-identical
-  And `-f`, `--check` and `--version` behave as they did
+  And `-f` and `--check` behave as they did
   And a template reading paths in frontmatter, `readBody` or `renderDirsTree` still resolves them against the cwd
+
+Scenario: a render subcommand answers --version as the standalone binary did (todo)
+  When `--version` is passed to a `che render` subcommand
+  Then the version prints as the standalone binary printed it
+  And the invocation does not fail as an invalid argument
 
 Scenario: the check mode that guards generated docs keeps working (implemented)
   Given a lefthook or CI step that ran a render binary with `--check` to catch stale generated files

@@ -30,7 +30,7 @@ state without touching the registry, `--force` to re-check immediately, and an
 already-cached latest version to refresh the check stamp and report up to date,
 so that running update often costs nothing.
 
-### An update check that never breaks offline installs (todo)
+### An update check that never breaks offline installs (tested)
 
 I want `packages.autoUpdate.enabled` (default true, env
 `CHE_PACKAGES_AUTO_UPDATE`) to run the update flow once per che execution,

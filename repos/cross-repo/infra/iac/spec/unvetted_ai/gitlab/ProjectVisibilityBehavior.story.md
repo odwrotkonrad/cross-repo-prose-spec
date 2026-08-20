@@ -16,7 +16,7 @@ so that making a repo private is a single-line edit, never a UI click.
 I want the same value to drive the GitLab project and its GitHub mirror,
 so that a private repo is never publicly readable on the mirror.
 
-### Notes carries context privately (todo)
+### Notes carries context privately (implemented)
 
 I want the notes project private,
 so that cross-session context can be written without it being world-readable.

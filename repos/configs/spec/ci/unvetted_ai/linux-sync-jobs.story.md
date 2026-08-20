@@ -21,7 +21,8 @@ the pipeline instead of reaching a host.
 
 ### One image tag serves both architectures (implemented)
 
-I want every linux job pulling the `ci-linux:latest` multi-arch manifest,
+I want every linux job pulling the `ci-linux:$CI_IMAGES_REF` multi-arch
+manifest,
 so that no arch-specific image variable exists to drift.
 
 ## As a CI maintainer
@@ -37,8 +38,8 @@ so that one edit changes both jobs.
 ### The two platform pairs read alike (implemented)
 
 I want the linux pair and the macos pair each built from one base carrying its
-script, environment and gating, differing only by dry-run toggle, stage, needs
-and draft gate,
+script and environment, differing only by dry-run toggle, stage, needs, gating
+and, on macos, the profile set,
 so that a reader who knows one pair knows the other.
 
 ### A dry run never reaches into the secret vault (implemented)

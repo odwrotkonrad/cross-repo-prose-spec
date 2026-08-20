@@ -43,10 +43,16 @@ source `nvm.sh` from the directory that install wrote it to, and install the
 package rather than failing on a missing `nvm.sh`,
 so that a pipeline is not architecture-dependent for the same package.
 
-### An install that already happened recognised as such (todo)
+### An install that already happened recognised as such (tested)
 
-I want `validateArtifact` to see the file an earlier step of the same run wrote,
-skip the install and say so, rather than installing a second time in silence,
+I want `validateArtifact` to skip the install and say so when its file is
+present,
+so that a rerun never installs a second time.
+
+### A second install of one package within one run impossible (todo)
+
+I want the artifact probe to see the file an earlier step of the same run wrote,
+in CI as locally, rather than installing again in silence,
 so that a duplicate install is impossible and visible if attempted.
 
 ### A CI failure reproducible by hand (todo)

@@ -23,7 +23,7 @@ reads.
 
 Waits on merge-request feedback. Configures no cache.
 
-### Unit results arrive without recompiling the world (todo)
+### Unit results arrive without recompiling the world (implemented)
 
 I want `test-unit-che` to restore a populated `GOCACHE` from a reachable
 distributed cache,
@@ -39,7 +39,7 @@ I want every `cache:` block to name `.cache/go-build` alone, never source,
 credentials, artifacts, test results or downloads,
 so that everything cached is recreatable by recompiling.
 
-### The warming job actually fills what later jobs read (todo)
+### The warming job actually fills what later jobs read (implemented)
 
 I want `warm-go` to push under the key `test-unit-che` restores, with no `pull`
 job left waiting on a same-pipeline pusher,
@@ -87,7 +87,7 @@ I want merge-request jobs writing distinctly prefixed cache keys no tag job
 restores, splitting `prerelease-*-che` from `goreleaser-*-che`,
 so that an untrusted branch has no path into a published artifact.
 
-### The boundary is provable by reading the CI file (implemented)
+### The boundary is provable by reading the CI file (todo)
 
 I want every unprefixed `pull-push` build-cache key confined to tag-only jobs,
 so that grepping the pipeline definition shows the separation without running

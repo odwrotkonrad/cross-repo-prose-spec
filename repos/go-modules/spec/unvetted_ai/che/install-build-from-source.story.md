@@ -58,7 +58,7 @@ so that ruby tooling works on a host with no ruby package.
 
 Writes package entries. Declares intent, does not implement drivers.
 
-### One checksum guarding the platform-independent tarball (tested)
+### One checksum guarding the platform-independent tarball (implemented)
 
 I want `checksum: sha256:<hex>` enforced against the download, a mismatch
 aborting, an absent checksum installing with an `unverified` warning, and

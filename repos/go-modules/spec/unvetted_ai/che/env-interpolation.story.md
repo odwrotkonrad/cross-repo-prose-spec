@@ -58,7 +58,7 @@ the spec, each var and its YAML path (`/web/include/makeLinks/0`), and the
 three ways out (export it, add `|| default`, set `options.envUnset: empty`),
 so that one run reveals the full list, not one var per attempt.
 
-### Only the profiles that run demand their vars (tested)
+### Only the profiles that run demand their vars (implemented)
 
 I want an unset bare ref to fail only when it sits in a profile selected for
 the current run (by `--profiles`, auto-discovery, a sourced ref), a profile
@@ -116,7 +116,7 @@ against its own `env:` block plus its ref's overlay, through the one load
 path every spec takes,
 so that a remote profile's requirements bind exactly like local ones.
 
-### Discover reports what the tree requires (tested)
+### Discover reports what the tree requires (implemented)
 
 I want `che discover` to list, per spec including remote ones, every
 `${{ env.* }}` ref, its default if any, and whether it is currently set,

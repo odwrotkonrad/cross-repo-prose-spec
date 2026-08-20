@@ -6,23 +6,28 @@
 
 Works in the session with the tools they know. Does not install them.
 
-### The agents the sandbox exists to run are there (todo)
+### The agents the sandbox exists to run are there (implemented)
 
 I want claude and codex both running in a session booted from the configuration
 image,
 so that a session is useful the moment it starts.
 
-### The shell, terminal and editor behave as on the host (todo)
+### The shell, terminal and editor behave as on the host (implemented)
 
 I want zsh, tmux and vim running configured as they are on the host,
 so that muscle memory carries into the sandbox.
 
-### Every workspace repo builds without setup (todo)
+### Every workspace repo builds without setup (implemented)
 
-I want go, python, ruby and node present,
+I want go, python and ruby present,
 so that no session begins with a toolchain install.
 
-### GCP is reachable from the shell (todo)
+### The js repos build like the rest (todo)
+
+I want node present,
+so that no session begins with an nvm install.
+
+### GCP is reachable from the shell (implemented)
 
 I want gcloud present,
 so that the session can use the identity it holds.
@@ -31,12 +36,17 @@ so that the session can use the identity it holds.
 
 Decides which profiles the image carries. Does not use the tools day to day.
 
-### The dev profile tree lands whole (todo)
+### The dev profile tree lands whole (implemented)
 
-I want every profile under the configs dev tree applied at image build,
-so that the image tracks the profile tree rather than a hand-kept list.
+I want the configs dev virt linux profile applied at image build,
+so that the image tracks configs rather than a hand-kept list.
 
-### The heavy profiles stay out (todo)
+### No dev profile is left behind (todo)
+
+I want js/node and editors/vscode applied with the rest of the dev tree,
+so that the tree and the image never disagree.
+
+### The heavy profiles stay out (implemented)
 
 I want neither ollama nor observability applied,
 so that the image stays small and the sandbox stays a workstation.

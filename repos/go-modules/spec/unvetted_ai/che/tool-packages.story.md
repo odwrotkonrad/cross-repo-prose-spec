@@ -24,7 +24,7 @@ parse error listing the known tools, overrides merging per tool entry and
 `che packages config --delta` diffing per tool entry,
 so that a tool's packages are declared where PATH packages are.
 
-### An unversionable tool rejecting pins instead of ignoring them (tested)
+### An unversionable tool rejecting pins instead of ignoring them (implemented)
 
 I want a non-empty pin on a `toolPackages.gcloud` package, or a profile ref
 pinning one via `{name, version}`, to error naming the tool and the package, the
@@ -36,7 +36,7 @@ so that a pin that cannot be honored is refused, not dropped.
 
 Selects tool packages in profiles. Owns which land on a host, not how.
 
-### Tool packages installed next to regular packages (tested)
+### Tool packages installed next to regular packages (implemented)
 
 I want `installToolPackages: {vscode: [name, {name, version}]}` installed by the
 install-packages op after the profile's regular packages, included profiles
@@ -59,7 +59,7 @@ so that a cluster prerequisite is part of the declared host.
 
 Runs the installs and reads what happens when a tool is missing or crippled.
 
-### Tool packages installed directly via --kind (tested)
+### Tool packages installed directly via --kind (implemented)
 
 I want `che packages install --kind=vscode <name...>` to resolve each name in
 `toolPackages.vscode` (an unknown name a hard error naming the file), skip a
@@ -76,7 +76,7 @@ pipeline, and the tool's packages skipped with a warning rather than an error
 when the tool command is still absent,
 so that a headless host does not fail a run over an editor it does not have.
 
-### An SDK without a component manager warning instead of failing (tested)
+### An SDK without a component manager warning instead of failing (todo)
 
 I want gcloud tool packages installed under an SDK whose package manager
 disables component management to skip with a warning and let the run continue,

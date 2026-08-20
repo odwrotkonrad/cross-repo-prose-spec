@@ -102,7 +102,7 @@ I want an os-mutating op invoked outside `run` to archive its own dests before
 mutating, while automatic backup stays on,
 so that skipping the wrapper never skips protection.
 
-### Disposable hosts pay nothing for a recovery point they will never use (todo)
+### Disposable hosts pay nothing for a recovery point they will never use (tested)
 
 I want `backup.autoCreate.enabled: false` (`--backup-auto-create=false`,
 `CHE_BACKUP_AUTO_CREATE`) to silence both automatic paths, the `run` stage and a
@@ -110,7 +110,7 @@ direct op's own archiving, default true,
 so that a throwaway CI container skips work whose only product is thrown away
 with it.
 
-### An explicit snapshot ignores the automatic switch (todo)
+### An explicit snapshot ignores the automatic switch (tested)
 
 I want `backup create` to archive even with `backup.autoCreate.enabled: false`,
 so that turning off automatic protection never disarms the command whose whole

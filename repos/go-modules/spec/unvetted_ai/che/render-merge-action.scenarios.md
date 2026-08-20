@@ -14,13 +14,13 @@ Scenario: keepIfExisting keeps the existing key (tested)
   When I invoke `che render-templates`
   Then `.env` holds `REF=old`
 
-Scenario: an unpiped secret value overwrites the existing key (tested)
+Scenario: an unpiped secret value overwrites the existing key (implemented)
   Given a dest `.env` holding `TOKEN=old`
   And a template line `TOKEN={{ secret "op://v/i/f" }}` resolving to `new`
   When I invoke `che render-templates`
   Then `.env` holds `TOKEN=new`
 
-Scenario: keepIfExisting keeps a secret's existing key (tested)
+Scenario: keepIfExisting keeps a secret's existing key (implemented)
   Given a dest `.env` holding `TOKEN=old`
   And a template line `TOKEN={{ secret "op://v/i/f" | keepIfExisting }}` resolving to `new`
   When I invoke `che render-templates`

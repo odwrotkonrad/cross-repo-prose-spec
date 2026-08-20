@@ -20,10 +20,15 @@ so that the right window is found without cycling through them.
 
 ### The waiting pane is pinpointed among many (implemented)
 
-I want Stop and Notification hooks setting `@claude_attention` so the pane
-border shows a claude badge via `pane-border-format`, cleared by the
-UserPromptSubmit hook,
-so that a window holding several claudes still names the one that stopped.
+I want Stop and Notification hooks setting `@claude_attention` on the pane,
+cleared by the UserPromptSubmit hook,
+so that a window holding several claudes still marks the one that stopped.
+
+### The waiting pane wears a visible badge (todo)
+
+I want `pane-border-format` rendering a claude badge while `@claude_attention`
+is set,
+so that the marked pane is found by eye, not by querying tmux.
 
 ### A user away from the terminal still gets told (implemented)
 

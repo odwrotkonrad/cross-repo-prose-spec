@@ -26,26 +26,26 @@ Companion spec: [the catalog repo](own-repo.story.md).
 
 Edits `packages.yml` and its install scripts. Writes no Go, owns no schema.
 
-### Naming the platform a package is proven on (todo)
+### Naming the platform a package is proven on (implemented)
 
 I want `TARGET_OS` and `TARGET_ARCH` to select the platform together, each
 naming exactly one,
 so that asking for a platform never means "some platforms" and never silently
 means linux.
 
-### Proving one package on the arch that broke it (todo)
+### Proving one package on the arch that broke it (implemented)
 
 I want to select a package and an architecture and get that install and its
 verify commands in a fresh container,
 so that reproducing an arm64-only failure costs no pipeline.
 
-### An unproven platform saying so (todo)
+### An unproven platform saying so (implemented)
 
 I want a platform with no virtualisation engine wired to fail naming itself,
 never falling through to another platform's engine,
 so that a darwin request cannot pass by having run on linux.
 
-### The host's own platform as the default (todo)
+### The host's own platform as the default (implemented)
 
 I want an unset `TARGET_OS` to mean the host che-packages is running on,
 so that the common local case needs no variable at all.
@@ -55,16 +55,20 @@ so that the common local case needs no variable at all.
 Owns the install matrix and its runner cost. Owns neither catalog content nor
 che's installer code.
 
-### CI and a local run being the same command (todo)
+### CI and a local run being the same command (implemented)
 
 I want matrix jobs to invoke the same make target with the same two variables,
 carrying no test logic of their own,
 so that a green pipeline and a green local run prove the same thing.
 
-### The matrix still generated from the catalog (todo)
+### The matrix still generated from the catalog (implemented)
 
-I want the per-package jobs to keep following `packages.yml`, with drift failing
-the docs-generation check,
+I want the per-package jobs to keep following `packages.yml`,
 so that adding the os axis does not reintroduce a hand-listed job set.
+
+### Matrix drift fails before merge (todo)
+
+I want a stale rendered matrix to fail the docs-generation check,
+so that a catalog edit never merges with a job set behind it.
 
 <!-- [<] 🤖🤖 -->

@@ -2,7 +2,7 @@
 
 <!-- [>] 🤖🤖 -->
 
-Scenario: a user installs tool packages directly via --kind (tested)
+Scenario: a user installs tool packages directly via --kind (implemented)
   When I run `che packages install --kind=vscode <name...>`
   Then each name resolves in `toolPackages.vscode` (an unknown name is a hard error naming the file)
   And a present package with a matching pin skips, a drifted pin reinstalls, `--update` refreshes unpinned ones
@@ -16,7 +16,7 @@ Scenario: a GKE user gets gcloud components declared, not hand-installed (tested
   And presence comes from `gcloud components list`, an id whose state is not `Not Installed` counting as installed
   And a second run reports it already installed and runs nothing
 
-Scenario: an unversionable tool rejects pins instead of ignoring them (tested)
+Scenario: an unversionable tool rejects pins instead of ignoring them (implemented)
   Given gcloud components carry no version of their own, every one tracking the installed SDK version
   When `toolPackages.gcloud` gives a package a non-empty pin, or a profile ref pins one via `{name, version}`
   Then che errors naming the tool and the package, saying the pin does not belong

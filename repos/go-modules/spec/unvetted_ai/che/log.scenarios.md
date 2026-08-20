@@ -25,7 +25,7 @@ Scenario: severity prefixes grep-filter, info lines stay unprefixed (tested)
   And a trace line starts with `[trace] `
   And an info line carries no level prefix
 
-Scenario: config show defaults to changed options, with sources (tested)
+Scenario: config show defaults to changed options, with sources (implemented)
   When I invoke `che config show` or `che config show --delta`
   Then the output lists the config options differing from defaults, with sources
   And --delta is the default mode
@@ -34,19 +34,19 @@ Scenario: --all lists every config option, value and source (tested)
   When I invoke `che config show --all`
   Then the output lists every config option with its value and source
 
-Scenario: --defaults prints a default config straight from che (tested)
+Scenario: --defaults prints a default config straight from che (implemented)
   When I invoke `che config show --defaults`
   Then every option prints with its code default, configured values ignored
   And `--defaults` is mutually exclusive with `--delta` and `--all`
 
-Scenario: --output=yaml seeds a config.yml from any show mode (tested)
+Scenario: --output=yaml seeds a config.yml from any show mode (implemented)
   When I invoke `che config show [--all|--defaults] --output=yaml`
   Then the options print as nested YAML in the config-file shape (`packages.binary.checkInPath` -> `packages: {binary: {checkInPath: ...}}`), in config order
   And bools and lists keep their types, flag-only options (cheWorkingDirectory, skipRunIf, errexit, packages.override) are omitted
   And the output round-trips: saved as `$XDG_CONFIG_HOME/che/config.yml` it resolves without error
   And `--output=text` (the default) keeps the `key = value  (source)` lines
 
-Scenario: config show output pipes clean, no summary line (tested)
+Scenario: config show output pipes clean, no summary line (implemented)
   When I invoke `che config show` in any mode
   Then the output holds only the per-option lines
   And no `config delta ...` summary line precedes them

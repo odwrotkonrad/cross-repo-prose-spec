@@ -31,10 +31,16 @@ so that a host with che can render.
 ### Flags and arguments surviving the move (implemented)
 
 I want an invocation that worked against a standalone binary to produce
-byte-identical output under the matching subcommand, `-f`, `--check` and
-`--version` behaving as before and templates reading paths in frontmatter,
-`readBody` or `renderDirsTree` still resolving against the cwd,
+byte-identical output under the matching subcommand, `-f` and `--check`
+behaving as before and templates reading paths in frontmatter, `readBody` or
+`renderDirsTree` still resolving against the cwd,
 so that migrating is a command-name change and nothing else.
+
+### The version flag answered under each render subcommand (todo)
+
+I want `che render <sub> --version` to print the version as the standalone
+binary did instead of failing on an invalid argument,
+so that a version probe in a script survives the move.
 
 ### The check mode guarding generated docs still working (implemented)
 

@@ -27,7 +27,7 @@ embedding that exact version, two builds of one commit embedding byte-identical
 data and a newer catalog release changing nothing an unchanged commit builds,
 so that a build is reproducible from its commit alone.
 
-### Taking a newer catalog as a reviewable change (implemented)
+### Taking a newer catalog as a reviewable change (todo)
 
 I want a raised pin visible in this repo's history as an edit to the pin, the
 pipeline running on it testing che against the catalog it will ship,
@@ -38,19 +38,19 @@ so that a catalog move is reviewed like any other change.
 Installs packages with che on a real host. Does not know where the catalog
 lives.
 
-### A fresh host installing with no network round-trip (implemented)
+### A fresh host installing with no network round-trip (tested)
 
 I want the embedded catalog to serve the definitions for `che packages install`
 with no fetch from the catalog repo required,
 so that a freshly installed che works offline.
 
-### The fetched catalog outranking the embedded one (implemented)
+### The fetched catalog outranking the embedded one (tested)
 
 I want a catalog cached by `che packages update` used over the embedded one, an
 explicitly passed packages file superseding both,
 so that updating definitions takes effect without rebuilding che.
 
-### Update looking where the catalog now lives (implemented)
+### Update looking where the catalog now lives (tested)
 
 I want `che packages update` to resolve versions against the
 `konradodwrot/che-packages` package registry, a fetch failure warning and

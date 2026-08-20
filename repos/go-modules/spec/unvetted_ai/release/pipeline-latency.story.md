@@ -37,9 +37,13 @@ pipeline.
 ### e2e jobs stop waiting eleven minutes for nine seconds of work (implemented)
 
 I want `test-e2e-che-{dryrun,run,backup}` still gated on `warm-go`, which they
-genuinely consume, but reached sooner once it sheds unused work, with
-`test-e2e-che-registry` waiting on nothing,
+genuinely consume, but reached sooner once it sheds unused work,
 so that the wait matches the dependency.
+
+### The registry sweep starts with the unit jobs (todo)
+
+I want `test-e2e-che-registry` linking its own harness and needing no job,
+so that an upstream-name check never queues behind a build it can do without.
 
 ### A prerelease arrives sooner without loosening its gates (implemented)
 

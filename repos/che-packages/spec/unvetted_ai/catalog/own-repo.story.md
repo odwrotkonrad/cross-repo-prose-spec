@@ -45,9 +45,13 @@ so that a dead entry is caught by a job costing no container.
 
 ### Vocabulary never outruns the che that must read it (implemented)
 
-I want validation to fail naming the unknown term and the che version rejecting
-it,
+I want validation to fail naming the unknown term,
 so that the fix is obvious: release che first, then raise the pin.
+
+### The failure names the che that rejected it (todo)
+
+I want a vocabulary failure to name the che version whose schema rejected it,
+so that the pin to raise is read off the failure, not worked out.
 
 ### One package is provable locally before a push (implemented)
 
@@ -56,7 +60,7 @@ fresh container,
 so that I get the failing install and verify commands without burning a
 pipeline.
 
-### A trigger can be narrowed to one method (todo)
+### A trigger can be narrowed to one method (implemented)
 
 I want a method variable set when triggering a manual per-package job,
 so that I retry one broken method instead of the entry's whole set.
@@ -77,7 +81,7 @@ so that a vocabulary change in che takes effect with no edit in the catalog.
 Owns the install matrix and its runner cost. Owns neither catalog content nor
 che's installer code.
 
-### Every install method is proven on every merge request (implemented)
+### Every install method is proven on every merge request (todo)
 
 I want the first N packages of each method (N configurable, default 2) to
 install for real on both arches,
@@ -108,9 +112,13 @@ so that arm64 results are real, with no emulation, macOS runner or local VM.
 
 ### The matrix follows the catalog with no pipeline edit (implemented)
 
-I want one job per package per architecture generated from `packages.yml`, with
-drift failing the docs-generation check,
+I want one job per package per architecture generated from `packages.yml`,
 so that a hand-listed job set can never fall behind the catalog.
+
+### Matrix drift fails before merge (todo)
+
+I want a stale rendered matrix to fail the docs-generation check,
+so that a catalog edit never merges with a job set behind it.
 
 ### The matrix never starves other repos' runners (implemented)
 
@@ -128,22 +136,27 @@ I want the artifact to hold `packages.yml` plus the `scripts/` tree its `script`
 entries reference,
 so that unpacking one file is enough to install.
 
-### An exact version stays fetchable forever (todo)
+### An exact version stays fetchable forever (implemented)
 
 I want each tag to publish a versioned tarball and sha256 to the package
 registry, linked as release assets,
 so that a pinned build resolves the same bytes after later releases.
 
-### A newer catalog arrives without a new che (todo)
+### A newer catalog arrives without a new che (implemented)
 
 I want the moving `latest` alias and its version marker to resolve to the newest
 release, fetched by `che packages update` and preferred over the embedded copy,
 so that catalog fixes ship without a binary upgrade.
 
-### A che upgrade also carries the newer catalog (todo)
+### A che upgrade also carries the newer catalog (implemented)
 
-I want a catalog release to trigger a downstream re-vendor and re-release of
-che,
+I want a catalog release to raise che's catalog pin and offer a downstream
+re-vendor,
+so that the next che release embeds the newer catalog.
+
+### A catalog release alone ships a new che (todo)
+
+I want the raised pin to re-release che with no manual trigger,
 so that upgrading the binary needs no manual fetch.
 
 <!-- [<] 🤖🤖 -->

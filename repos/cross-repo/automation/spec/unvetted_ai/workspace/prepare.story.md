@@ -18,12 +18,12 @@ cloned.
 Runs the profile on a fresh host or a new sandbox session. Prepares no repo by
 hand.
 
-### A cloned workspace is ready to work in (todo)
+### A cloned workspace is ready to work in (implemented)
 
 I want each cloned repo prepared after the clone, before anything reads it,
 so that a new workspace needs no second pass to become usable.
 
-### The map describes the repos it lists (todo)
+### The map describes the repos it lists (implemented)
 
 I want preparation to run before indexing, so each repo's purpose exists when the
 index inlines it,
@@ -34,19 +34,19 @@ list of unexplained names.
 
 Owns the workspace scripts. Encodes no per-repo knowledge in them.
 
-### One repo's failure never costs the whole run (todo)
+### One repo's failure never costs the whole run (implemented)
 
 I want a failing repo reported and the pass continued, the step itself always
 succeeding,
 so that one broken checkout cannot abort a session bootstrap or an image build.
 
-### A repo that cannot be prepared is skipped, not failed (todo)
+### A repo that cannot be prepared is skipped, not failed (implemented)
 
 I want repos without the target detected and passed over with a reason,
 so that adding a repo to the group never breaks the workspace before it adopts
 the convention.
 
-### Preparing is separate from indexing (todo)
+### Preparing is separate from indexing (implemented)
 
 I want the credential-free index path to carry no preparation,
 so that refreshing the map stays a local read needing no network and no toolchain.

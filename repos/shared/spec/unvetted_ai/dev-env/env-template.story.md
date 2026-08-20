@@ -28,6 +28,12 @@ I want `repo-prepare-dev-env` to render `.env.tpl` to `.env` through che
 so that a fresh checkout gets a working `.env` in one command and my manual
 additions survive a re-render.
 
+### prose seeds its own `.env` (todo)
+
+I want prose carrying the `envSeed` profile and `repo-render-env` its
+`.env.tpl` already presumes,
+so that `make tag-mint` on a prose checkout reads `TAG_TOKEN` the way CI does.
+
 ### A re-render refreshes fetched values, keeps hand-added ones (implemented)
 
 I want a `shell` or `secret` value in `.env.tpl` to overwrite the existing
@@ -83,6 +89,11 @@ I want `.env.tpl` tracked in every repo despite the host's global
 `**/.*` ignore (the shared git ignore in `configs` re-includes
 `!**/.env.tpl`, as it did `.env.example`), and `.env` ignored,
 so that a clone carries the template and never a rendered value.
+
+### configs stops tracking `.env` (todo)
+
+I want configs' committed `.env` untracked and ignored like every other repo's,
+so that no clone carries a rendered value.
 
 ### Every repo wires it the same way (implemented)
 
