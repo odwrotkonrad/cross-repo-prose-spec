@@ -22,9 +22,9 @@ Lefthook runs pre-commit hooks. CI re-runs them over the branch diff and fails o
 
 Every image a job pulls comes from Artifact Registry in `konradodwrot-ci`, over private Google access. Nothing names a public registry: a GKE job pod reaching `gitlab.com` for a pull token is the failure this removes.
 
-Four group variables, owned by `infra/iac`, set on `konradodwrot`:
+Four group variables, owned by `cross-repo/infra/iac`, set on `konradodwrot`:
 
-- `ARTIFACT_REGISTRY`: where `infra/oci-images` publishes `ci-linux` and `ci-linux-dind`.
+- `ARTIFACT_REGISTRY`: where `cross-repo/infra/oci-images` publishes `ci-linux` and `ci-linux-dind`.
 - `ARTIFACT_REGISTRY_PROXY_GITLAB`, `ARTIFACT_REGISTRY_PROXY_DOCKERHUB`: pull-through caches for `registry.gitlab.com` and Docker Hub.
 - `CI_IMAGES_REF`: the pinned `ci-linux` version, raised by an oci-images release.
 

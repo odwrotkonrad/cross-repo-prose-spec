@@ -1,0 +1,13 @@
+##[>] 🤖🤖
+upstream:
+  - cross-repo/infra/oci-images/ci-linux
+  - cross-repo/infra/iac/ci-var/artifact-registry
+  - cross-repo/infra/iac/ci-var/ci-images-ref
+  - cross-repo/prose/assets/repo-prose
+  - cross-repo/prose/assets/doc-templates
+  - cross-repo/prose/assets/license
+  - cross-repo/misc/ci-scripts
+downstream:
+  - {name: conventions-doc, type: ai-prose}
+  - {name: repo-spec, type: ai-prose}
+##[<] 🤖🤖

@@ -2,9 +2,11 @@
 
 <!-- [>] 🤖🤖 -->
 
-Behavior specs are markdown files, all in the `prose` repo, under
-`prose/repos/<repo-path>/spec/<vetting>/<unit>/`. Prose's own system specs sit
-under `repos/prose/`, behavior every repo shares under `repos/shared/`.
+Behavior specs are markdown files, all in the `cross-repo/prose/spec` repo,
+under `repos/<repo-path>/spec/<vetting>/<unit>/`, `<repo-path>` the project's
+path under the group. The prose system's own specs sit under
+`repos/cross-repo/prose/assets/`, behavior every repo shares under
+`repos/shared/`.
 Downstream repos carry no spec trees: edit the spec here, then implement in the
 repo.
 

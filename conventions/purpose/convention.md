@@ -1,6 +1,6 @@
 # Purpose Convention
 
-Every repo's purpose doc is authored in prose at `prose/repos/<repo-path>/purpose.md` and rendered into the repo as `assets/docs-agents/purpose.md` (gitignored, rendered on demand at the pinned prose version). Three headings, in order:
+Every repo's purpose doc is authored in `cross-repo/prose/assets` at `repos/<repo-path>/purpose.md` and rendered into the repo as `assets/docs-agents/purpose.md` (gitignored, rendered on demand at the pinned `PROSE_ASSETS_REF`). Three headings, in order:
 
 1. What it is: concise repo description, keyword-dense.
 2. Why it exists: the need, the creator's intent.

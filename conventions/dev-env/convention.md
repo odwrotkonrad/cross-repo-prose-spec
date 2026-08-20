@@ -66,7 +66,7 @@ and images: installed once, not per repo.
 
 ## Workspace Driving
 
-`control`'s workspace profile prepares every cloned repo between cloning and
+`cross-repo/automation`'s workspace profile prepares every cloned repo between cloning and
 indexing: the index inlines each repo's rendered purpose doc, which does not
 exist until that repo renders. The driver holds no per-repo knowledge. It calls
 the target, skips repos without one, reports failures, and always succeeds, so

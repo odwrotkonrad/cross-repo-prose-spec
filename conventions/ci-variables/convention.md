@@ -21,29 +21,29 @@ A subgroup defining its first variable adds a row here, in the same MR.
 The prefix tells the reader, at the point of use, where a value comes from and
 where to change it. An unprefixed name is a value the pipeline defines itself.
 
-All of them are declared in `infra/iac`, never clicked into the UI: group
+All of them are declared in `cross-repo/infra/iac`, never clicked into the UI: group
 variables in `tf/modules/gitlab/ci-toggles.tf`, project variables beside the
-resource that owns them. A key present in GitLab and absent from `infra/iac`
+resource that owns them. A key present in GitLab and absent from `cross-repo/infra/iac`
 is drift: import it or delete it.
 
 ## In The Dependency Graph
 
 A CI variable crosses repo boundaries, so it is an artifact like any other.
-`infra/iac` declares each one downstream as `ci-var/<name>`, type `ci-variable`,
-and every repo reading it declares `infra/iac/ci-var/<name>` upstream:
+`cross-repo/infra/iac` declares each one downstream as `ci-var/<name>`, type `ci-variable`,
+and every repo reading it declares `cross-repo/infra/iac/ci-var/<name>` upstream:
 
 ```yaml
-# infra/iac/.repo/cross-repo-interface.yml
+# cross-repo/infra/iac/.repo/cross-repo-interface.yml
 downstream:
   - {name: ci-var/artifact-registry, type: ci-variable}
 
 # a consumer's .repo/cross-repo-interface.yml
 upstream:
-  - infra/iac/ci-var/artifact-registry
+  - cross-repo/infra/iac/ci-var/artifact-registry
 ```
 
 The declaration answers, without grep: who reads this, and what breaks if it
-changes. Control's aggregation enforces the pair, so an upstream naming a
+changes. Automation's aggregation enforces the pair, so an upstream naming a
 variable nobody produces fails the build instead of rotting.
 
 Name the artifact for the value, not the variable: `ci-var/artifact-registry`
@@ -67,7 +67,7 @@ variables:
 
 One value, two variables, each with its own job:
 
-- the **prefixed** one, defined in `infra/iac`, injected by GitLab. The value's
+- the **prefixed** one, defined in `cross-repo/infra/iac`, injected by GitLab. The value's
   home, the only one anything writes.
 - the **bare** one, assigned from the prefixed one in the pipeline. What the
   repo's code reads, and the name a tool expects (`glab` reads `GITLAB_TOKEN`,
@@ -124,7 +124,12 @@ After the prefix, the name says what the value is, not who reads it:
 name is the prefixed name minus its prefix, unless a tool dictates another
 spelling (`TF_VAR_github_token: $REPO_VAR_GITHUB_TOKEN`).
 
-Versions end in `_REF`, matching the existing pins.
+Versions end in `_REF`, matching the existing pins. Each released producer
+publishes its own: `GRP_KO_VAR_PROSE_ASSETS_REF` (`cross-repo/prose/assets`),
+`GRP_KO_VAR_PROSE_SPEC_REF` (`cross-repo/prose/spec`), `GRP_KO_VAR_MISC_REF`
+(`cross-repo/misc`), `GRP_KO_VAR_CHE_PACKAGES_REF`, `GRP_KO_VAR_CI_IMAGES_REF`.
+A consumer pins each upstream independently: a spec edit never moves the assets
+pin.
 
 ## What Is Not A CI Variable
 
@@ -134,7 +139,7 @@ what one place must own for everyone (a registry host, a pinned version).
 Everything else is configuration, reviewed in an MR.
 
 Variables a trigger job passes downstream (`forward.yaml_variables`) are
-pipeline-defined, not GitLab-defined: no prefix, no declaration in `infra/iac`.
+pipeline-defined, not GitLab-defined: no prefix, no declaration in `cross-repo/infra/iac`.
 
 ## Example
 

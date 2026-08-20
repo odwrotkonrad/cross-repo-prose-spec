@@ -4,11 +4,11 @@ Every workspace repo carries two claude agents in `<repo>/.claude/agents/`: `RO-
 
 ## Naming
 
-`RO-<Repo>` / `RW-<Repo>`, repo name PascalCase (`configs` → `Configs`, `infra/oci-images` → `OciImages`).
+`RO-<Repo>` / `RW-<Repo>`, repo name PascalCase (`configs` → `Configs`, `cross-repo/infra/oci-images` → `OciImages`).
 
 ## Ownership Split
 
-- `configs` owns the render: the `llm/claude/virt` profile in `profiles/llm/claude/che.yml` plus its snippets under `profiles/llm/claude/templates/snippets/`: `ro.md`, `rw.md` (full agent files, frontmatter + body, ctx `.repo` PascalCase), `settings.json` (`{"agent": "RW-{{ .repo }}"}`), `pwd.md` (invocation constraint, included by both agent snippets), `claude-gitignore`. The markdown snippets are authored in prose (`prose/repos/configs/ai/claude-snippets/`) and rendered into configs at its pinned prose version. Dest options and intra-snippet includes stay in `configs`. Dests target `${invokingSpecGitRoot}/.claude/...`.
+- `configs` owns the render: the `llm/claude/virt` profile in `profiles/llm/claude/che.yml` plus its snippets under `profiles/llm/claude/templates/snippets/`: `ro.md`, `rw.md` (full agent files, frontmatter + body, ctx `.repo` PascalCase), `settings.json` (`{"agent": "RW-{{ .repo }}"}`), `pwd.md` (invocation constraint, included by both agent snippets), `claude-gitignore`. The markdown snippets are authored in `cross-repo/prose/assets` (`repos/configs/ai/claude-snippets/`) and rendered into configs at its pinned `PROSE_ASSETS_REF`. Dest options and intra-snippet includes stay in `configs`. Dests target `${invokingSpecGitRoot}/.claude/...`.
 - Each repo owns one `claude-agents` profile in its `che.yml`: a remote profile include `@https://gitlab.com/konradodwrot/configs//profiles/llm/claude/che.yml::llm/claude/virt` with `ctx: {repo: <Repo>}`. That `ctx` is the only per-repo content. No template files, no per-file remote refs.
 
 A remote profile include goes through a real on-disk checkout of `configs` anchored at `profiles/llm/claude`, so `localFile` includes between snippets (`ro.md` pulling `pwd.md`) resolve inside the checkout. Per-file remote sources break this: `localFile` would resolve against the consumer, where the sibling snippet does not exist. The `@https://` scheme is required, profile checkout clones the URL verbatim. The include resolves from the configs default branch at render time, so snippet changes apply once pushed to configs main. The repo path is never hardcoded: snippets take it from the rendering cwd (`env.Getenv "PWD"`), and che renders from the repo root.
