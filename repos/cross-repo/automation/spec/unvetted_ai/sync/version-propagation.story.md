@@ -61,10 +61,18 @@ so that a drifted pin is seen, not overwritten unnoticed.
 I want each producer release (a prose tag, a che-packages tarball, an image)
 to reach `infra/iac` through control as one MR bumping that artifact's tfvars
 line, iac publishing it as a `GRP_KO_VAR_<ARTIFACT>_REF` group variable holding
-the latest version, consumers reading the variable and receiving only a content
-regen,
+the latest version,
 so that every artifact's current version has one home, GitLab variables always
 name the latest, and no consumer carries a pin to sed.
+
+### The applied variable drives the consumers (todo)
+
+I want iac's main apply to report the variables it changed as a
+`ci-var.changed` event, control answering with one content regen per consumer
+of each changed variable's producer, rendered at the value the variable now
+holds,
+so that a consumer never renders ahead of the variable it reads and nothing
+polls for the moment it moves.
 
 ### A che release is carried like every other artifact (todo)
 
