@@ -19,8 +19,8 @@ so that a moved producer needs no code change in automation.
 
 ### A release triggers automation by the new path (implemented)
 
-I want every producer's release job to call `cross-repo/automation`
-with `RELEASE_TAG`, `PRODUCER`, `PRODUCER_ARTIFACT`,
+I want every producer's release job to send `cross-repo/automation` a
+`release.published` event naming `producer`, `artifact`, `tag`,
 so that no producer carries a prose-specific variable name.
 
 ### No legacy pin survives the split (implemented)
