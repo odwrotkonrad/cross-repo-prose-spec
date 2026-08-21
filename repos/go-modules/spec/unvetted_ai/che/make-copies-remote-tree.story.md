@@ -45,7 +45,7 @@ I want a nested leaf dest starting with `~/`, `/` or `$` left unprefixed under
 a group `dest`,
 so that one file elsewhere on the host needs no separate group.
 
-### A dry run leaving the network alone (implemented)
+### A dry run leaving the network alone (tested)
 
 I want `--dry-run` to predict the write without fetching,
 so that a dry run is offline and fast.

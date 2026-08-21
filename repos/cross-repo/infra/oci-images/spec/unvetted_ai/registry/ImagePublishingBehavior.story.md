@@ -52,16 +52,17 @@ to rotate.
 
 ### Credentials are obtained where they exist (implemented)
 
-I want the registry login done in the job container, not the docker-in-docker
-service,
+I want the registry credential in the job container's `~/.docker/config.json`,
+not in the docker-in-docker service,
 so that the push uses the metadata server token only the job pod's identity
-can obtain.
+can obtain. The runner writes the file before the job, see
+[shared oci-images-registry](../../../../../../shared/spec/unvetted_ai/ci/oci-images-registry.story.md).
 
-### The login works in the image the job actually runs (implemented)
+### The pipeline carries no login (implemented)
 
-I want the token read with the tools the docker CLI image ships,
-so that fetching it assumes no JSON parser or HTTP client a busybox userland
-lacks, as the version lookup beside it already does.
+I want no token fetch and no `docker login` in this repo's pipeline,
+so that the build authenticates like every other dind job in the group and
+the busybox userland of the docker CLI image needs no tooling for it.
 
 ### A merge request still builds without publishing (implemented)
 

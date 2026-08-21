@@ -53,6 +53,19 @@ Same for anything else the build pulls, because **the job's `image:` and a pull 
 
 Grant the job identity read on every repository a build may pull from. Scope write to what it publishes.
 
+**Registry auth lives in the runner, never in a pipeline.** The `docker:dind` daemon holds no credential: the docker CLI in the job container sends one per request, read from `~/.docker/config.json`. The runner's `pre_build_script` (`cross-repo/infra/iac`, `ci-cluster/ar-docker-auth-pre-build.sh`) writes that file before every job with the pod's metadata token, as it writes the go proxy `.netrc`. No `.gitlab-ci.yml` or CI script runs `docker login` or fetches a token. The token lives about an hour from job start.
+
+A tool image a script `docker run`s is pulled explicitly first: the implicit pull behind `docker run` carries no credential.
+
+```yaml
+- docker pull $ARTIFACT_REGISTRY_PROXY_DOCKERHUB/tonistiigi/binfmt
+- docker run --privileged --rm $ARTIFACT_REGISTRY_PROXY_DOCKERHUB/tonistiigi/binfmt --install arm64
+```
+
+An image a job builds goes to `$ARTIFACT_REGISTRY` (`--push`, `--cache-to`), to a job artifact (`--output type=docker,dest=<file>.tar`) or stays in the daemon. Never `registry.gitlab.com`, never Docker Hub. Every project has `container_registry_access_level = "disabled"`.
+
+Spec: `cross-repo/prose/spec` `repos/shared/spec/unvetted_ai/ci/oci-images-registry.story.md`, requirements beside it.
+
 ## Example
 
 Runnable version in `example/`: `lefthook.yml`, `.gitlab-ci.yml`, `Makefile`.
