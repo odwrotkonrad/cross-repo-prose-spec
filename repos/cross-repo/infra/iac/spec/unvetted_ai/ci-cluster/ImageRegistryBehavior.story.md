@@ -19,6 +19,8 @@ This file covers where the cluster fetches images from: the repositories, how
 nodes reach them, what each identity may do. Which images a pipeline names, at
 which version, is that repo's concern. Publishing our own two images is in
 [oci-images ImagePublishingBehavior](../../../../oci-images/spec/unvetted_ai/registry/ImagePublishingBehavior.story.md).
+The rule every repo's pipeline obeys, pulls and pushes alike, is
+[shared oci-images-registry](../../../../../../shared/spec/unvetted_ai/ci/oci-images-registry.story.md).
 
 ## As a CI maintainer
 
