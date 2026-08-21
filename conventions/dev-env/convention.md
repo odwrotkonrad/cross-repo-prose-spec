@@ -3,7 +3,7 @@
 <!-- [>] 🤖🤖 -->
 
 Every repo exposes `repo-prepare-dev-env`, turning a fresh clone into a working
-checkout. Spec: `prose/repos/shared/spec/unvetted_ai/dev-env/prepare.story.md`.
+checkout. Spec: `cross-repo/prose/spec` `repos/shared/spec/unvetted_ai/dev-env/prepare.story.md`.
 
 ## The Target
 

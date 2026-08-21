@@ -36,4 +36,12 @@ I want aggregation, the watcher and the index to find a repo three groups
 deep,
 so that nesting never hides a repo.
 
+### An index never lands inside a repo (implemented)
+
+I want a subgroup whose child repo is named `assets` to get its index
+inlined into `AGENTS.md` and `CLAUDE.md` instead of written under
+`assets/data/`,
+so that a generated file never shows up as an untracked change in a
+checkout.
+
 <!-- [<] 🤖🤖 -->
