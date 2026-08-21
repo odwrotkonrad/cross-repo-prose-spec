@@ -29,4 +29,12 @@ so that scripts release on their own cadence, apart from prose.
 I want every per-repo dir renamed with its project,
 so that the path under `repos/` always equals the project path.
 
+### Rendered prose carries no template actions (implemented)
+
+I want every file che renders into a consumer (the conventions summary,
+the che spec doc) free of live `{{ }}` actions, examples escaped at the
+source,
+so that a consumer without a given env var, or one skipping secrets, still
+renders it.
+
 <!-- [<] 🤖🤖 -->

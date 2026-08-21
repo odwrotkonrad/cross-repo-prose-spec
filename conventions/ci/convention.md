@@ -1,6 +1,6 @@
 # CI Convention
 
-Lefthook runs pre-commit hooks. CI re-runs them over the branch diff and fails on drift. Scope per context: `prose/repos/shared/spec/unvetted_ai/ci/precommit.story.md`.
+Lefthook runs pre-commit hooks. CI re-runs them over the branch diff and fails on drift. Scope per context: `cross-repo/prose/spec` `repos/shared/spec/unvetted_ai/ci/precommit.story.md`.
 
 ## Lefthook
 

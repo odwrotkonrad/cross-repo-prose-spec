@@ -23,4 +23,10 @@ I want every producer's release job to call `cross-repo/automation`
 with `RELEASE_TAG`, `PRODUCER`, `PRODUCER_ARTIFACT`,
 so that no producer carries a prose-specific variable name.
 
+### No legacy pin survives the split (implemented)
+
+I want `GRP_KO_VAR_PROSE_REF` gone with the split, every consumer moved to
+the three pins in the same rollout,
+so that nothing reads a variable that no release updates.
+
 <!-- [<] 🤖🤖 -->
