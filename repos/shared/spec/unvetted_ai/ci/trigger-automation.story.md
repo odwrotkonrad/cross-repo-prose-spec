@@ -30,9 +30,11 @@ so that a sender cannot misreport where an event came from.
 
 ### A release is one event (todo)
 
-I want a tag pipeline to send `release.published` with `producer`,
-`artifact` and `tag` in `details`,
-so that automation learns of a release the same way from every producer.
+I want a tag pipeline to send `release.published` with `producer` and
+`artifact` in `details`, the tag read from `source.ref`,
+so that automation learns of a release the same way from every producer, and
+no sender re-states what the template already knows (a variable nested in
+`details` expands downstream, where the tag is gone).
 
 ### Details computed by a script still ride the template (todo)
 
