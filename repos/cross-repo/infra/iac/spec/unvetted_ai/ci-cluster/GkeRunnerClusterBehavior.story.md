@@ -170,9 +170,16 @@ so that spiky CI jobs are not billed for idle headroom.
 
 ### A burst runs wide and stops at a known ceiling (implemented)
 
-I want concurrency capped at 16 and `max_node_count` at 6 per pool, 2 per
+I want concurrency capped at 124 and `max_node_count` at 6 per pool, 2 per
 fallback pool,
 so that excess jobs queue instead of provisioning more nodes.
+
+### Each job size has its own concurrency cap (implemented)
+
+I want a per-size `limit` on every `[[runners]]` entry, 2 big, 12 medium, 48
+small per arch, sized so the worst-case packing fits the 8-node arch ceiling,
+so that a burst of big jobs cannot hold every slot, and small jobs run as wide
+as the nodes allow instead of sharing one global number sized for big ones.
 
 ### The primary pools reach eight nodes once quota allows (todo)
 
