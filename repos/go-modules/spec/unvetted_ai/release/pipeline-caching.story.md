@@ -55,7 +55,9 @@ so that no job pays archive time for nothing.
 I want no `cache:` block naming `.cache/go-mod`, `GOMODCACHE` still a writable
 dir,
 so that the 1.8 GB cheap half comes from the proxy while the 1.1 GB expensive
-half is cached.
+half is cached. The proxy is the cluster's in-region Artifact Registry cache,
+set by the runner:
+[infra/iac GoModuleProxyBehavior](../../../../cross-repo/infra/iac/spec/unvetted_ai/ci-cluster/GoModuleProxyBehavior.story.md).
 
 ### Nothing is cached that is cheaper to recompute (implemented)
 

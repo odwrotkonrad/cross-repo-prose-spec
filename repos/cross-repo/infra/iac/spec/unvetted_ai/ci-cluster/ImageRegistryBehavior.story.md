@@ -70,8 +70,9 @@ same path.
 ### Jobs keep the egress they legitimately need (implemented)
 
 I want Cloud NAT kept beside private access,
-so that release downloads, apt, the Go module proxy and the GitLab API keep
-working. Only image pulls moved.
+so that release downloads, apt and the GitLab API keep working. Image pulls
+moved here, Go modules in
+[GoModuleProxyBehavior](GoModuleProxyBehavior.story.md).
 
 ### A remote repository needs no credential to hold (implemented)
 
