@@ -125,10 +125,10 @@ I want `container_registry_access_level = "disabled"` on every project in
 so that a push to `registry.gitlab.com` fails instead of publishing an image
 the cluster will not read.
 
-### Pre-cutover images are gone from the GitLab registry (todo)
+### Pre-cutover images are gone from the GitLab registry (implemented)
 
 I want the stale `konradodwrot/ai-sandbox/sandbox` repository (22 tags, last
 pushed before the cutover) deleted,
-so that no image exists anywhere CI does not publish to.
+so that no image exists anywhere CI does not publish to. Deleted 2026-08-21.
 
 <!-- [<] 🤖🤖 -->
