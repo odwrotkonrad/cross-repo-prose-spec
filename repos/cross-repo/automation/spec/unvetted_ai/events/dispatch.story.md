@@ -24,19 +24,24 @@ I want `dispatch-event` to parse `AUTOMATION_EVENT`, pick the handler by
 `type`, fail on a type it does not know,
 so that adding a reaction is adding a handler, and nothing unhandled passes.
 
-### A release regenerates iac only (todo)
+### A release regenerates the repo publishing its variable, only (todo)
 
-I want `release.published` to emit exactly one job, a pin regen against
-`cross-repo/infra/iac`,
-so that the release reaches the one place that holds its version and nothing
-renders ahead of the variable.
+I want `release.published` to emit one pin regen per repo whose graph `edges`
+map the released artifact into a `ci-var/<name>` artifact it produces (iac),
+the tfvars key `<NAME>` derived from that artifact, and a release no edge
+maps to fail the dispatch,
+so that the release reaches the one place that holds its version, nothing
+renders ahead of the variable, and no repo or variable name is hardcoded in
+automation.
 
 ### A changed variable regenerates its consumers (todo)
 
-I want `ci-var.changed` to emit, for every changed `GRP_KO_VAR_*` with a
-known producer, one content regen per consumer of that producer's artifact,
-rendered at the variable's new value,
-so that a consumer renders only once the variable it reads carries the tag.
+I want `ci-var.changed` to emit, for every changed `GRP_KO_VAR_<NAME>` that
+some `ci-var/<name>` edge publishes, one content regen per consumer of the
+edge's source artifact, rendered with `<NAME>` set to the variable's new
+value,
+so that a consumer renders only once the variable it reads carries the tag,
+and the consumer set follows declarations alone.
 
 ### Nothing polls a group variable (todo)
 
