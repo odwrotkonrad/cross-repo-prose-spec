@@ -2,23 +2,22 @@
 
 <!-- [>] 🤖🤖 -->
 
-Automation opens merge requests: prose regen fans out one per affected repo.
-Other automation must find exactly those: the sweeper landing them on green CI,
-the report counting what a release propagated, the query telling a human which
-open MRs are theirs.
+Automation opens MRs: prose regen fans out one per affected repo. Other
+automation must find exactly those: the sweeper landing them on green CI, the
+report counting what a release propagated, the query telling a human which open
+MRs are theirs.
 
-Nothing marked an MR as machine-opened. Filtering by source branch seemed close
-enough, but GitLab's `source_branch_search` matches loosely: a sweep filtered on
+Nothing marked an MR as machine-opened. Filtering by source branch looked close
+enough, but GitLab's `source_branch_search` matches loosely: a sweep on
 `prose-v` also returned hand-written MRs from three unrelated repos. Acting on
 that set would have merged human work.
 
 The marker is a fixed `[automation]` title prefix. It survives branch renames,
-shows in any list, and matches exactly.
+shows in any list, matches exactly.
 
 ## As an operator
 
-Scans open merge requests across the group. Reviews human work, ignores the
-rest.
+Scans open MRs across the group. Reviews human work, ignores the rest.
 
 ### Machine work is distinguishable at a glance (implemented)
 

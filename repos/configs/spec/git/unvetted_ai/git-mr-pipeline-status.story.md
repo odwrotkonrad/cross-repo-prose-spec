@@ -15,9 +15,9 @@ so that the common case is a bare invocation.
 ### One report answers how the MR is doing (implemented)
 
 I want ANSI-bold markdown sections `# MR: !iid`, `## Repo`, `## Branch`,
-`## Stages`, `## Pipeline Status`, `name:`, `url:`, `pipeline-url:` under the
-MR heading, `repo:`, `url:`, `open mr count: 1` under Repo, every url behind a
-`url: ` designator, the status line closing the report,
+`## Stages`, `## Pipeline Status`, with `name:`, `url:`, `pipeline-url:` under
+the MR heading, `repo:`, `url:`, `open mr count: 1` under Repo, every url
+behind a `url: ` designator, the status line closing the report,
 so that one screen replaces the MR page.
 
 ### Unpushed, unpulled and unmerged work surfaces before review (implemented)
@@ -55,11 +55,11 @@ Reads stage timings and job outcomes, chases the slow and the broken.
 
 ### Slow stages stand out by wall time (implemented)
 
-I want stages in pipeline order headed `### <stage> <wall time>`, wall time max
-finished_at minus min started_at over the stage's jobs (now when unfinished,
-omitted when none ran), each job as `<emoji> <duration> <name>` with `url:`
-below and a blank line between, manual jobs marked ` (manual trigger)`,
-canceled ones ` (canceled)`,
+I want stages in pipeline order headed `### <stage> <wall time>`, wall time
+max finished_at minus min started_at over the stage's jobs (now when
+unfinished, omitted when none ran), each job as `<emoji> <duration> <name>`
+with `url:` below and a blank line between, manual jobs marked
+` (manual trigger)`, canceled ones ` (canceled)`,
 so that the expensive stage is obvious without arithmetic.
 
 ### Job status readable at a glance (implemented)
@@ -71,10 +71,10 @@ so that columns align and scanning is one pass.
 
 ### Main's own pipeline reported the same way (implemented)
 
-I want `--main` skipping the MR and branch sections, keeping `## Repo`, picking
-the latest push-sourced main pipeline, heading `# Main Pipeline` with `url:`
-and `sha:`, keeping stages, status and wait polling, printing `none: <reason>`
-with exit 0 when main has no pipeline,
+I want `--main` skipping the MR and branch sections, keeping `## Repo`,
+picking the latest push-sourced main pipeline, heading `# Main Pipeline` with
+`url:` and `sha:`, keeping stages, status and wait polling, printing
+`none: <reason>` with exit 0 when main has no pipeline,
 so that a merge is verified with the same tool as a review.
 
 ### Branch main implies --main (implemented)

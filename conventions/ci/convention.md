@@ -6,7 +6,7 @@ Lefthook runs pre-commit hooks. CI re-runs them over the branch diff and fails o
 
 - Repo `lefthook.yml` extends `~/.config/lefthook/lefthook.yml` (user-level hooks: ssh auth, conventional commit prefix, linters).
 - The one repo job is `docsgen`: `make render-templates`, then `git diff --exit-code`. A commit fails if regeneration touched a tracked file. Renders fetch the pinned prose sources, so committing needs network to gitlab.com.
-- A local commit runs hooks over staged files only: plain `lefthook run pre-commit`, no `--all-files`.
+- A local commit runs hooks over staged files only: `lefthook run pre-commit`, no `--all-files`.
 
 ## CI
 
@@ -28,7 +28,7 @@ Four group variables, owned by `cross-repo/infra/iac`, set on `konradodwrot`:
 - `ARTIFACT_REGISTRY_PROXY_GITLAB`, `ARTIFACT_REGISTRY_PROXY_DOCKERHUB`: pull-through caches for `registry.gitlab.com` and Docker Hub.
 - `CI_IMAGES_REF`: the pinned `ci-linux` version, raised by an oci-images release.
 
-Each is injected as `GRP_KO_VAR_<NAME>` and remapped to the bare name in the top-level `variables:` block (ci-variables convention). A repo writes `image: $ARTIFACT_REGISTRY/ci-linux:$CI_IMAGES_REF`, a third-party image `$ARTIFACT_REGISTRY_PROXY_DOCKERHUB/library/ruby:3.4` (official Docker Hub images carry `library/`). Never a floating tag: a pull-through cache serves it stale, and a rerun of an old pipeline should run the image it originally ran.
+Each is injected as `GRP_KO_VAR_<NAME>` and remapped to the bare name in the top-level `variables:` block (ci-variables convention). A repo writes `image: $ARTIFACT_REGISTRY/ci-linux:$CI_IMAGES_REF`, a third-party image `$ARTIFACT_REGISTRY_PROXY_DOCKERHUB/library/ruby:3.4` (official Docker Hub images carry `library/`). Never a floating tag: a pull-through cache serves it stale, and a rerun of an old pipeline should run the image it ran originally.
 
 A `services:` entry needs an explicit alias once the image is a registry path, since GitLab otherwise derives the hostname from the image name:
 
@@ -49,7 +49,7 @@ FROM ${BASE_IMAGE}
 - docker buildx build --build-arg "BASE_IMAGE=$ARTIFACT_REGISTRY_PROXY_DOCKERHUB/library/debian:bookworm-slim" ...
 ```
 
-Same for anything else the build pulls, because **the job's `image:` and a pull inside the job use different identities.** The kubelet fetches the job image as the node service account. A `docker pull` or `docker build` in the script runs as the job pod's own account, through Workload Identity. Read on a registry for the node account says nothing about the build: the job image resolves, the build is denied, and what looks like a credentials bug is an IAM one.
+Same for anything else the build pulls: **the job's `image:` and a pull inside the job use different identities.** The kubelet fetches the job image as the node service account. A `docker pull` or `docker build` in the script runs as the job pod's own account, through Workload Identity. Read on a registry for the node account says nothing about the build: the job image resolves, the build is denied, and a credentials bug turns out to be an IAM one.
 
 Grant the job identity read on every repository a build may pull from. Scope write to what it publishes.
 
@@ -62,7 +62,7 @@ A tool image a script `docker run`s is pulled explicitly first: the implicit pul
 - docker run --privileged --rm $ARTIFACT_REGISTRY_PROXY_DOCKERHUB/tonistiigi/binfmt --install arm64
 ```
 
-An image a job builds goes to `$ARTIFACT_REGISTRY` (`--push`, `--cache-to`), to a job artifact (`--output type=docker,dest=<file>.tar`) or stays in the daemon. Never `registry.gitlab.com`, never Docker Hub. Every project has `container_registry_access_level = "disabled"`.
+An image a job builds goes to `$ARTIFACT_REGISTRY` (`--push`, `--cache-to`), to a job artifact (`--output type=docker,dest=<file>.tar`), or stays in the daemon. Never `registry.gitlab.com`, never Docker Hub. Every project has `container_registry_access_level = "disabled"`.
 
 Spec: `cross-repo/prose/spec` `repos/shared/spec/unvetted_ai/ci/oci-images-registry.story.md`, requirements beside it.
 

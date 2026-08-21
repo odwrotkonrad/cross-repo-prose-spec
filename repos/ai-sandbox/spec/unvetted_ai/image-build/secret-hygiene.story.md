@@ -8,8 +8,8 @@ Builds the session image on the host with podman.
 
 ### A build leaves no secret copy behind (implemented)
 
-I want every `--secret` passed from a throwaway context dir, removed when
-the build ends,
+I want every `--secret` fed from a throwaway context dir deleted when the build
+ends,
 so that no credential file sits beside the repo after a build.
 
 <!-- [<] 🤖🤖 -->

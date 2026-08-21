@@ -11,7 +11,7 @@ Scenario: attaching with no session creates one, so the first run needs no setup
 Scenario: attaching with one session attaches to it (implemented)
   Given exactly one running session
   When session-attach runs
-  Then the shell attaches to that session without asking
+  Then the shell attaches to it without asking
 
 Scenario: attaching with several sessions offers a picker (implemented)
   Given more than one running session
@@ -26,10 +26,10 @@ Scenario: the picker can reach stopped sessions, so past work stays inspectable 
   And picking it makes its data readable
 
 Scenario: creating always makes a new session (tested)
-  Given a running session already exists
+  Given a running session
   When session-create runs
   Then a second session is created
-  And the existing one is untouched
+  And the first is untouched
 
 Scenario: listing shows running sessions, and stopped ones on request (tested)
   Given a running session and a stopped session
@@ -47,12 +47,12 @@ Scenario: a new session gets a mnemonic name (tested)
   Given no name is supplied
   When a session is created
   Then it is named a random mnemonic
-  And the name is pronounceable rather than a timestamp
+  And the name is pronounceable, not a timestamp
 
 Scenario: two sessions created together get different names (tested)
-  Given one session already exists
+  Given one session
   When another is created without a name
-  Then its name differs from the existing one
+  Then its name differs from the first
 
 Scenario: a session can be renamed (implemented)
   Given a session
@@ -74,12 +74,12 @@ Scenario: a rename cannot collide with an existing session (tested)
   Given two sessions
   When one is renamed to the other's name
   Then the rename is refused
-  And both keep the names they had
+  And both keep their names
 
 Scenario: session verbs are prefixed, so the interface is legible in one listing (implemented)
   Given the make targets
   When they are listed
   Then every session verb is prefixed session-
-  And building either image and bootstrapping the cluster are not session verbs
+  And image builds and cluster bootstrap are not session verbs
 
 <!--[<] 🤖🤖 -->

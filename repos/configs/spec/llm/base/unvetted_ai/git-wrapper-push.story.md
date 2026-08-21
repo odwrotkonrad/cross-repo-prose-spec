@@ -15,9 +15,9 @@ so that a rebase onto main costs no manual push per repo.
 
 ### An unchanged branch costs no llm call (implemented)
 
-I want a branch whose remote tip equals HEAD, MR already open, exiting 24 before
-any MR text is requested, checked before the push so a repeat run costs one
-fetch and one list call, a branch with no open MR still proceeding,
+I want a branch whose remote tip equals HEAD, MR already open, exiting 24
+before any MR text is requested, checked before the push so a repeat run costs
+one fetch and one list call, a branch with no open MR still proceeding,
 so that a fan-out re-describes only what moved.
 
 ## As an agent
@@ -40,7 +40,8 @@ so that a concurrent session's commit survives a stale equivalence check.
 
 ### A first push with no remote branch fails plainly (implemented)
 
-I want a rejected push with nothing to compare exiting 1 with the push failure,
+I want a rejected push with nothing to compare exiting 1 with the push
+failure,
 so that no branch is forced into existence.
 
 <!-- [<] 🤖🤖 -->

@@ -13,9 +13,9 @@ Scenario: the discovery plan prints with no log-level tuning (tested)
   Then the log lists discovered profiles
 
 Scenario: opting out of auto-discovery gets a clear ask for --profiles (tested)
-  Given options.autoDiscover is false (che config, default true)
-  When I invoke a che command without --profiles
-  Then the command errors asking for --profiles
+  Given `options.autoDiscover` is false (default true)
+  When I invoke a che command without `--profiles`
+  Then the command errors asking for `--profiles`
   And forced profiles and sourced refs still run
 
 <!-- [<] 🤖🤖 -->

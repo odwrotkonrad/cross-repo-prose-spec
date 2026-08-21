@@ -4,14 +4,14 @@
 
 A che include can pin a version only if the source repo mints one. Prose and
 the package catalog do, the rest do not, so a consumer pins prose at a ref and
-takes `control` from a moving branch. Every repo mints `vX.Y.Z` on merge to its
+takes `automation` from a moving branch. Every repo mints `vX.Y.Z` on merge to its
 default branch, patch by default, a `semver: major|minor|patch` commit token
 lifting it. The flow is prose's, authored once and shared.
 
 A tag is the whole deliverable. A release object belongs to a repo shipping
-binaries or an explicit public consumable, and the two repos that do already
-have their own release flows. Nothing here gains one. An ephemeral CI job
-artifact is not a shipped deliverable.
+binaries or an explicit public consumable. The two repos that do already have
+their own release flows, nothing here gains one. An ephemeral CI job artifact
+is not a shipped deliverable.
 
 ## As a repo consumer
 

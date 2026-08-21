@@ -36,8 +36,7 @@ so that a common setting is not retyped per template.
 
 ### A deep doc tree without a repeated path prefix (tested)
 
-I want each leaf source to be outer prefix joined with inner prefix joined with
-leaf path,
+I want each leaf source to be outer prefix, inner prefix and leaf path joined,
 so that a tree is written as a tree.
 
 ### A shared dest directory typed once (tested)
@@ -69,7 +68,7 @@ so that a group states the common case and a child its exception.
 
 ### A per-dest option with the last word (tested)
 
-I want a dest's `options` to apply over its group's,
+I want a dest's `options` applied over its group's,
 so that the most specific statement wins.
 
 ### One leaf opting out of an option its group needs (tested)
@@ -102,7 +101,7 @@ so that the message points at the thing to fix.
 
 ### A bad pin surfacing as a single fetch failure (tested)
 
-I want a fetch error to name the repo and the ref,
+I want a fetch error to name repo and ref,
 so that a bad pin points at the thing to fix.
 
 ### A bad pin reported once across every leaf it feeds (todo)

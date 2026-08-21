@@ -2,15 +2,15 @@
 
 <!-- [>] 🤖🤖 -->
 
-Where che reads package definitions from is a compiled-in constant, and the
-version is whatever `latest/version.txt` says. Neither is settable from a spec
-file, user config or flag. The constant's comment admits it names a repo the
-catalog has already left.
+Before this: the definitions source was a compiled-in constant, the version
+whatever `latest/version.txt` said. Neither settable from a spec file, user
+config or flag. The constant's comment admitted it named a repo the catalog had
+already left.
 
-Three things are impossible as a result. A host cannot point at a fork or
-private mirror. A run cannot pin a catalog version, so two runs of one spec on
-one host can install from different catalogs. CI, which needs exactly that pin,
-has to bypass the option system.
+Three consequences. A host could not point at a fork or private mirror. A run
+could not pin a catalog version, so two runs of one spec on one host could
+install from different catalogs. CI, which needs exactly that pin, had to
+bypass the option system.
 
 The replacement is one vocabulary. `packages.source` says where and which:
 `url`, `ref`. `packages.autoUpdate` says whether to move: `enabled`, plus the
@@ -34,7 +34,7 @@ packages:
 
 Companion specs: [definitions update](packages-update.story.md),
 [the vendored catalog](vendored-catalog.story.md),
-[catalog pin propagation](../../../../control/spec/unvetted_ai/sync/catalog-pin-propagation.story.md).
+[catalog pin propagation](../../../../cross-repo/automation/spec/unvetted_ai/sync/catalog-pin-propagation.story.md).
 
 ## As a config author
 
@@ -96,7 +96,7 @@ so that a host stays current without me remembering to update it.
 ### One update check per che run, whatever the spec holds (tested)
 
 I want one check per che execution, not one per profile,
-so that a ten-profile apply makes one round-trip.
+so that a ten-profile run makes one round-trip.
 
 ### A pinned run never waiting on a cooldown (tested)
 

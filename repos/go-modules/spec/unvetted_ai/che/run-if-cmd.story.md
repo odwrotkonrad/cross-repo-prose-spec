@@ -41,7 +41,7 @@ so that a new source needs no new grammar.
 I want the argv split on whitespace and exec'd directly, no shell, no quote or
 operator parsing,
 so that a predicate cannot smuggle in a pipeline or redirect, and shell syntax
-needs an explicit interpreter invocation.
+needs an explicit interpreter.
 
 ### A malformed gate names its own fault (tested)
 

@@ -13,7 +13,7 @@ so that the sandbox reaches what its flows read.
 
 ### No other project is readable (todo)
 
-I want a read in any project beyond those two refused,
+I want a read in any other project refused,
 so that the blast radius is named, not inherited.
 
 ### Nothing in gcp can be changed from a sandbox (implemented)
@@ -23,13 +23,13 @@ so that read-only is enforced, not conventional.
 
 ### Access exists only where the image put it (implemented)
 
-I want a session created without the configuration image unable to authenticate
-to gcp,
+I want a session created without the configuration image unable to
+authenticate to gcp,
 so that gcp access is never the default.
 
 ## As a session user
 
-Uses gcp from the session. Does not handle credentials.
+Uses gcp from the session. Handles no credentials.
 
 ### GCP works without being handed a credential (implemented)
 
@@ -39,8 +39,8 @@ so that no secret passes through session start.
 
 ### Every session authenticates identically (implemented)
 
-I want two sessions on the same configuration image presenting the same service
-account,
+I want two sessions on the same configuration image presenting the same
+service account,
 so that behaviour never depends on which session runs the work.
 
 <!--[<] 🤖🤖 -->

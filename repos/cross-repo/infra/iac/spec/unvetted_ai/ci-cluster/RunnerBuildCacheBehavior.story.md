@@ -2,17 +2,17 @@
 
 <!-- [>] 🤖🤖 -->
 
-The kubernetes executor gives every job a fresh pod and throws its disk away at
-the end. Without storage outside the pod, every `cache:` block is inert: entries
-archive to a disk nobody reads, every restore misses. Seen in `go-modules`: one
-job spent 202 seconds archiving 120000 files no later job could reach, another
-compiled 1422 packages cold before its first test.
+The kubernetes executor gives every job a fresh pod and throws its disk away
+at the end. Without storage outside the pod, every `cache:` block is inert:
+entries archive to a disk nobody reads, every restore misses. Seen in
+`go-modules`: one job spent 202 seconds archiving 120000 files no later job
+could reach, another compiled 1422 packages cold before its first test.
 
-This file covers provisioning the cache: the bucket, how the runner reaches it,
-what it may reach, how long entries live. What a pipeline caches, under which
-keys, is that repo's concern, specified beside its jobs. So is whether a cost is
-worth caching at all: `go-modules` caches compiler output but refetches
-dependencies from the public proxy.
+This file covers provisioning the cache: the bucket, how the runner reaches
+it, what it may reach, how long entries live. What a pipeline caches, under
+which keys, is that repo's concern, specified beside its jobs. So is whether a
+cost is worth caching at all: `go-modules` caches compiler output but
+refetches dependencies from the public proxy.
 
 ## As a CI maintainer
 
@@ -49,8 +49,8 @@ so that this module guarantees only persistence, reachability and expiry.
 
 ### The cache is not a trust boundary (implemented)
 
-I want key-space separation between jobs at different trust levels left to the
-pipeline,
+I want key-space separation between jobs at different trust levels left to
+the pipeline,
 so that nobody assumes the shared bucket isolates keys on its own.
 
 ## As an infra operator
@@ -106,7 +106,8 @@ default that would quietly undo the short lifecycle window.
 
 ### Abandoned uploads do not accumulate (implemented)
 
-I want a lifecycle rule aborting incomplete multipart uploads older than a day,
+I want a lifecycle rule aborting incomplete multipart uploads older than a
+day,
 so that parts orphaned by a preempted pod, which no object-age rule reaches,
 stop being billed.
 
@@ -136,14 +137,14 @@ replication paid for disposable data.
 
 ### Cache spend stays a rounding error (todo)
 
-I want steady-state cache cost held to a small fraction of spot compute spend,
+I want steady-state cache cost held to a small fraction of spot compute
+spend,
 so that the pipeline time saved is worth more than the storage. If that stops
 holding, the retention window shortens before the cache is dropped.
 
 ### Nothing bad persists past the window (implemented)
 
 I want a stale, corrupt or poisoned entry to age out on its own,
-so that no entry is trusted forever on the strength of having once been
-written.
+so that no entry is trusted forever for having once been written.
 
 <!-- [<] 🤖🤖 -->

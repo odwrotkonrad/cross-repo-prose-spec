@@ -3,8 +3,8 @@
 <!-- [>] 🤖🤖 -->
 
 `buildFromSource` downloads a package's source tarball and runs autotools in it:
-`./configure --prefix=<prefix>`, `make -j<cpus>`, `make install`. The prefix
-derives from the binaries install destination (`~/.local/bin` -> `~/.local`),
+`./configure --prefix=<prefix>`, `make -j<cpus>`, `make install`. The prefix is
+the parent of the binaries install destination (`~/.local/bin` -> `~/.local`),
 so the default flow stays in user space, no sudo.
 
 ## As a developer
@@ -50,7 +50,7 @@ so that a bare host builds without a manual toolchain step.
 
 I want ruby 3.4.10 built from the checksum-verified ruby-lang.org tarball,
 requiring libssl-dev, libyaml-dev and zlib1g-dev (apt-only, skipped elsewhere),
-ruby-lsp requiring ruby rather than ruby-dev because a source-built ruby ships
+ruby-lsp requiring ruby rather than ruby-dev since a source-built ruby ships
 its own headers,
 so that ruby tooling works on a host with no ruby package.
 
@@ -62,7 +62,7 @@ Writes package entries. Declares intent, does not implement drivers.
 
 I want `checksum: sha256:<hex>` enforced against the download, a mismatch
 aborting, an absent checksum installing with an `unverified` warning,
-per-platform checksums rejected at parse time because a source tarball is one
+per-platform checksums rejected at parse time since a source tarball is one
 artifact,
 so that the declaration cannot promise what the method does not give.
 

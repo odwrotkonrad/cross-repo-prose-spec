@@ -4,7 +4,7 @@
 
 Every repo runs the same pre-commit hooks over a file set matched to the
 moment. A local commit checks what it changes. An MR pipeline checks the
-branch's diff against the default branch, with a manual whole-tree sweep. The
+branch's diff against the default branch, plus a manual whole-tree sweep. The
 default branch runs nothing: its content already passed as an MR.
 
 ## As a developer
@@ -48,7 +48,7 @@ so that CI pays only where the check can still find something.
 
 ### Every default branch skips the sweep (todo)
 
-I want prose, notes, control, resume-md-pdf, oci-images and sandbox gating
+I want prose, notes, automation, resume-md-pdf, oci-images and ai-sandbox gating
 their pre-commit job on MR pipelines, as configs, go-modules and iac do,
 so that no main pipeline re-runs a check its MR already passed.
 

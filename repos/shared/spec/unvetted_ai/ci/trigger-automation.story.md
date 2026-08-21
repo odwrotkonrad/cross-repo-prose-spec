@@ -33,7 +33,7 @@ so that a sender cannot misreport where an event came from.
 I want a tag pipeline to send `release.published` with `producer` and
 `artifact` in `details`, the tag read from `source.ref`,
 so that automation learns of a release the same way from every producer, and
-no sender re-states what the template already knows (a variable nested in
+no sender restates what the template already knows (a variable nested in
 `details` expands downstream, where the tag is gone).
 
 ### Details computed by a script still ride the template (todo)
@@ -49,7 +49,7 @@ Reads events. Owns the handlers.
 
 ### An unknown type fails loudly (todo)
 
-I want a `type` without a handler to fail the dispatch job with the type named,
+I want a `type` without a handler to fail the dispatch job naming the type,
 so that a misspelled or unimplemented event is seen, never silently dropped.
 
 <!-- [<] 🤖🤖 -->

@@ -14,8 +14,8 @@ so that one file answers what the sandbox can reach.
 
 ### A permission changes only through the module (implemented)
 
-I want a change taking effect by editing and applying that module, no grant made
-outside it,
+I want a change taking effect by editing and applying that module, no grant
+made outside it,
 so that the module is the truth, not a description.
 
 ### The sandbox cannot widen its own access (implemented)

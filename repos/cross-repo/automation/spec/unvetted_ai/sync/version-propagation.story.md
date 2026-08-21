@@ -10,16 +10,16 @@ producer publishes.
 prose works this way: a tag fans out one regen MR per affected repo, the pin
 rises there, the consumer's CI proves the new version before merge. Nothing
 else did. The catalog pin sat at `0.0.4` while the catalog shipped `0.0.7`,
-pointing at a registry the catalog had already left, because nothing watched
-and no one had reason to look.
+pointing at a registry the catalog had left, because nothing watched and nobody
+had reason to look.
 
 Pinning is deliberate: a build embeds an exactly known version, and adopting a
 newer one is a reviewable change that runs the consumer's tests first. The gap
-is that nothing moves the pin. control is where that belongs: it owns the
-dependency graph, knows who consumes what, and opens the MRs.
+is that nothing moves the pin. That belongs in automation: it owns the
+dependency graph, knows who consumes what, opens the MRs.
 
-A pin also belongs in a file of its own, read where needed rather than repeated
-at each use. One line to change, one place to look, no consumer quietly
+A pin also belongs in a file of its own, read where needed, not repeated at
+each use. One line to change, one place to look, no consumer quietly
 disagreeing with another about the current version.
 
 ## As a consumer repo owner
@@ -58,8 +58,8 @@ so that a drifted pin is seen, not overwritten unnoticed.
 
 ### Every released artifact version is carried to iac, published as a variable (implemented)
 
-I want each producer release (a prose tag, a che-packages tarball, an image)
-to reach `infra/iac` through control as one MR bumping that artifact's tfvars
+I want each producer release (a prose tag, a che-packages tarball, an image) to
+reach `infra/iac` through automation as one MR bumping that artifact's tfvars
 line, iac publishing it as a `GRP_KO_VAR_<ARTIFACT>_REF` group variable holding
 the latest version,
 so that every artifact's current version has one home, GitLab variables always
@@ -68,9 +68,9 @@ name the latest, and no consumer carries a pin to sed.
 ### The applied variable drives the consumers (todo)
 
 I want iac's main apply to report the variables it changed as a
-`ci-var.changed` event, control answering with one content regen per consumer
-of each changed variable's producer, rendered at the value the variable now
-holds,
+`ci-var.changed` event, automation answering with one content regen per
+consumer of each changed variable's producer, rendered at the value the
+variable now holds,
 so that a consumer never renders ahead of the variable it reads and nothing
 polls for the moment it moves.
 
@@ -81,12 +81,12 @@ so that consumers pin che through the same mechanism as prose and the catalog.
 
 ## As a workspace maintainer
 
-Owns control's graph and fan-out. Keeps no hand-written consumer lists.
+Owns automation's graph and fan-out. Keeps no hand-written consumer lists.
 
 ### A publish reaches every consumer automatically (implemented)
 
-I want control to open a pin-bump MR against every repo the graph says consumes
-the producer, and none other,
+I want automation to open a pin-bump MR against every repo the graph says
+consumes the producer, and none other,
 so that correctness never depends on remembering the consumer list.
 
 ### A stale pin is reported, not discovered by failure (implemented)
@@ -97,17 +97,17 @@ so that staleness surfaces before a consumer breaks on missing content.
 ### Every producer's stale pin is named, a moved registry included (todo)
 
 I want the gap named (repo, pin, version available) for every producer when
-control evaluates the graph, including a pin aimed at a registry or project the
-producer has left,
+automation evaluates the graph, including a pin aimed at a registry or project
+the producer has left,
 so that no catalog or image pin rots unseen.
 
 ### The consumer list follows declarations alone (implemented)
 
 I want a repo's own interface file to decide what it receives, overriding any
 seed,
-so that onboarding a consumer needs no edit inside control.
+so that onboarding a consumer needs no edit inside automation.
 
-### Dropping a consumer needs no edit inside control (todo)
+### Dropping a consumer needs no edit inside automation (todo)
 
 I want the seeds gone once every repo declares itself,
 so that removing an interface file drops a consumer and no seed resurrects it.

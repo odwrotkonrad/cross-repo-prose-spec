@@ -7,8 +7,8 @@
 Artifact Registry in the CI GCP project, region `us-central1`, is the only
 registry CI reads from or writes to.
 
-- `ARTIFACT_REGISTRY`: standard repository `ci`. Holds every image the group
-  builds, plus buildx layer cache.
+- `ARTIFACT_REGISTRY`: standard repository `ci`. Every image the group builds,
+  plus buildx layer cache.
 - `ARTIFACT_REGISTRY_PROXY_DOCKERHUB`: remote repository for Docker Hub.
   Official images carry `library/`.
 - `ARTIFACT_REGISTRY_PROXY_GITLAB`: remote repository for `registry.gitlab.com`.
@@ -30,13 +30,13 @@ Tags are immutable versions. `latest` and bare major tags are not pinned.
 Registry auth lives in the runner, never in a pipeline. The runner's
 `pre_build_script` writes `~/.docker/config.json` in the job container with an
 `auths` entry for the registry host (`oauth2accesstoken`, the pod's metadata
-token), the way it writes the go proxy `.netrc`. The docker CLI sends it per
-request to the dind daemon and to buildkit. No `.gitlab-ci.yml` or CI script
-runs `docker login` or fetches a token. Explicit `docker pull` precedes a
+token), as it writes the go proxy `.netrc`. The docker CLI sends it per request
+to the dind daemon and to buildkit. No `.gitlab-ci.yml` or CI script runs
+`docker login` or fetches a token. Explicit `docker pull` precedes a
 `docker run` of a registry image.
 
-Dockerfiles keep a public default for `BASE_IMAGE` for local builds. CI
-always overrides it.
+Dockerfiles keep a public default for `BASE_IMAGE` for local builds. CI always
+overrides it.
 
 ## Pushes
 

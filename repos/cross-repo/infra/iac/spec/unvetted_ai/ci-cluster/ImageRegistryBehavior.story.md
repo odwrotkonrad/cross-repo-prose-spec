@@ -2,18 +2,18 @@
 
 <!-- [>] 🤖🤖 -->
 
-Job pods fail before their first script line, in `prepare environment`, pulling
-the runner helper image. Containerd answers the registry's 401 by fetching a
-bearer token from `gitlab.com/jwt/auth`, and that connect times out: `dial tcp
-172.65.251.78:443: i/o timeout`. The address is public Cloudflare space, and
-Cloud NAT is already sized for a packed node, so this is transient loss of
-public egress, not routing or credentials. The token fetch is anonymous: the
-same request without credentials returns a token that reads the manifest, for
-the helper image on both architectures and for `ci-linux`. No credential fixes
-it.
+Job pods fail before their first script line, in `prepare environment`,
+pulling the runner helper image. Containerd answers the registry's 401 by
+fetching a bearer token from `gitlab.com/jwt/auth`, and that connect times out:
+`dial tcp 172.65.251.78:443: i/o timeout`. The address is public Cloudflare
+space, and Cloud NAT is already sized for a packed node, so this is transient
+loss of public egress, not routing or credentials. The token fetch is
+anonymous: the same request without credentials returns a token that reads the
+manifest, for the helper image on both architectures and for `ci-linux`. No
+credential fixes it.
 
-Retries do not cover it either. The retry rules do catch it as a runner system
-failure, but it eats the same budget the flaky path already spends.
+Retries do not cover it either. The retry rules catch it as a runner system
+failure, but it eats the budget the flaky path already spends.
 
 This file covers where the cluster fetches images from: the repositories, how
 nodes reach them, what each identity may do. Which images a pipeline names, at
@@ -53,8 +53,8 @@ would break.
 
 ### Third-party images stop being a single point of failure (implemented)
 
-I want the runner helper, the docker images, `debian` and `ruby` served through
-remote repositories instead of fetched from origin per pull,
+I want the runner helper, the docker images, `debian` and `ruby` served
+through remote repositories instead of fetched from origin per pull,
 so that an outage or slow token endpoint at a public registry does not stop
 every pipeline in the group.
 
@@ -94,7 +94,7 @@ I want the job identity granted reader on every repository a build may pull
 from, not only the node account the kubelet uses,
 so that a job whose own image resolves can also fetch a base or tool image.
 They are separate identities, and a missing grant looks like a credentials
-fault rather than the IAM one it is.
+fault, not the IAM one it is.
 
 ### Pushing is a separate identity from pulling (implemented)
 
@@ -124,8 +124,8 @@ pipeline trusts.
 
 ### Build cache is stored as the disposable data it is (implemented)
 
-I want buildx layer cache written to the registry under a retention policy that
-deletes it,
+I want buildx layer cache written to the registry under a retention policy
+that deletes it,
 so that `mode=max` cache does not pile up while published version tags stay.
 
 ### The reader learns which images are ours (implemented)
@@ -149,8 +149,8 @@ Reads the billing report. Sets the ceilings, not the repository layout.
 ### Registry traffic crosses no billed boundary (implemented)
 
 I want the registry in the cluster's region,
-so that every pull is in-region, no egress charge for images fetched many times
-a day.
+so that every pull is in-region, no egress charge for images fetched many
+times a day.
 
 ### Cached copies do not grow without bound (implemented)
 

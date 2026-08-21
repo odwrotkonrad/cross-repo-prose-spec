@@ -12,22 +12,22 @@ template that `@`-includes four dests from the same pass:
 @assets/data/repo-structure.md      rendered later,   fails
 ```
 
-che renders in resolved spec order, which knows nothing of that dependency. Two
-of the four happen to come first and work, two come later and fail.
+che renders in resolved spec order, blind to that dependency. Two of the four
+happen to come first, two come later and fail.
 
-All four are gitignored, so a working copy carries them from an earlier run and
-the render passes. Only a clean checkout lacks them, which is why this surfaced
-in CI and nowhere else.
+All four are gitignored. A working copy carries them from an earlier run, so
+only a clean checkout lacks them. That is why this surfaced in CI and nowhere
+else.
 
 It stayed invisible while a missing include was written verbatim.
 [renderTemplates missing sources](render-templates-missing-sources.story.md)
-makes that an error, turning a silent ordering bug into a failed render. This
+makes that an error, so a silent ordering bug became a failed render. This
 feature is the other half: the order has to be right, not merely checked.
 
 Hand-ordering the blocks in each repo's `che.yml` was rejected. It encodes the
 dependency implicitly, per repo, maintained by whoever notices, and breaks
-silently the next time someone adds an include. That is how this survived. The
-templates already say what they depend on, che should read it.
+silently on the next added include. The templates already say what they depend
+on. che should read it.
 
 ## As a repo owner
 
@@ -43,8 +43,8 @@ so that generated docs build on CI, not only where stale artifacts survive.
 
 ### Order taken from the templates, not from block position (tested)
 
-I want the dependency to win when spec order contradicts it, moving either
-block in `che.yml` changing nothing,
+I want the dependency to win over spec order, moving either block in `che.yml`
+changing nothing,
 so that adding an include never means reordering a file by hand.
 
 ### A repo with no cross-render includes unchanged (implemented)

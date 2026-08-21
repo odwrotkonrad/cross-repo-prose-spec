@@ -26,8 +26,8 @@ so that a crossed threshold reaches the address and has a backstop.
 
 I want the documented response to a critical threshold to be a human action:
 scale the CI node pools to zero, then destroy them,
-so that nobody relies on budgets to stop charges. `max_node_count` is what
-bounds spend.
+so that nobody relies on budgets to stop charges. `max_node_count` bounds
+spend.
 
 ## As an infra operator
 

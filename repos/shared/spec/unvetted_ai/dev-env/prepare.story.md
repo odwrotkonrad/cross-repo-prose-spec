@@ -8,13 +8,13 @@ installed, dependencies are absent. Every repo already has the steps that fix
 this, under two naming schemes and in no defined order.
 
 One target per repo, `repo-prepare-dev-env`, chains them: render, dependencies,
-hooks. The order matters. The `docsgen` pre-commit hook runs `render-templates`
-and fails on drift, so hooks installed before the first render leave a fresh
-clone unable to commit.
+hooks. Order matters: the `docsgen` pre-commit hook runs `render-templates` and
+fails on drift, so hooks installed before the first render leave a fresh clone
+unable to commit.
 
 Toolchains are declared, never assumed. A repo needing ruby, python or
-terraform says so in its own che profile, so no environment needs pre-loading
-with every language the workspace contains.
+terraform says so in its own che profile, so no environment is pre-loaded with
+every language the workspace contains.
 
 ## As a developer
 
@@ -60,7 +60,7 @@ them.
 
 ### Every toolchain is declared (todo)
 
-I want notes (ruby), sandbox (podman, kind, kubectl, cilium), control (glab,
+I want notes (ruby), ai-sandbox (podman, kind, kubectl, cilium), automation (glab,
 yq) and configs (che, go via script) carrying a `devEnv` profile,
 so that no host needs pre-loading to prepare them.
 

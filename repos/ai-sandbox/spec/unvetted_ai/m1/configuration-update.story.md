@@ -8,8 +8,8 @@ Updates configuration and keeps working. Does not author the profiles.
 
 ### One command carries a config change into the sandbox (tested)
 
-I want session-update-config rebuilding the configuration image from the changed
-sources,
+I want session-update-config rebuilding the configuration image from the
+changed sources,
 so that updating is one verb.
 
 ### New sessions pick the change up (implemented)
@@ -20,9 +20,9 @@ so that a change lands without a cluster rebuild.
 
 ### A working session is not reshaped underneath me (implemented)
 
-I want an existing session's home left unseeded, holding the configuration it
-started with,
-so that a mid-task update changes nothing in flight.
+I want a running pod never patched in place, the change arriving only by
+recreation,
+so that a session is on the old configuration or the new one, never between.
 
 ### Work in progress survives the update (tested)
 

@@ -2,14 +2,16 @@
 
 <!-- [>] 🤖🤖 -->
 
-One semver-tagged `prose` repo holds all workspace prose: conventions, purpose
-docs, README sources, specs, shared fragments, doc templates. Downstream repos
-assemble their own docs, `che.yml` renderTemplates pulling prose artifacts at a
-pinned version. Prose ships artifacts, never renders into another repo.
+All workspace prose lives in semver-tagged prose repos, not in the consumers:
+conventions and specs in `cross-repo/prose/spec`, purpose docs, README
+sources, shared fragments and doc templates in `cross-repo/prose/assets` (the
+split is in `split/assets-spec-misc.story.md`). Downstream repos assemble
+their own docs, `che.yml` renderTemplates pulling artifacts at a pinned
+version. Prose ships artifacts, never renders into another repo.
 
 ## As a prose author
 
-Edits workspace prose in the prose repo only.
+Edits workspace prose in the prose repos only.
 
 ### Edit any workspace prose in one repo (implemented)
 
@@ -55,8 +57,8 @@ so that no repo carries a stale copy.
 
 ### Derive the index from prose's repos tree (todo)
 
-I want the index read from `repos/<repo-path>/purpose.md` in prose, not from a
-clone sweep,
+I want the index read from `repos/<repo-path>/purpose.md` in prose, not from
+a clone sweep,
 so that local worktrees refresh it like any other generated output.
 
 <!-- [<] 🤖🤖 -->

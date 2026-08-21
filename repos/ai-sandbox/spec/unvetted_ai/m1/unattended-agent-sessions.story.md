@@ -8,7 +8,7 @@ Acts inside a session. Does not decide what the sandbox permits.
 
 ### Nothing to confirm, so the work runs end to end (implemented)
 
-I want actions that would normally prompt to proceed unprompted,
+I want actions that would normally prompt proceeding unprompted,
 so that a long task never stalls on a confirmation.
 
 ## As a security owner

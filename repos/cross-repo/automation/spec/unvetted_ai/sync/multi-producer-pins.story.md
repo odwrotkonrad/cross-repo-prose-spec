@@ -13,9 +13,9 @@ so that a spec edit never forces a re-render of assets.
 
 ### A producer is named by the variable iac publishes for it (implemented)
 
-I want regen to identify a pin by the `ci-var/<name>` artifact iac's
-interface maps the producer into, deriving the tfvars key, the render
-variable and the MR label from `<name>`,
+I want regen to identify a pin by the `ci-var/<name>` artifact iac's interface
+maps the producer into, deriving the tfvars key, the render variable and the
+MR label from `<name>`,
 so that a new producer is one edge in iac's declaration and no code change in
 automation.
 
@@ -27,8 +27,8 @@ so that no producer carries a prose-specific variable name.
 
 ### No legacy pin survives the split (implemented)
 
-I want `GRP_KO_VAR_PROSE_REF` gone with the split, every consumer moved to
-the three pins in the same rollout,
-so that nothing reads a variable that no release updates.
+I want `GRP_KO_VAR_PROSE_REF` gone with the split, every consumer moved to the
+three pins in the same rollout,
+so that nothing reads a variable no release updates.
 
 <!-- [<] 🤖🤖 -->

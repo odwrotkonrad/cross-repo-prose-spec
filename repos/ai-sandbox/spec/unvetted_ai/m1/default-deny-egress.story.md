@@ -13,8 +13,8 @@ so that no unmanaged path out exists.
 
 ### An unlisted destination is unreachable by name or by ip (implemented)
 
-I want an unwhitelisted domain refused at resolution and any off-cluster address
-denied for a pod no rule covers,
+I want an unwhitelisted domain refused at resolution and any off-cluster
+address denied for a pod no rule covers,
 so that skipping DNS buys nothing.
 
 ### A rule grants exactly what it names (implemented)

@@ -32,12 +32,12 @@ Scenario: running e2e installation tests for a given platform attempts only that
   Given a target platform (explicit or host-autodetected)
   When install tests run
   Then methods inapplicable to that platform are filtered out up front, never attempted
-  And no attempt ends in "no applicable installation method" from a platform mismatch (e.g. `apt` on darwin)
+  And no attempt ends in "no applicable installation method" from a platform mismatch (`apt` on darwin)
 
 Scenario: installation test runs in LOG_LEVEL=info, and can be configured when needed (tested)
   When install tests run, locally or in an MR pipeline
   Then che runs with `CHE_LOG_LEVEL=info`
-  And setting `CHE_LOG_LEVEL` on the invocation overrides it (e.g. `debug`, `trace`)
+  And `CHE_LOG_LEVEL` set on the invocation overrides it (`debug`, `trace`)
 
 Scenario: developer have ability to run installation test of all packages for every installation method (implemented)
   When I invoke `make e2e-install-methods` (`PACKAGE` unset or `all`)
@@ -130,7 +130,7 @@ Scenario: an MR pipeline stays fast by testing only a chosen subset of packages 
   And the full set stays reachable through the manual per-package jobs and local `PACKAGE=all`
 
 Scenario: developer have ability to run installation test of a their chosen package for installation method of their choice in gitlab MR pipeline as optional job (todo)
-  #[where] moved to konradodwrot/che-packages: see repos/che-packages/spec/unvetted_ai/catalog/own-repo.md
+  #[where] moved to konradodwrot/che-packages: see repos/che-packages/spec/unvetted_ai/catalog/own-repo.story.md
 
   When an MR pipeline is created
   Then it carries one optional manual job per builtin package per platform, grouped in per-platform stages

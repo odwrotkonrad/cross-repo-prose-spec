@@ -13,7 +13,7 @@ so that a session's output lands where a human reads it.
 
 ## As a security owner
 
-Bounds the token. Does not push code.
+Bounds the token. Pushes no code.
 
 ### Review stays a human act (implemented)
 

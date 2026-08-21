@@ -26,7 +26,7 @@ so that an op invoked by name is never silently ignored.
 
 ### Each profile's work reads as one uninterrupted block (tested)
 
-I want every os-mutating operation of a profile to complete before the next
+I want every os-mutating operation of a profile to finish before the next
 profile starts, never interleaving,
 so that output and failures attribute to one profile at a time.
 

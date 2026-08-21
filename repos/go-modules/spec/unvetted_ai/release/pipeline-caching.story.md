@@ -5,15 +5,15 @@
 Every job compiles the same 1422-package dependency tree, dominated by
 gomplate's transitive AWS, GCP, go-git and OTel trees. On one merge-request
 pipeline `test-unit-che` spent 165 seconds compiling before its first test, and
-`warm-go` spent 202 seconds archiving caches nothing could restore, no
-distributed cache being configured.
+`warm-go` spent 202 seconds archiving caches nothing could restore: no
+distributed cache was configured.
 
 Only compiler output is cached. Dependency downloads are refetched from the
-public module proxy every time: the larger half of the cache, the cheaper half
-of the work.
+module proxy every time: the larger half of the cache, the cheaper half of the
+work.
 
-Provisioning the cache is infrastructure, specified in
-[infra/iac RunnerBuildCacheBehavior.story.md](../../../../infra/iac/spec/unvetted_ai/ci-cluster/RunnerBuildCacheBehavior.story.md).
+Provisioning the cache is infrastructure:
+[infra/iac RunnerBuildCacheBehavior.story.md](../../../../cross-repo/infra/iac/spec/unvetted_ai/ci-cluster/RunnerBuildCacheBehavior.story.md).
 That module guarantees entries persist, are reachable, and expire. It isolates
 nothing between keys. This file covers what this repo decides: what is cached,
 under which keys, and which jobs may write the keys a release build reads.

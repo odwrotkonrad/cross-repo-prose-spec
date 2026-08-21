@@ -13,18 +13,18 @@ so that the next image repeats the install.
 
 ### The base hand-installs nothing a profile defines (todo)
 
-I want tmux and vim arriving by their configs profiles, not the base Dockerfile,
+I want tmux and vim arriving by their configs profiles, not the base
+Dockerfile,
 so that no tool has two install paths.
 
 ### The session feels like the host (implemented)
 
 I want a tool configured in a session as on the host,
-so that nothing needs relearning inside the sandbox.
+so that nothing needs relearning.
 
 ## As a workspace maintainer
 
-Owns the configs repo as the single source. Does not maintain sandbox-local
-config.
+Owns the configs repo as the single source. Maintains no sandbox-local config.
 
 ### A configs change reaches sessions untouched (implemented)
 

@@ -6,7 +6,7 @@ Scenario: CI dry-runs the profiles instead of building (implemented)
   Given a change to the sandbox or its profiles
   When CI runs
   Then it dry-runs the che profiles
-  And it builds neither image
+  And builds neither image
 
 Scenario: a broken profile fails CI before anyone builds (implemented)
   Given a che profile that would fail when applied

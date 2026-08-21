@@ -4,7 +4,7 @@
 
 Scenario: one env var dials verbosity, info by default (tested)
   When I set `CHE_LOG_LEVEL=<level>` with level error | warn | info | debug | trace
-  Then the human log includes that level and every higher-severity level
+  Then the human log includes that level and every more severe level
   And info is the default when unset
 
 Scenario: raising verbosity only adds lines, severe ones stay (tested)

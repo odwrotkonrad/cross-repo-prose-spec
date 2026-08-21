@@ -7,7 +7,7 @@ Example repo for the templates convention.
 
 # Commenting Convention
 
-Every comment carries a label prefix, so a reader decides upfront whether to read on. Prefixes also make comments retrievable programmatically. An unprefixed comment has no defined purpose.
+Every comment carries a label prefix: the reader decides upfront whether to read on, tooling greps by kind. An unprefixed comment has no defined purpose.
 
 ## Syntax
 
@@ -21,11 +21,11 @@ Every comment carries a label prefix, so a reader decides upfront whether to rea
 
 ## AI-Generated Content
 
-AI-generated content sits in a section named with one or more 🤖. The count encodes how much **more** human attention is wanted: 🤖🤖🤖 a lot more, 🤖🤖 some more, 🤖 a little more.
+AI-generated content sits in a section named with one or more 🤖. The count says how much **more** human attention is wanted: 🤖🤖🤖 a lot, 🤖🤖 some, 🤖 a little.
 
 ## Sectioning
 
-A section opens with `[>]` and closes with `[<]`, both carrying the section name. Nesting repeats the file's comment leader (its first character): the extra-leader count equals the section's depth from the top. Leader `#`: top `##[>] x`, nested `###[>] x`. Leader `//`: `///[>] x`, `////[>] x`.
+A section opens with `[>]` and closes with `[<]`, both carrying the section name. Nesting repeats the file's comment leader (its first character) once per level of depth. Leader `#`: top `##[>] x`, nested `###[>] x`. Leader `//`: `///[>] x`, `////[>] x`.
 
 ## Example
 

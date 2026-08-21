@@ -4,7 +4,7 @@
 
 ## As a sandbox operator
 
-Builds and ships the base image. Does not configure tools in it.
+Builds and ships the base image. Configures no tools in it.
 
 ### One image serves every session (implemented)
 
@@ -30,7 +30,7 @@ so that the base changes only when che or the session user does.
 
 ## As a session user
 
-Works in the session shell. Does not build images.
+Works in the session shell. Builds no images.
 
 ### The shell is the session user's own (tested)
 

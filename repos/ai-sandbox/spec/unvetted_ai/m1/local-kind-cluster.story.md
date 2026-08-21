@@ -25,6 +25,6 @@ so that bootstrap ends at a working cluster, not a checklist.
 ### A broken cluster is replaced, never repaired (implemented)
 
 I want delete then create yielding a reachable cluster with no prior state,
-so that debugging cluster rot never lands on the critical path.
+so that cluster rot never lands on the critical path.
 
 <!--[<] 🤖🤖 -->

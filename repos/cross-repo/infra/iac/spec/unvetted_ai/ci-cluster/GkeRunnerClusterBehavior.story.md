@@ -30,8 +30,7 @@ one matches the SaaS runner it replaces.
 ### The SaaS memory budget survives the move (implemented)
 
 I want medium job pods at a 6 GB memory limit, against the SaaS 2 vCPU / 8 GB,
-so that existing jobs finish without OOM kills. Cpu is what was traded for
-cost.
+so that existing jobs finish without OOM kills. Cpu was traded for cost.
 
 ### Cheap jobs stop paying for a build's capacity (implemented)
 
@@ -54,7 +53,7 @@ so that a heavy job gets larger requests and every other size stays put.
 
 I want configs' `apply-linux` tagged `gke-linux-$ARCH-big`,
 so that a job measured at 3.7 vCPU and 4.9 GB stops running inside a medium
-pod's request and within 1 GB of its limit.
+pod's request, 1 GB under its limit.
 
 ### Dind builds stay medium (todo)
 
@@ -154,8 +153,8 @@ MB under a limit set before it was measured.
 ### The default alias never downsizes a job (implemented)
 
 I want `gke-linux-<arch>` still resolving to `medium`,
-so that a job nobody has sized keeps the request it had and every downsize is
-an explicit tag in `.gitlab-ci.yml`.
+so that a job nobody has sized keeps its request and every downsize is an
+explicit tag in `.gitlab-ci.yml`.
 
 ### Scheduling counts requests, not worst-case limits (implemented)
 
@@ -177,7 +176,7 @@ so that excess jobs queue instead of provisioning more nodes.
 ### Each job size has its own concurrency cap (implemented)
 
 I want a per-size `limit` on every `[[runners]]` entry, 2 big, 12 medium, 48
-small per arch, sized so the worst-case packing fits the 8-node arch ceiling,
+small per arch, sized so worst-case packing fits the 8-node arch ceiling,
 so that a burst of big jobs cannot hold every slot, and small jobs run as wide
 as the nodes allow instead of sharing one global number sized for big ones.
 
@@ -211,8 +210,8 @@ the cluster.
 
 I want one runner manager creating a pod per queued job and the cluster
 autoscaler adding nodes for unschedulable pods,
-so that pod count follows queue depth and node count follows pod count, with no
-queue-polling autoscaler.
+so that pod count follows queue depth and node count follows pod count, with
+no queue-polling autoscaler.
 
 ### One manager serves every architecture and size (implemented)
 

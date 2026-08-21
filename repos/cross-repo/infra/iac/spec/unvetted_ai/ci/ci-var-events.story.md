@@ -4,7 +4,7 @@
 
 iac publishes every artifact version as a `GRP_KO_VAR_*` group variable. A
 consumer rendering at a version the variable does not yet hold fails its own
-docsgen check, so consumers must regenerate after the apply, never before.
+docsgen check, so consumers regenerate after the apply, never before.
 Automation used to poll the variable for the new value and could not (the
 variables API needs Owner). iac knows the moment itself: the plan it applied
 lists every changed variable. The apply job reports them as one
@@ -19,7 +19,7 @@ Merges to main, lets CI apply. Edits tfvars, never a consumer.
 I want the `apply` job to read the plan it is about to apply, list every
 created or updated `gitlab_group_variable` as `{key, from, to}`, write the
 list as `EVENT_DETAILS` in a dotenv report, and a `trigger-automation` job
-that `needs: [apply]` to send it as `ci-var.changed`,
+with `needs: [apply]` to send it as `ci-var.changed`,
 so that consumers regenerate at the value the variable now holds, with nothing
 polling.
 
@@ -27,8 +27,7 @@ polling.
 
 I want the list filtered by the resource's `masked` attribute, never by a key
 list,
-so that a token value never lands in a job log or an event, whatever it is
-named.
+so that a token value never lands in a job log or an event, whatever its name.
 
 ### Nothing changed is still an event (todo)
 

@@ -2,8 +2,8 @@
 
 <!--[>] 🤖🤖 -->
 - podman is the container provider, no docker daemon
-- node containers run rootful (cilium's ebpf datapath needs it), session pods stay unprivileged,
-  never root
+- node containers run rootful inside the podman vm (cilium's ebpf datapath needs it), session pods
+  stay unprivileged, never root
 - a local kind cluster on podman, identical on linux and macos
 - cilium is the CNI, egress denied by default: dns names, ports and protocols whitelisted
 - cpu and memory capped cluster-wide, pods request little and may burst high
@@ -18,8 +18,10 @@
 - one host-run e2e test covers cluster bootstrap, both builds, the session targets and a config update
 - make is the interface: session-attach, session-create, session-ls, session-update-config,
   session-stop, session-rename
-- a session's whole home is a per-session volume, seeded once from the image, never re-seeded: a
-  config update reaches new sessions, existing ones keep what they were seeded with
+- user configuration is an image layer, the runtime gives each pod a private writable layer over it
+- what must outlive a stopped session is persisted deliberately: workspace, agent state, shell history
+- a config update rebuilds the configuration image and recreates pods on it: persisted paths survive,
+  the rest comes from the new image, no running pod is patched in place
 - new sessions get a random mnemonic name: adjectives, colours, creatures and things combined
 - host ports are closed to sessions unless a rule names them
 - closing the terminal detaches, the pod keeps running
@@ -32,8 +34,6 @@
 - gitlab: a group-scoped token that reads, pushes unprotected branches and opens MRs, never merges
 - two ssh keypairs, auth and signing, both impersonating the operating user
 - all sandbox IAM is managed by the iac repo's designated module
-- user configuration is an image layer, the runtime gives each pod a private writable layer over it
-- what must outlive a stopped session is persisted deliberately: workspace, agent state, shell history
 - claude is authenticated in the configuration image, every session inherits it
 - authentication is provisioned without user interaction where possible, otherwise by a throwaway
   login container at image build

@@ -15,7 +15,7 @@ so that a half-remembered target is one TAB away.
 ### A miss stays silent (implemented)
 
 I want a query matching no target listing nothing, inserting nothing, printing
-no error, leaving the line unchanged,
+no error, the line unchanged,
 so that a wrong guess costs nothing and leaves no zsh pattern error on screen.
 
 <!-- [<] 🤖🤖 -->

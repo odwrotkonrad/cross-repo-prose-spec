@@ -6,7 +6,7 @@ Scenario: the test bootstraps a cluster from nothing (tested)
   Given a host with no sandbox cluster
   When the e2e test runs
   Then the cluster is created
-  And its nodes are ready
+  And its nodes are Ready
 
 Scenario: the test builds every layer (tested)
   Given the e2e test running on the host
@@ -44,7 +44,7 @@ Scenario: the updated configuration is in the session (todo)
 Scenario: the session picks the new configuration up, not just the file (todo)
   Given a tool configured by the changed file
   When the test invokes that tool in the session after the update
-  Then the tool behaves according to the new configuration
+  Then the tool behaves by the new configuration
 
 Scenario: work persisted before the update is still there after it (tested)
   Given a session with work in its persisted paths
@@ -52,10 +52,10 @@ Scenario: work persisted before the update is still there after it (tested)
   Then that work is present in the recreated session
 
 Scenario: a broken step fails the test naming what broke (implemented)
-  Given a step of the setup that no longer works
+  Given a setup step that no longer works
   When the e2e test runs
   Then it fails
-  And it names the step that broke
+  And it names the step
 
 Scenario: the test leaves no session behind (tested)
   Given the e2e test has run to completion
@@ -65,6 +65,6 @@ Scenario: the test leaves no session behind (tested)
 Scenario: a passing test takes its cluster with it (todo)
   Given the e2e test created the cluster and passed
   When the host is inspected
-  Then the cluster is gone without being asked
+  Then the cluster is gone, unasked
 
 <!--[<] 🤖🤖 -->

@@ -4,13 +4,12 @@
 
 ## As a sandbox operator
 
-Watches what sessions consume on the cluster. Reads the report, does not enter
-a session.
+Watches what sessions consume on the cluster. Reads the report, never enters a
+session.
 
 ### Every running session is accounted for on its own (todo)
 
-I want each session on its own line, one session's figures excluding the
-other's,
+I want each session on its own line, no figure shared between sessions,
 so that consumption is attributable per session.
 
 ### Cpu and memory read three ways (todo)
@@ -22,17 +21,17 @@ so that a spike is not lost in an average.
 
 I want session-stats taking a window such as 15min or 2h and reporting central
 value and peak over exactly that span,
-so that the timescale of the question is mine to set.
+so that I set the timescale of the question.
 
 ### Current stays comparable across windows (todo)
 
 I want the current figure as the 1-minute average whatever the window,
-so that "now" means the same thing in every run.
+so that "now" means the same in every run.
 
 ### A brief busy period stays visible (todo)
 
-I want the peak showing a short burst inside an otherwise idle window while
-the central value stays near idle,
+I want the peak showing a short burst inside an idle window while the central
+value stays near idle,
 so that averaging never hides the spike that mattered.
 
 ### Disk reports only what it means (todo)
@@ -49,7 +48,7 @@ so that a fresh session yields data, not an error.
 ### One-shot and watch agree (todo)
 
 I want session-stats printing once and exiting, session-stats-watch refreshing
-the same report until interrupted, both reporting the same figures for the same
+the same report until interrupted, both giving the same figures for the same
 window,
 so that live view and snapshot are one report in two modes.
 

@@ -44,7 +44,8 @@ so that a pipeline about something else survives che's prerelease machinery.
 
 I want `CI_PIPELINE_SOURCE` preserved through
 `sudo -u $CI_USER --preserve-env=...` into `make sync-full`,
-so that the prerelease is reachable instead of silently falling back every time.
+so that the prerelease is reachable instead of silently falling back every
+time.
 
 ### No credentials in the version lookup (implemented)
 
@@ -58,19 +59,20 @@ Runs the CI bootstrap locally, builds che from source.
 
 ### A local dev build survives the CI bootstrap (implemented)
 
-I want resolution keeping the existing binary, installing nothing and saying so,
-when the installed che reports version `dev`,
+I want resolution keeping the existing binary, installing nothing and saying
+so, when the installed che reports version `dev`,
 so that a local build is never clobbered mid-session.
 
 ### A surprising result is diagnosable from the log (implemented)
 
-I want the chosen version logged with its reason, the MR named for a prerelease,
+I want the chosen version logged with its reason, the MR named for a
+prerelease,
 so that no rerun is needed to explain the installed version.
 
 ### A skipped prerelease names its cause (todo)
 
-I want the skip line saying which: MR list failed, package list failed, no open
-MR had a prerelease,
+I want the skip line saying which: MR list failed, package list failed, no
+open MR had a prerelease,
 so that a fallback is explained without rerunning the job.
 
 <!-- [<] 🤖🤖 -->

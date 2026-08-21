@@ -2,18 +2,17 @@
 
 <!-- [>] 🤖🤖 -->
 
-Behavior specs are markdown files, all in the `cross-repo/prose/spec` repo,
-under `repos/<repo-path>/spec/<vetting>/<unit>/`, `<repo-path>` the project's
-path under the group. The prose system's own specs sit under
+Behavior specs are markdown files, all in `cross-repo/prose/spec`, under
+`repos/<repo-path>/spec/<vetting>/<unit>/`, `<repo-path>` the project's path
+under the group. The prose system's own specs sit under
 `repos/cross-repo/prose/assets/`, behavior every repo shares under
-`repos/shared/`.
-Downstream repos carry no spec trees: edit the spec here, then implement in the
-repo.
+`repos/shared/`. Downstream repos carry no spec trees: edit the spec here, then
+implement in the repo.
 
 Two forms, two files:
 
 - `<feature>.story.md`: user stories. The default.
-- `<feature>.scenarios.md`: Gherkin scenarios. Only for behavior automated BDD
+- `<feature>.scenarios.md`: Gherkin scenarios. Only for behavior a BDD runner
   will drive.
 
 ## Picking A Form

@@ -4,7 +4,7 @@
 
 ## As a session user
 
-Starts claude and works. Does not log in.
+Starts claude and works. Never logs in.
 
 ### A new session is already logged in (implemented)
 
@@ -16,7 +16,7 @@ so that session start costs no interaction.
 
 I want two sessions on the same image both authenticated, neither logged in
 separately, later sessions the same,
-so that one authentication serves all of them.
+so that one authentication serves all.
 
 ### A broken image says so instead of prompting (implemented)
 
@@ -41,8 +41,8 @@ so that the build stays hands-off where it can.
 
 ### The interactive fallback is one login, then gone (implemented)
 
-I want a login container booted only when no unattended flow exists, capturing
-the credential and shutting down, never becoming an attachable session,
+I want a login container booted only when no unattended flow exists,
+capturing the credential and shutting down, never an attachable session,
 so that the manual path costs one prompt and leaves nothing behind.
 
 ### Authentication belongs to the image, not the session (todo)

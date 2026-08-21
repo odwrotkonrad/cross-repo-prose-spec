@@ -6,11 +6,11 @@ Every upstream artifact a repo consumes (prose first, any
 `GRP_KO_VAR_<ARTIFACT>_REF` later) has its latest version in a GitLab group
 variable. CI injects it and derives the bare `<ARTIFACT>_REF` at the pipeline
 boundary (`ci/upstream-refs.story.md`). On a host nothing injects it: the
-repo's `.env` must carry every `<ARTIFACT>_REF`, each seeded from its group
+repo's `.env` carries every `<ARTIFACT>_REF`, each seeded from its group
 variable via `glab variable get` run by che's `shell` template function, glab
 already authenticated on the host. che sources `.env` itself beneath the
 process env (a shell export always wins). The seed render needs no ref,
-everything else does, hence two passes, one shell, both inside
+everything else does: two passes, one shell, both inside
 `repo-prepare-dev-env`.
 
 ## As a developer
@@ -41,7 +41,7 @@ version, no network call on a routine render.
 
 ### A local checkout follows the authority without re-seeding (implemented)
 
-I want control's watcher to read the current version from `infra/iac`'s tfvars
+I want automation's watcher to read the current version from `infra/iac`'s tfvars
 (the newest tag when iac is not checked out), rewrite `PROSE_REF` in each
 consumer's gitignored `.env` and re-render its non-checked-out outputs,
 so that the seed is a bootstrap, not the only time a checkout learns a version.

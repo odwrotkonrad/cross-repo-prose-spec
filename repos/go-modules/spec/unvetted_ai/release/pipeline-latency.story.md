@@ -12,10 +12,10 @@ the three che e2e jobs each waited about eleven minutes for three to nine
 seconds of work.
 
 This file covers the job graph: what waits on what, and why. The other half of
-the fix is the build cache, specified in
+the fix is the build cache,
 [pipeline-caching.story.md](pipeline-caching.story.md). Provisioning it is
-infrastructure, specified in
-[infra/iac RunnerBuildCacheBehavior.story.md](../../../../infra/iac/spec/unvetted_ai/ci-cluster/RunnerBuildCacheBehavior.story.md).
+infrastructure,
+[infra/iac RunnerBuildCacheBehavior.story.md](../../../../cross-repo/infra/iac/spec/unvetted_ai/ci-cluster/RunnerBuildCacheBehavior.story.md).
 
 ## As a developer
 
@@ -67,7 +67,7 @@ I want work spread across more jobs, not backgrounded inside one, given a 4
 vCPU node fits exactly two medium pods and `go build ./...` already
 parallelises,
 so that `Unschedulable: Insufficient cpu` reads as the node packing described
-in [infra/iac ci-cluster](../../../../infra/iac/spec/unvetted_ai/ci-cluster/GkeRunnerClusterBehavior.story.md),
+in [infra/iac ci-cluster](../../../../cross-repo/infra/iac/spec/unvetted_ai/ci-cluster/GkeRunnerClusterBehavior.story.md),
 not a fault here.
 
 <!-- [<] 🤖🤖 -->

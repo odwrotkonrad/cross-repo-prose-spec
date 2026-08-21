@@ -4,12 +4,13 @@
 
 ## As a session user
 
-Creates, attaches to and names sessions. Does not build images or bootstrap the
+Creates, attaches to and names sessions. Builds no images, bootstraps no
 cluster.
 
 ### One command from nothing to a working session (implemented)
 
-I want session-attach creating a session when none exists and attaching to it,
+I want session-attach creating a session when none exists and attaching to
+it,
 so that the first run needs no setup step.
 
 ### No prompt when the choice is obvious (implemented)
@@ -19,8 +20,8 @@ so that the common case costs one keystroke.
 
 ### The right session out of many (implemented)
 
-I want session-attach offering a picker when several sessions run and attaching
-to the picked one,
+I want session-attach offering a picker when several sessions run and
+attaching to the picked one,
 so that many sessions stay navigable.
 
 ### Past work stays inspectable (implemented)
@@ -51,8 +52,7 @@ so that sessions get names without anyone supplying one.
 
 ### Names read as everyday words (implemented)
 
-I want names built from an adjective, a colour, a creature or a thing an
-operator recognises,
+I want names built from an adjective, a colour, a creature or a thing,
 so that a name can be said out loud.
 
 ### No two names are confusable (tested)
@@ -63,8 +63,8 @@ so that listings are unambiguous.
 
 ### A session takes the name the work deserves (implemented)
 
-I want session-rename giving a new name that session-ls and session-attach both
-honour,
+I want session-rename giving a new name that session-ls and session-attach
+both honour,
 so that a mnemonic can become a purpose.
 
 ### Renaming costs nothing (tested)
@@ -88,8 +88,8 @@ Owns the make interface. Does not decide session naming.
 
 ### The session verbs read as one group (implemented)
 
-I want every session verb prefixed session-, image builds and cluster bootstrap
-outside that prefix,
+I want every session verb prefixed session-, image builds and cluster
+bootstrap outside that prefix,
 so that the interface is legible in one listing.
 
 <!--[<] 🤖🤖 -->

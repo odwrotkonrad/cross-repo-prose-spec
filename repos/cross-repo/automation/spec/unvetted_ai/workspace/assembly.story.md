@@ -2,9 +2,9 @@
 
 <!-- [>] 🤖🤖 -->
 
-The `workspace/` che profile assembles the local workspace (canonical home here,
-moved from configs' `gitlab/projects`): clones the group tree, links parent
-Makefiles and the VS Code workspace file onto the host, generates the
+The `workspace/` che profile assembles the local workspace (canonical home
+here, moved from configs' `gitlab/projects`): clones the group tree, links
+parent Makefiles and the VS Code workspace file onto the host, generates the
 non-checked-out subgroup indexes.
 
 ## As a workspace user
@@ -21,8 +21,8 @@ so that setup is one command and no local work is overwritten.
 
 ### A child repo's targets run from its parent dir (implemented)
 
-I want the profile's `tree/` parent Makefiles linked onto the workspace parents,
-delegating `make <repo>-<target>`,
+I want the profile's `tree/` parent Makefiles linked onto the workspace
+parents, delegating `make <repo>-<target>`,
 so that running a repo's target needs no cd.
 
 ## As a workspace maintainer

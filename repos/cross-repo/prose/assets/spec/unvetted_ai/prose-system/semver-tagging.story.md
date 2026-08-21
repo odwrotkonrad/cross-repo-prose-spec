@@ -2,8 +2,8 @@
 
 <!-- [>] 🤖🤖 -->
 
-Every merge to main mints one semver tag `vX.Y.Z`, patch bump. Prose grows by
-adding files, so an add is not a release event: only a
+Every merge to main mints one semver tag `vX.Y.Z`, patch by default. Prose
+grows by adding files, so an add is not a release event: only a
 `semver: major|minor|patch` commit token lifts a release above patch. The last
 tag comes from the remote, never the local clone.
 
@@ -13,8 +13,8 @@ Merges prose changes, never mints or pushes a tag by hand.
 
 ### Ship a merged change without a manual release step (implemented)
 
-I want the tag job to mint and push the next `vX.Y.Z` on every commit to main,
-starting at `v0.0.1`,
+I want the tag job to mint and push the next `vX.Y.Z` on every commit to
+main, starting at `v0.0.1`,
 so that anything merged is immediately consumable.
 
 ### Ship routine prose as a patch (implemented)

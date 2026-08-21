@@ -9,9 +9,9 @@ script `docker run`s, the runner manager and helper. Every image a job builds
 is pushed there or nowhere: an artifact tarball, a local daemon tag, never a
 public registry, never the GitLab container registry.
 
-Where the registry lives and which identity may read or write is
+Where the registry lives and which identity may read or write:
 [iac ImageRegistryBehavior](../../../../cross-repo/infra/iac/spec/unvetted_ai/ci-cluster/ImageRegistryBehavior.story.md).
-How `ci-linux` is published is
+How `ci-linux` is published:
 [oci-images ImagePublishingBehavior](../../../../cross-repo/infra/oci-images/spec/unvetted_ai/registry/ImagePublishingBehavior.story.md).
 This file is the rule every repo's pipeline obeys. Convention:
 `conventions/ci/convention.md`, "Images". Requirements:
@@ -78,8 +78,7 @@ I want every image CI builds either pushed to `$ARTIFACT_REGISTRY` or kept
 out of any registry, as a `--output type=docker,dest=*.tar` job artifact or a
 tag inside the dind daemon,
 so that no build result reaches a public registry or the GitLab container
-registry. Today only oci-images pushes, and only there, images and buildx
-cache alike.
+registry. Today only oci-images pushes, images and buildx cache alike.
 
 ### A local build still works offline from the cloud (implemented)
 

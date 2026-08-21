@@ -5,8 +5,8 @@
 Each repo declares its cross-repo surface in `.repo/cross-repo-interface.yml`.
 `upstream:` lists the `<repo>/<artifact>` vertices it consumes, `edges:` maps
 an upstream vertex to the artifacts it lands in here, `downstream:` lists what
-it produces (`name` + `type`). Control aggregates every declaration into one
-generated dependency graph. No hand-maintained central file.
+it produces (`name` + `type`). Automation aggregates every declaration into
+one generated dependency graph. No hand-maintained central file.
 
 ## As a repo owner
 
@@ -29,8 +29,8 @@ Reasons about the whole graph, owns no single repo's interface.
 
 ### Derive the whole graph from per-repo declarations (implemented)
 
-I want control to merge every declaration over the bootstrap seeds into one
-generated, committed `deps/deps-graph.yml`,
+I want automation to merge every declaration over the bootstrap seeds into
+one generated, committed `deps/deps-graph.yml`,
 so that the graph stays readable and never hand-edited.
 
 ### Catch a dangling consumption instead of silent drift (implemented)

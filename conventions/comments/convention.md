@@ -1,6 +1,6 @@
 # Commenting Convention
 
-Every comment carries a label prefix: the reader decides upfront whether to read on, and tooling can grep by kind. An unprefixed comment has no defined purpose.
+Every comment carries a label prefix: the reader decides upfront whether to read on, tooling greps by kind. An unprefixed comment has no defined purpose.
 
 ## Syntax
 

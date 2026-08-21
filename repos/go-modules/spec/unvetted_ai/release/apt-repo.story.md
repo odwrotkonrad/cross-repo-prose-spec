@@ -23,8 +23,8 @@ so that `apt install che=X.Y.Z` works with no `che@X.Y.Z` package clones.
 
 ### The repo signature verifies against a published key (implemented)
 
-I want `Release` GPG-signed with `$APT_GPG_PRIVATE_KEY` and the armored public
-key served at `apt/gpg.key`,
+I want `Release` GPG-signed with `$APT_GPG_PRIVATE_KEY`, the armored public key
+served at `apt/gpg.key`,
 so that `signed-by` has a key to point at.
 
 ## As a pipeline maintainer

@@ -9,11 +9,12 @@ by one.
 
 ### One command reaches every repo under a directory (implemented)
 
-I want repos discovered recursively from `-C <dir>` (default pwd) by their
-`.git` entry, the root itself included by basename, each running the command
-concurrently in its own subshell with cwd set to the repo, output captured to
-`~/.local/state/git-wrappers/exec-per-repo/<run pid>/<path>_<repo pid>.log` as
-plain text with `GIT_WRAPPER_FG=1` exported,
+I want repos found recursively from `-C <dir>` (default pwd) by their `.git`
+entry, the root itself included by basename, each running the command
+concurrently in its own subshell with cwd set to the repo, output captured as
+plain text to
+`~/.local/state/git-wrappers/exec-per-repo/<run pid>/<path>_<repo pid>.log`
+with `GIT_WRAPPER_FG=1` exported,
 so that a fan-out costs one invocation and leaves a readable trail per repo.
 
 ### Arbitrary commands run verbatim (implemented)
@@ -63,9 +64,10 @@ so that the run's state is one glance, not a scroll.
 ### Finished work settles above the live region (implemented)
 
 I want a finished repo flushed once above the live region with its own clock
-and final ✅/⏭️/❌, dropping out of `## Progress` so the header count matches
-the blocks below,
-so that a long fan-out stays short on screen and attention sits on what remains.
+and final ✅/⏭️/❌, dropped from `## Progress` so the header count matches the
+blocks below,
+so that a long fan-out stays short on screen and attention sits on what
+remains.
 
 ### The relayed tail line is readable (implemented)
 
@@ -92,7 +94,7 @@ so that verdict and reason arrive together.
 
 I want exit 24 rendered ⏭️, never flipping the run to ❌, listed in a bold
 `## Skipped <n>/<count> ⏭️` section with each repo's newest non-empty log line,
-counted separately in `## Done`, absent from `## Failed Executions`,
+counted apart in `## Done`, absent from `## Failed Executions`,
 so that a fan-out reads as progress, not a wall of identical ✅.
 
 ### Passing repos are named, not just counted (implemented)
@@ -104,8 +106,8 @@ so that "✅ 3" is answerable from the summary alone.
 
 ### Parked work in a skipped repo surfaces (implemented)
 
-I want a wrapper's `⚠️ stash: <n> entries` warning relayed as the skipped repo's
-log line,
+I want a wrapper's `⚠️ stash: <n> entries` warning relayed as the skipped
+repo's log line,
 so that stashed work is visible without opening a log.
 
 ## As a developer

@@ -9,9 +9,9 @@ per context.
 
 ### The token resolves from the right backend everywhere (implemented)
 
-I want `GITLAB_TOKEN_SECRET_PATH` toggled by `fn-is-virt`: virt shells read
+I want `GITLAB_TOKEN_SECRET_PATH` toggled by `fn-is-virt`: virt shells reading
 `gcp://konradodwrot-sandbox-auth/sandbox-gitlab-group-token` through the
-injected ADC, host shells read `op://ProgrammaticAccess/gitlab/access_token`
+injected ADC, host shells reading `op://ProgrammaticAccess/gitlab/access_token`
 through op, every consumer (fn-auth-glab, render-tpl) context-agnostic,
 so that one config works unchanged in a pod, a macos-vm and on the host.
 
