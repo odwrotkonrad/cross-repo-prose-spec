@@ -11,11 +11,13 @@ Pins producers' versions and builds against them.
 I want `PROSE_ASSETS_REF`, `PROSE_SPEC_REF`, `MISC_REF` pinned separately,
 so that a spec edit never forces a re-render of assets.
 
-### A producer is named by its repo path (implemented)
+### A producer is named by the variable iac publishes for it (implemented)
 
-I want regen to identify a producer by its path under the group and
-derive the pin variable and tfvars key from it,
-so that a moved producer needs no code change in automation.
+I want regen to identify a pin by the `ci-var/<name>` artifact iac's
+interface maps the producer into, deriving the tfvars key, the render
+variable and the MR label from `<name>`,
+so that a new producer is one edge in iac's declaration and no code change in
+automation.
 
 ### A release triggers automation by the new path (implemented)
 
