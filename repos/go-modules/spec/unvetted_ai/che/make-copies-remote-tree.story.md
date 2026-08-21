@@ -59,6 +59,13 @@ remote leaf without an explicit dest each rejected at load, the error naming
 `makeCopies`,
 so that a malformed tree fails before anything is fetched.
 
+### A group without a prefix rejected at load (tested)
+
+I want a node with nested `<<<` but neither a `source` nor a `dest` prefix
+rejected, in `makeCopies` and `renderTemplates` alike, the editor schema
+agreeing,
+so that `<<<` only ever assembles paths and perms-only sharing stays on leaves.
+
 ## As a repo owner migrating
 
 Converts an existing `che.yml` off `files:`. Wants no output change.
