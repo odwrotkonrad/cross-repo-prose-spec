@@ -29,8 +29,7 @@ one matches the SaaS runner it replaces.
 
 ### The SaaS memory budget survives the move (implemented)
 
-I want job pods at 1 vCPU requested and a 6 GB memory limit, against the SaaS
-2 vCPU / 8 GB,
+I want medium job pods at a 6 GB memory limit, against the SaaS 2 vCPU / 8 GB,
 so that existing jobs finish without OOM kills. Cpu is what was traded for
 cost.
 
@@ -51,11 +50,18 @@ so that no lint job reserves a build's memory.
 I want a `big` size, used by the goreleaser builds,
 so that a heavy job gets larger requests and every other size stays put.
 
-### Image builds and e2e runs take the big size (todo)
+### A full host apply takes the big size (todo)
 
-I want the oci-images builds and the go-modules e2e matrix tagged
-`gke-linux-amd64-big`,
-so that they stop sharing a medium pod's 6 GB limit.
+I want configs' `apply-linux` tagged `gke-linux-$ARCH-big`,
+so that a job measured at 3.7 vCPU and 4.9 GB stops running inside a medium
+pod's request and within 1 GB of its limit.
+
+### Dind builds stay medium (todo)
+
+I want the oci-images builds and the go-modules e2e install matrix on the
+medium size,
+so that a build container idling at 0.01 vCPU beside a `docker:dind` service
+with no request of its own reserves no more than it uses.
 
 ### A job is never throttled below available capacity (implemented)
 
@@ -130,10 +136,31 @@ roughly 3.6 vCPU and 12 GB usable per node,
 so that a burst needs a third fewer nodes while the request stays a
 reservation, not a cap.
 
+### Requests follow measured usage per tier (implemented)
+
+I want each size's cpu and memory request set from the p75-p90 of seven days
+of pod metrics for jobs on that tier (small 150m / 384Mi, medium 750m / 2Gi,
+big 2500m / 8Gi),
+so that a validate job's node fits twenty small pods instead of three, and a
+pending pod on `Insufficient cpu` stops being the normal case.
+
+### Memory limits sit above the observed maximum (implemented)
+
+I want each tier's memory limit above the largest peak measured on it (small
+1Gi, medium 6Gi, big 14Gi),
+so that a job at its known worst case finishes instead of dying a few hundred
+MB under a limit set before it was measured.
+
+### The default alias never downsizes a job (implemented)
+
+I want `gke-linux-<arch>` still resolving to `medium`,
+so that a job nobody has sized keeps the request it had and every downsize is
+an explicit tag in `.gitlab-ci.yml`.
+
 ### Scheduling counts requests, not worst-case limits (implemented)
 
-I want each size's memory request at half its limit,
-so that scheduling fits twice the pods the limits alone would allow.
+I want each size's memory request below its limit, on measured usage,
+so that scheduling fits more pods than the limits alone would allow.
 
 ### Bursty jobs use idle capacity instead of reserving it (implemented)
 
