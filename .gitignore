@@ -7,4 +7,5 @@
 /assets/docs-agents/purpose.md
 /ci/semver-bump.zsh
 /ci/tag-mint.zsh
+/.env
 ##[<] 🤖
