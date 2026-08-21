@@ -7,11 +7,11 @@ whatever `make render-templates` regenerated. Patch and minor bumps carry no
 decision: the diff is mechanical, and clicking merge in eight repos adds only
 delay.
 
-`scripts/regen/regen.zsh` arms auto-merge on the `glab mr create` call itself.
+`bin/automation regen` arms auto-merge on the `glab mr create` call itself.
 GitLab attaches the pipeline a second or two after the MR exists, so any
 after-the-fact attempt races that gap and gets a 405.
 
-`scripts/regen/sweep.zsh` catches MRs still left unarmed: it sweeps every open
+`bin/automation sweep` catches MRs still left unarmed: it sweeps every open
 `prose-v*` regen MR and arms those whose pipeline has gone green. Merging
 outright, with no pipeline gate, is reserved for repos that provably run no
 merge-request pipeline. A slow, queued or failing pipeline is never mistaken for

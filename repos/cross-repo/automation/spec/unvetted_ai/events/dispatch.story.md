@@ -60,4 +60,12 @@ I want event parsing, graph queries and each handler's emitted YAML covered by
 minitest against fixtures, run by `make test` and a CI job,
 so that a handler change proves itself without a release.
 
+### One Ruby CLI carries every automation command (todo)
+
+I want `aggregate`, `regen`, `sweep`, `dispatch` and `graph` as subcommands of
+`bin/automation`, stdlib only, planning pure and tested, IO in runners, the
+zsh scripts gone,
+so that one language, one entrypoint and one test suite cover what three
+shell scripts and a dispatcher did.
+
 <!-- [<] 🤖🤖 -->
