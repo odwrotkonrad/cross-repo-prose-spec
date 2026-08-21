@@ -3,9 +3,9 @@
 <!-- [>] 🤖🤖 -->
 
 With `packages.yml` in `konradodwrot/che-packages`, che depends on the catalog
-instead of owning it. The dependency is pinned: builds must be reproducible,
-and a catalog change must never silently alter what a build embeds or what
-che's tests assert against.
+instead of owning it. The dependency is pinned: builds stay reproducible, and a
+catalog change never silently alters what a build embeds or what che's tests
+assert against.
 
 che keeps the installer engine (`che/internal/packages`, the apt/brew/nix/go/npm
 /gem/pyenv/nvm/script/binariesRemoteArchive/buildFromSource drivers) and the

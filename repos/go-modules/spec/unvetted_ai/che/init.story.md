@@ -2,7 +2,7 @@
 
 <!-- [>] 🤖🤖 -->
 
-`init-remote-sources`: prefetch remote spec sources into the run cache.
+`init-remote-sources` prefetches remote spec sources into the run cache.
 
 ## As an operator
 

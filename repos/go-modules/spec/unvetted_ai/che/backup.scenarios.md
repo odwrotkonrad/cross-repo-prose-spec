@@ -4,9 +4,8 @@
 
 Scenario: a user picks a restore point from a newest-first listing (tested)
   When I invoke `backup ls`
-  Then every ledger-recorded backup point lists under a `# backups` heading
+  Then every ledger-recorded backup point lists under a `# backups` heading, newest first
   And each entry shows run id, backup id, timestamp, size, abbreviated path
-  And the newest lists first
   And no backup points lists nothing
 
 Scenario: a user undoes one whole run with a single run id (tested)
@@ -28,14 +27,14 @@ Scenario: a user rolls the host back to a chosen moment (tested)
 Scenario: a user recovers pre-run state, drifted files never clobbered (tested)
   When I invoke `backup restore` with a selector matching a known archive
   Then every entry restores onto its recorded dest
-  And passing other than exactly one of `--run-id`, `--backup-id`, `--timestamp` fails with a clear error
+  And anything but exactly one of `--run-id`, `--backup-id`, `--timestamp` fails with a clear error
   And a dest drifted from che's last recorded state is skipped
   And dry run prints `restore <dest> (dry run)` per entry and writes nothing
   And an unreadable archive fails with a clear error
 
 Scenario: a user snapshots on demand, settled dests skipped (tested)
   When I invoke `backup create` standalone
-  Then every existing dest an op would change archives into the per-run archive
+  Then every existing dest an op would change lands in the per-run archive
   And settled dests are not archived
   And nothing to change archives nothing
 

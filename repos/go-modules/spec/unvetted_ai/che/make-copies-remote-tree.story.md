@@ -9,9 +9,9 @@ its nested `<<<`, a top-level leaf needs no group.
 
 A source is a local `*.ontoHost.cp` file, profileWorkingDirectory-relative, or
 remote, `@<repo>//<path>[?ref=<ref>]`. A remote group prefix recombines with
-each leaf path so the pin stays last and is typed once per repo. Bytes are
-copied verbatim: a gomplate-bearing upstream file lands intact, its actions
-resolving wherever it is consumed later.
+each leaf path so the pin stays last and is typed once per repo. Bytes copy
+verbatim: a gomplate-bearing upstream file lands intact, its actions resolving
+wherever it is consumed later.
 
 Cascade, outermost first, child wins: perms per field, `source` and `dest`
 prefixes by join. Dry-run, backup and stale sweep behave as for local copies.

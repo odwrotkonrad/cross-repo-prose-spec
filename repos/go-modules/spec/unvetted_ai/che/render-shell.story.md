@@ -3,11 +3,10 @@
 <!-- [>] 🤖🤖🤖 -->
 
 A `shell` template function runs a command at render time and substitutes its
-stdout, so a template can ask a tool the host already has (`glab variable get`)
+stdout, so a template asks a tool the host already has (`glab variable get`)
 instead of che growing a backend per source. Fetched values are configuration,
-not credentials: `secret` stays for `op://` and `gcp://`, and `skipVariables`
-skips templates that shell out the way `skipSecrets` skips templates that
-resolve secrets.
+not credentials: `secret` stays for `op://` and `gcp://`. `skipVariables` skips
+templates that shell out, as `skipSecrets` skips templates resolving secrets.
 
 ## As a template author
 
@@ -25,8 +24,8 @@ GRP_KO_VAR_PROSE_REF` into `.env`) from a tool the host already authenticates.
 
 ### A failing command fails the render by name (tested)
 
-I want a non-zero exit to fail the render naming template, command, exit status and stderr,
-never substituting partial output,
+I want a non-zero exit to fail the render naming template, command, exit status
+and stderr, never substituting partial output,
 so that an unauthenticated or missing tool is a loud error, not an empty line.
 
 ## As a config author

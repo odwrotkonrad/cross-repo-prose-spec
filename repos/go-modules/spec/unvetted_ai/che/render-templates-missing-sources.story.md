@@ -25,15 +25,15 @@ so that one typo does not hide the state of every other template.
 ### A mistyped path in a template surfacing instead of rendering empty (tested)
 
 I want `localFile`, `frontmatter`, `readBody` or `renderMarkdown` on an absent
-path to fail the render naming the template and the path, no dest written, the
-doc readers erroring on their own for an absent path under the repo root,
+path to fail the render naming template and path, no dest written, the doc
+readers erroring on their own for an absent path under the repo root,
 so that an empty section is never mistaken for an empty source.
 
 ### A broken doc include caught before the doc ships (tested)
 
 I want an `@<path>` line to an absent file, under `renderReferencedFiles`, to
-fail the render naming the line and the path, dest not written, tilde includes
-held to the same standard,
+fail the render naming line and path, dest not written, tilde includes held to
+the same standard,
 so that a shipped doc never silently drops a section.
 
 ### A tilde include finding the file the rest of che would load (tested)
@@ -50,8 +50,8 @@ so that a reader resolving its own imports keeps working.
 
 ### A typo in a native @-import visible without breaking the render (tested)
 
-I want an absent file behind such a line to warn naming the dest and the line,
-dest still written, resolvable lines quiet,
+I want an absent file behind such a line to warn naming dest and line, dest
+still written, resolvable lines quiet,
 so that a broken import is noticed without failing a doc che cannot judge.
 
 ### Prose that opens with @ read as prose (tested)

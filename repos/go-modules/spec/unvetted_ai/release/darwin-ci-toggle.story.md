@@ -4,10 +4,9 @@
 
 macOS jobs run on paid SaaS runners and cannot move to the Linux CI cluster (no
 Apple hardware on GCP). `ENABLE_DARWIN_CI` turns them off while the cluster is
-proven, back on in one flip. It is a group-level CI variable on `konradodwrot`,
-declared in `infra/iac` terraform, so one flip governs every repo. Release and
-prerelease darwin builds cross-compile on linux (`CGO_ENABLED=0`), outside the
-toggle.
+proven, back on in one flip. It is a `konradodwrot` group variable declared in
+`infra/iac` terraform, so one flip governs every repo. Release and prerelease
+darwin builds cross-compile on linux (`CGO_ENABLED=0`), outside the toggle.
 
 ## As a CI maintainer
 

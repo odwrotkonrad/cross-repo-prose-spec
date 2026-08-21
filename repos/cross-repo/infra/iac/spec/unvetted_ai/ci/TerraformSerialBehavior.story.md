@@ -23,7 +23,7 @@ are running.
 
 I want an apply that waited behind another apply to run its saved plan
 unchanged,
-so that terraform refuses it on a state serial mismatch rather than applying a
+so that terraform refuses it on a state serial mismatch instead of applying a
 plan made against state that has since moved.
 
 <!-- [<] 🤖🤖 -->

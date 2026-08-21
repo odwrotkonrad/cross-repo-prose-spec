@@ -8,8 +8,8 @@ Attaches and detaches at will. Does not manage pod lifecycle by hand.
 
 ### Closing the terminal is not ending the session (implemented)
 
-I want the pod still running after the terminal closes, session-attach reaching
-it again,
+I want the pod still running after the terminal closes, session-attach
+reaching it again,
 so that detaching is the default and stopping deliberate.
 
 ### Long agent work runs while I am away (implemented)

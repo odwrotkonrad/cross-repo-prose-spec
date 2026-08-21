@@ -8,8 +8,8 @@ of packages.yml, keyed by tool, each entry a name mapping to a pin (null/empty:
 rolling). Profiles select them via `include.installToolPackages`, the CLI via
 `che packages install --kind=<tool>`.
 
-A tool whose packages carry no version of their own says so, and che refuses
-pins for it instead of dropping them.
+A tool whose packages carry no version says so. che refuses pins for it instead
+of dropping them.
 
 ## As a catalog author
 
@@ -26,9 +26,8 @@ so that a tool's packages are declared where PATH packages are.
 ### An unversionable tool rejecting pins instead of ignoring them (implemented)
 
 I want a pin on a `toolPackages.gcloud` package, or a profile ref pinning one
-via `{name, version}`, to error naming the tool and the package, the generated
-schema admitting only null values for such a tool, bare entries decoding as
-rolling,
+via `{name, version}`, to error naming tool and package, the generated schema
+admitting only null values for such a tool, bare entries decoding as rolling,
 so that a pin that cannot be honored is refused, not dropped.
 
 ## As a config author

@@ -51,6 +51,6 @@ Owns the e2e suites and their assertions. Does not tune log levels per job.
 I want `make e2e-packages` and `make e2e-install-methods` to run che with
 default silencing, no flag, no special-casing, asserting against che's own log
 lines,
-so that the tests prove what operators actually get.
+so that the tests prove what operators get.
 
 <!-- [<] 🤖🤖 -->

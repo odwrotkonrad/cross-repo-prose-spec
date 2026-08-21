@@ -17,9 +17,9 @@ so that a command run once is never typed twice.
 
 ### The recalled entry stands alone on the line (implemented)
 
-I want the entry replacing the entire buffer wherever the cursor sits, no typed
-word surviving before or after it, buffer and cursor untouched when nothing
-matches,
+I want the entry replacing the entire buffer wherever the cursor sits, no
+typed word surviving before or after it, buffer and cursor untouched when
+nothing matches,
 so that a recall never mixes with the fragment that found it.
 
 ### The closest match comes first (implemented)

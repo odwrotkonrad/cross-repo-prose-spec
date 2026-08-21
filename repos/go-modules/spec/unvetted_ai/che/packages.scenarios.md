@@ -53,7 +53,7 @@ Scenario: an install run ends proving the commands exist (implemented)
 
 Scenario: packages.yml ships a json schema of its structure (implemented)
   When `make render-docs` runs
-  Then it generates `assets/data/packages.schema.json` from the Go source, alongside che.schema.json, published with the docs
+  Then it generates `assets/data/packages.schema.json` from the Go source, beside che.schema.json, published with the docs
   And a packages file opens with a `# yaml-language-server: $schema=<url-or-path>` modeline pointing at it, so yaml-aware editors validate and complete in place
   And the builtin packages.yml carries that modeline against the published schema url
 

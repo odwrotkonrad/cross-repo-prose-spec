@@ -13,7 +13,7 @@ Targets group into `##[>] Section [genai-include]` ... `##[<] Section` blocks. `
 
 ## Targets
 
-- `COMMANDS :=` lists all command targets, `WRAPPERS :=` lists aggregate targets.
+- `COMMANDS :=` lists command targets, `WRAPPERS :=` aggregate targets.
 - `.PHONY: $(WRAPPERS) $(COMMANDS)`.
 - Wrappers chain commands as prerequisite lists, no recipes: `run-sync: run-host-upsert-configs run-host-render-templates`.
 

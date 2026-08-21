@@ -4,7 +4,8 @@
 
 ## As a security owner
 
-Sets the privilege boundary. Does not run sessions or build images.
+Sets the privilege boundary. Runs no sessions, builds no images. Nodes are
+rootful inside the podman vm, rootless relative to the machine.
 
 ### The host machine stays outside the blast radius (implemented)
 

@@ -3,18 +3,18 @@
 <!-- [>] 🤖🤖 -->
 
 The subgroup indexes are the map agents read: `assets/data/repo-index.md` plus
-rendered `AGENTS.md`/`CLAUDE.md` in every workspace parent dir. They went stale,
-still naming a repo folded into prose and missing three added since, because
-nothing on the ordinary sync path regenerated them.
+rendered `AGENTS.md`/`CLAUDE.md` in every workspace parent dir. They went
+stale, still naming a repo folded into prose and missing three added since,
+because nothing on the ordinary sync path regenerated them.
 
-Three gates each stopped it: the routine sync skipped the `run-scripts` op that
-carries indexing, the profile gated on `GITLAB_TOKEN` which no host shell
+Three gates stopped it: the routine sync skipped the `run-scripts` op that
+carries indexing, the profile gated on `GITLAB_TOKEN`, which no host shell
 exports, and the index script gated on it again.
 
 Indexing reads dirs already on disk: no token, no network. Cloning needs auth,
 and auth is not one environment variable: the clone discovers projects through
 `glab`, whose credential lives in its own config, and falls back to SSH.
-Splitting the two lets each carry the gate it actually has.
+Splitting the two lets each carry the gate it has.
 
 ## As a workspace user
 
@@ -50,8 +50,8 @@ dependency is.
 
 ### Cloning gates on real authentication, not one mechanism for it (implemented)
 
-I want the clone gated on a command predicate making an authenticated api call,
-satisfied by a token in the environment or by glab's own credential,
+I want the clone gated on a command predicate making an authenticated api
+call, satisfied by a token in the environment or by glab's own credential,
 so that every context that can clone is admitted: a host using glab's config,
 an image build or CI job carrying only the token.
 
@@ -59,37 +59,37 @@ an image build or CI job carrying only the token.
 
 I want the probe to be an api call, never a status subcommand that reports
 success whenever a token is present,
-so that a rejected or expired credential fails the gate instead of failing later
-inside the clone.
+so that a rejected or expired credential fails the gate instead of failing
+later inside the clone.
 
 ### Indexing carries no gate it does not need (implemented)
 
-I want the index path free of the token and group gates, keeping only its guard
-against a missing `che`,
+I want the index path free of the token and group gates, keeping only its
+guard against a missing `che`,
 so that an unrelated credential never decides whether the map refreshes.
 
 ### The clone and index concerns are separately runnable (implemented)
 
-I want indexing exposed as its own profile beside the combined clone-then-index
-path, with a named target invoking it,
+I want indexing exposed as its own profile beside the combined
+clone-then-index path, with a named target invoking it,
 so that a refresh is one command touching no remote.
 
 ### A workspace with nothing to index is not a failure (implemented)
 
-I want the index to succeed and do nothing when the workspace holds no repos or
-does not exist, not abort the run that invoked it,
+I want the index to succeed and do nothing when the workspace holds no repos
+or does not exist, not abort the run that invoked it,
 so that an image build indexing before its first clone still completes.
 
 ### A skipped step says which gate stopped it (implemented)
 
-I want each skip naming its cause, whether the gate lives in the profile or the
-script,
+I want each skip naming its cause, whether the gate lives in the profile or
+the script,
 so that silence is never mistaken for success.
 
 ### The generated map credits the repo that generates it (implemented)
 
-I want the subgroup index template naming `control` as its origin, one template
-tracked in one place,
+I want the subgroup index template naming `automation` as its origin, one
+template tracked in one place,
 so that no generated file sends a reader to a repo that no longer owns this.
 
 <!-- [<] 🤖🤖 -->

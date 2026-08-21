@@ -4,12 +4,12 @@
 
 ## As a session user
 
-Works in the session with the tools they know. Does not install them.
+Works with the tools they know. Installs none.
 
 ### The agents the sandbox exists to run are there (implemented)
 
-I want claude and codex both running in a session booted from the configuration
-image,
+I want claude and codex both running in a session booted from the
+configuration image,
 so that a session is useful the moment it starts.
 
 ### The shell, terminal and editor behave as on the host (implemented)

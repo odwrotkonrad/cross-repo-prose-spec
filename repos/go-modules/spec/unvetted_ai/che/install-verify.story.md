@@ -43,7 +43,7 @@ so that an odd manager does not force the whole entry off the default.
 
 I want a `verify:` object with several strategy keys to run each and require
 each to pass,
-so that a weak single check is not the only proof.
+so that a weak single check is never the only proof.
 
 ### A binary-less package proven by its manager (implemented)
 

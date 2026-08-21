@@ -2,10 +2,9 @@
 
 <!-- [>] 🤖🤖 -->
 
-A repo using `.env` tracks one env file: `.env.tpl` at its root. A gomplate
-template che renders to `.env` (gitignored, `mergeUpsert`), not a list to
-copy. A plain value stays plain, a secret is `{{ secret "op://..." }}`, a
-GitLab variable is
+A repo using `.env` tracks one env file: `.env.tpl` at its root, a gomplate
+template che renders to `.env` (gitignored, `mergeUpsert`). A plain value stays
+plain, a secret is `{{ secret "op://..." }}`, a GitLab variable is
 `{{ shell "glab variable get -g konradodwrot GRP_KO_VAR_<NAME>" }}`. No
 `templates/1-env/`, no second seed template, no hand-copied `.env`.
 
@@ -63,7 +62,7 @@ checkout on the next render.
 
 I want an unauthenticated `glab` or `op` to fail the render naming the key,
 never leaving an empty or partial value,
-so that a broken environment errors loudly at prepare time, not silently later.
+so that a broken environment errors at prepare time, not silently later.
 
 ## As a repo maintainer
 

@@ -56,7 +56,7 @@ so that the op sequence lands in the job log the first time.
 ### A draft MR never performs a real apply (implemented)
 
 I want the apply gated off for drafts and non-MR pipelines, the dry run still
-running on both architectures,
+running on both arches,
 so that work in progress cannot mutate the container it runs in.
 
 <!-- [<] 🤖🤖 -->

@@ -7,11 +7,11 @@ replaced commit produces a result nobody reads, while its jobs hold pods,
 occupy nodes the autoscaler would release, and delay the pipeline superseding
 them. Cancelling on the new commit is the whole saving.
 
-Cancellation is opt-in per job, not blanket. A job with an external side effect
-finishes or never starts. Killing `terraform apply` halfway can leave a held
-state lock that blocks every later pipeline until an operator force-unlocks.
-Killing a publish halfway can leave a half-pushed artifact. Those jobs stay
-uncancellable, and pay for it.
+Cancellation is opt-in per job, not blanket. A job with an external side
+effect finishes or never starts. Killing `terraform apply` halfway can leave a
+held state lock that blocks every later pipeline until an operator
+force-unlocks. Killing a publish halfway can leave a half-pushed artifact.
+Those jobs stay uncancellable, and pay for it.
 
 ## As a CI maintainer
 
@@ -26,14 +26,14 @@ nobody will merge.
 
 ### Cancellability declared once per repo (implemented)
 
-I want interruptibility set in the existing `default:` block beside shared tags
-and retry rules,
+I want interruptibility set in the existing `default:` block beside shared
+tags and retry rules,
 so that every job inherits it and an exception is a visible override.
 
 ### No repo is left paying for superseded pipelines (todo)
 
-I want che-packages, control and prose carrying the same `default:` line, their
-release and trigger jobs exempted,
+I want che-packages, automation and both prose repos carrying the same
+`default:` line, their release and trigger jobs exempted,
 so that their superseded pipelines are cancelled like every other repo's.
 
 ### Both halves are required (implemented)
@@ -68,8 +68,9 @@ so that tests, lint, validate and build stay cancellable, where the saving is.
 ### Every exemption says why at the job (todo)
 
 I want iac's `plan` and `apply`, oci-images' `trigger-control-regen` and each
-go-modules release job stating its side effect where the exemption is declared,
-so that a reader never has to infer why a job is exempt.
+go-modules release job stating its side effect where the exemption is
+declared,
+so that a reader never infers why a job is exempt.
 
 ### An exempt job still stops before it starts (implemented)
 

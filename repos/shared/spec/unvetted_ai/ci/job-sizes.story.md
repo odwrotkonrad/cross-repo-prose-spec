@@ -7,9 +7,9 @@ tier, 74% of them peaking under a quarter vCPU and 512 MB. Each still
 reserved a full vCPU and 3 GB, so a 4 vCPU node held three jobs and validate
 jobs queued five to ten minutes on `Insufficient cpu` while the spot pool was
 exhausted. The fix is two-sided: the tiers in `cross-repo/infra/iac` carry
-requests set from measured usage, and every job tags the tier its measured
-usage needs. The default alias stays `medium`, so a size is always an explicit
-choice in `.gitlab-ci.yml`.
+requests set from measured usage, and every job tags the tier it needs. The
+default alias stays `medium`, so a size is always an explicit choice in
+`.gitlab-ci.yml`.
 
 ## As a repo maintainer
 
@@ -17,8 +17,8 @@ Writes `.gitlab-ci.yml`. Reads pod metrics only when a job misbehaves.
 
 ### Every pod job names its tier (todo)
 
-I want each job that runs a pod carrying a `gke-linux-<arch>-<size>` tag,
-either on the job, its anchor, or the `default:` block,
+I want each job that runs a pod carrying a `gke-linux-<arch>-<size>` tag, on
+the job, its anchor, or the `default:` block,
 so that no job reserves capacity by accident and a reader sees its size where
 the job is defined.
 

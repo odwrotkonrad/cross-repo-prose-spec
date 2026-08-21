@@ -2,7 +2,7 @@
 
 <!-- [>] 🤖🤖 -->
 
-`discover-profiles`: print the resolved runtime spec `che run` would execute.
+`discover-profiles` prints the resolved runtime spec `che run` would execute.
 
 Os-mutating commands: `run`, `backup`, `prune-broken-links`, `make-dirs`,
 `make-links`, `make-copies`, `render-templates`, `run-scripts`, `uninstall`

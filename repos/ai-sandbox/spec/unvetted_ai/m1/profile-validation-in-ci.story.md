@@ -4,7 +4,7 @@
 
 ## As a CI maintainer
 
-Keeps the pipeline cheap and honest. Does not build images.
+Keeps the pipeline cheap and honest. Builds no images.
 
 ### CI validates without building (implemented)
 
@@ -14,7 +14,8 @@ so that the pipeline takes minutes, not hours.
 
 ### A broken profile is caught before anyone builds (implemented)
 
-I want the dry run failing and naming the profile that would fail when applied,
+I want the dry run failing and naming the profile that would fail when
+applied,
 so that the break surfaces at review.
 
 ### Validation is free of side effects (implemented)

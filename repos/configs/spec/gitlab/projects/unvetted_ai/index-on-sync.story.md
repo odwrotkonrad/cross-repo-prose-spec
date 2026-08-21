@@ -2,9 +2,9 @@
 
 <!-- [>] 🤖🤖 -->
 
-Workspace indexing lives in `control`, consumed here through a remote profile
-include. This repo owns only the wiring: which targets the routine sync runs,
-in what order.
+Workspace indexing lives in `cross-repo/automation`, consumed here through a
+remote profile include. This repo owns only the wiring: which targets the
+routine sync runs, in what order.
 
 Order matters. The index inlines each repo's rendered purpose doc, which the
 host load produces and gitignore keeps out of the tree. Indexing before that
@@ -16,13 +16,15 @@ Runs one sync target on a host, knows nothing of the ops beneath it.
 
 ### One command leaves configs loaded and the map current (implemented)
 
-I want the routine sync refreshing the workspace indexes after loading configs,
+I want the routine sync refreshing the workspace indexes after loading
+configs,
 so that the map is current without knowing which repo generates it.
 
 ### A refresh needs no gitlab credential (implemented)
 
 I want the index step running with no token in the environment,
-so that the routine sync never depends on a credential it does not otherwise need.
+so that the routine sync never depends on a credential it does not otherwise
+need.
 
 ### Each repo's purpose reaches the map (implemented)
 
@@ -43,22 +45,25 @@ so that the heavier path is unchanged by the routine one gaining a step.
 
 ## As a configs maintainer
 
-Owns the wiring and the remote include, duplicates nothing `control` serves.
+Owns the wiring and the remote include, duplicates nothing
+`cross-repo/automation` serves.
 
 ### Index logic has one home (implemented)
 
-I want the sync invoking `control`'s index profile through the remote include,
-never reimplementing the walk here,
+I want the sync invoking `cross-repo/automation`'s index profile through the
+remote include, never reimplementing the walk here,
 so that the map's shape cannot drift between two implementations.
 
 ### The include names a version (todo)
 
-I want the `control` include pinned at a tag like the prose include beside it,
+I want the `cross-repo/automation` include pinned at a tag like the prose
+include beside it,
 so that a sync resolves a known revision, not a moving branch.
 
 ### The inventory describes files this repo holds (implemented)
 
-I want the tools inventory free of the profile tree that moved to `control`,
+I want the tools inventory free of the profile tree that moved to
+`cross-repo/automation`,
 so that a reader is never sent to a path this repo no longer carries.
 
 <!-- [<] 🤖🤖 -->

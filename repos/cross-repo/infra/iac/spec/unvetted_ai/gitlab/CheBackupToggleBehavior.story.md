@@ -63,7 +63,7 @@ so that what CI runs with is reviewable and changing it is a merge request.
 
 I want the group-scoped name carrying the `GRP_KO_VAR_` prefix and each
 pipeline assigning it to the name che reads,
-so that a reader at the point of use knows which scope defined it and where to
-change it.
+so that a reader at the point of use knows which scope defined it and where
+to change it.
 
 <!-- [<] 🤖🤖 -->

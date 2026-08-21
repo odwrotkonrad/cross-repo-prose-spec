@@ -3,8 +3,8 @@
 <!-- [>] 🤖🤖 -->
 
 `fn-ssh-generate-keys` mints `id_access` and `id_signing`, then calls
-`fn-ssh-publish-keys`, which registers both on GitLab under their file names and
-appends the signing key to `~/.ssh/allowed_signers`. The signers file is
+`fn-ssh-publish-keys`, which registers both on GitLab under their file names
+and appends the signing key to `~/.ssh/allowed_signers`. The signers file is
 per-host state, never tracked: retired keys stay so old signatures keep
 verifying.
 
@@ -15,7 +15,7 @@ by hand.
 
 ### Rotate keys without a manual registration step (implemented)
 
-I want generating a keypair to register it on GitLab in the same command,
+I want generating a keypair registering it on GitLab in the same command,
 so that a rotation never leaves pushes failing on a key the account lacks.
 
 ### Keep signing verified locally after a rotation (implemented)
@@ -37,8 +37,8 @@ so that I can run it to confirm state without changing any.
 
 ### Rotate on a host that never had these keys (implemented)
 
-I want a missing `allowed_signers` created and an absent public key reported as
-an error,
+I want a missing `allowed_signers` created and an absent public key reported
+as an error,
 so that a fresh host converges to the same state as an old one.
 
 ## As an account owner

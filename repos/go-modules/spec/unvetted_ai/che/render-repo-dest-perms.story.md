@@ -2,10 +2,9 @@
 
 <!-- [>] 🤖🤖 -->
 
-`renderTemplates` accepts `chmod` on any node, and host dests honour it. Repo
-dests ignored it and wrote one hardcoded mode, so a rendered file was never
-executable. A script authored once and rendered into each consumer arrived
-unrunnable.
+`renderTemplates` accepts `chmod` on any node. Host dests honour it, repo dests
+ignored it and wrote one hardcoded mode, so a rendered script was never
+executable.
 
 ## As a config author
 

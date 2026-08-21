@@ -4,22 +4,22 @@
 
 Every Go job in the group refetches its module tree from `proxy.golang.org`:
 196 `go: downloading` lines before the first compile, ~60 jobs a day in
-go-modules alone. Image pulls moved to Artifact Registry and left Cloud NAT;
-module downloads did not, and they are the largest item still crossing it. On
-one day the cluster pulled 43 GiB through NAT, most of it modules a job earlier
-in the same pipeline had already fetched. NAT bills every byte it processes,
-inbound included, on top of a gateway floor paid at zero traffic.
+go-modules alone. Image pulls moved to Artifact Registry and left Cloud NAT.
+Module downloads did not, and they are the largest item still crossing it. One
+day the cluster pulled 43 GiB through NAT, mostly modules a job earlier in the
+same pipeline had already fetched. NAT bills every byte, inbound included, on
+top of a gateway floor paid at zero traffic.
 
 Artifact Registry offers a Go remote repository: a pull-through cache whose
 only allowed upstream is `proxy.golang.org`. A module version is fetched from
 the internet once, then served in-region over private Google access, outside
 NAT, at no transfer charge.
 
-The wiring lives on the runner, not in pipelines. Every job pod already holds
-a Workload Identity; the runner's `pre_build_script` turns it into a proxy
+The wiring lives on the runner, not in pipelines. Every job pod holds a
+Workload Identity. The runner's `pre_build_script` turns it into a proxy
 credential and points `GOPROXY` at the cache before the job's first line runs.
-No repo edits a `.gitlab-ci.yml` to benefit, and no repo can forget to. The
-go-modules build cache, specified in
+No repo edits a `.gitlab-ci.yml` to benefit, none can forget to. The go-modules
+build cache, specified in
 [go-modules pipeline-caching](../../../../../go-modules/spec/unvetted_ai/release/pipeline-caching.story.md),
 keeps refusing to cache downloads: this is the cache for those.
 
@@ -31,8 +31,8 @@ Applies the ci-cluster module. Owns repositories, identity and reachability.
 
 I want a `GO` format remote repository beside the docker ones, upstream
 `proxy.golang.org`,
-so that a module version crosses the internet once per cluster, never once
-per job.
+so that a module version crosses the internet once per cluster, not once per
+job.
 
 ### The proxy needs no credential to hold (implemented)
 
@@ -50,7 +50,7 @@ already holds, no key file, no CI variable carrying a secret.
 
 I want no identity granted writer on the remote repository,
 so that a compromised job cannot plant a module version every later build
-trusts. The cache is filled only by the upstream fetch.
+trusts. Only the upstream fetch fills the cache.
 
 ### The credential is minted per job, on the runner (implemented)
 
@@ -65,8 +65,8 @@ prints no secret.
 I want the script POSIX `sh`, fetching with `curl` or busybox `wget`, never
 calling `exit`, every command guarded against `set -e`,
 so that an alpine `docker:cli` job, a bare `debian:bookworm-slim` job and the
-`ci-linux` image all run it and a job that cannot mint a token proceeds
-unchanged rather than failing before its own script.
+`ci-linux` image all run it, and a job that cannot mint a token proceeds
+unchanged instead of failing before its own script.
 
 ### A job that cannot reach the proxy builds as before (implemented)
 
@@ -107,9 +107,8 @@ need no GCP credential.
 
 I want the proxy path published as the group variable
 `GRP_KO_VAR_ARTIFACT_REGISTRY_PROXY_GO`, beside the docker proxy variables,
-so that a Dockerfile build or a dind container, where the runner's
-environment does not reach, can be pointed at it without hardcoding a
-hostname.
+so that a Dockerfile build or a dind container, where the runner's environment
+does not reach, can be pointed at it without a hardcoded hostname.
 
 ### The proxy is part of the registry artifact (implemented)
 
@@ -130,7 +129,7 @@ processing or transfer charge.
 ### The cache costs storage, not bandwidth (implemented)
 
 I want the proxy's only recurring cost to be Artifact Registry storage for the
-module set the group actually imports,
-so that the spend is a few cents a month, bounded by what `go.sum` files name.
+module set the group imports,
+so that spend is a few cents a month, bounded by what `go.sum` files name.
 
 <!-- [<] 🤖🤖 -->

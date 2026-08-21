@@ -8,8 +8,8 @@ Wires cross-project triggers. Does not edit instance-level settings.
 
 ### Downstream triggers fire instead of failing (implemented)
 
-I want prose in control's job token allowlist under instance-enforced inbound
-scope,
+I want prose in automation's job token allowlist under instance-enforced
+inbound scope,
 so that a prose tag pipeline creates the downstream pipeline instead of
 returning downstream_pipeline_creation_failed.
 
@@ -25,15 +25,16 @@ resource definition.
 
 ### Terraform never fights the instance (implemented)
 
-I want the module to add one allowlist entry and never write the scope-enabled
-flag,
-so that granting access does not collide with gitlab.com forbidding per-project
-scope disabling.
+I want the module to add one allowlist entry and never write the
+scope-enabled flag,
+so that granting access does not collide with gitlab.com forbidding
+per-project scope disabling.
 
 ### Grants stay one-directional (implemented)
 
-I want an entry to name exactly one accessed project and one permitted project,
-so that letting prose reach control grants control nothing back, and no third
-project anything.
+I want an entry to name exactly one accessed project and one permitted
+project,
+so that letting prose reach automation grants automation nothing back, and no
+third project anything.
 
 <!-- [<] 🤖🤖 -->

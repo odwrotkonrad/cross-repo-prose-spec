@@ -3,9 +3,9 @@
 <!-- [>] 🤖🤖 -->
 
 Cloning fills the workspace with repos that are not yet checkouts. The index
-that follows inlines each repo's rendered purpose doc, so on a fresh clone every
-entry reads `_(no purpose.md)_`: a list of repos that says nothing about any of
-them.
+that follows inlines each repo's rendered purpose doc, so on a fresh clone
+every entry reads `_(no purpose.md)_`: a list of repos saying nothing about any
+of them.
 
 A preparation pass runs between cloning and indexing, calling each repo's own
 `repo-prepare-dev-env` (specified in
@@ -27,8 +27,8 @@ so that a new workspace needs no second pass to become usable.
 
 I want preparation to run before indexing, each repo's purpose existing when
 the index inlines it,
-so that a fresh clone yields a map with real purposes, not a list of unexplained
-names.
+so that a fresh clone yields a map with real purposes, not a list of
+unexplained names.
 
 ## As a workspace maintainer
 
@@ -38,7 +38,8 @@ Owns the workspace scripts. Encodes no per-repo knowledge in them.
 
 I want a failing repo reported and the pass continued, the step itself always
 succeeding,
-so that one broken checkout cannot abort a session bootstrap or an image build.
+so that one broken checkout cannot abort a session bootstrap or an image
+build.
 
 ### A repo that cannot be prepared is skipped, not failed (implemented)
 

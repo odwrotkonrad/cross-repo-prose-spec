@@ -2,7 +2,7 @@
 
 <!-- [>] 🤖🤖 -->
 
-`backup` archives every existing op dest that would change (unsettled links,
+`backup` archives every existing op dest a run would change (unsettled links,
 differing copies, differing renders) into one per-run archive. Subcommands:
 `backup create`, `backup restore` (`--run-id`, `--backup-id` or `--timestamp`),
 `backup ls`.
@@ -101,7 +101,7 @@ I want an os-mutating op invoked outside `run` to archive its own dests before
 mutating, while automatic backup is on,
 so that skipping the wrapper never skips protection.
 
-### Disposable hosts pay nothing for a recovery point they will never use (tested)
+### Disposable hosts pay nothing for a recovery point they will never use (implemented)
 
 I want `backup.autoCreate.enabled: false` (`--backup-auto-create=false`,
 `CHE_BACKUP_AUTO_CREATE`, default true) to silence both automatic paths, the

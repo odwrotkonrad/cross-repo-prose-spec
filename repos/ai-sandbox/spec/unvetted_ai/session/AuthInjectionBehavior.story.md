@@ -15,15 +15,15 @@ so that no ssh key, gitlab token or op credential is read on the host.
 
 ### A missing credential fails the image build (implemented)
 
-I want the config image build exiting non-zero and naming the missing op path
-when the SA key is absent,
+I want the config image build exiting non-zero naming the missing op path when
+the SA key is absent,
 so that no image is baked half-authenticated.
 
 ### A stale image cannot hide a missing credential (todo)
 
-I want `session-create` and `session-attach` exiting non-zero and naming the
-missing op path when the SA key is absent and `GCP_SA_KEY` unset, before any
-kubectl apply,
+I want `session-create` and `session-attach` exiting non-zero naming the missing
+op path when the SA key is absent and `GCP_SA_KEY` unset, before any kubectl
+apply or exec into the pod,
 so that no session starts half-authenticated.
 
 ## As an AI agent running in a session

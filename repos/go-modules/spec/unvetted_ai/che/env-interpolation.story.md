@@ -18,8 +18,8 @@ one env. Fetching values by running a tool at render time:
 `render-shell.story.md`. Downstream use (one `PROSE_REF` group variable
 consumed everywhere): `repos/shared/spec/.../ci/upstream-refs.story.md`,
 `repos/shared/spec/.../dev-env/upstream-refs.story.md`,
-`repos/infra/iac/spec/.../gitlab/ArtifactVersionVariablesBehavior.story.md`,
-`repos/control/spec/.../sync/version-propagation.story.md`.
+`repos/cross-repo/infra/iac/spec/.../gitlab/ArtifactVersionVariablesBehavior.story.md`,
+`repos/cross-repo/automation/spec/.../sync/version-propagation.story.md`.
 
 ## As a config author
 

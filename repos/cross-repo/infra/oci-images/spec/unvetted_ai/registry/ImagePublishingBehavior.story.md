@@ -85,7 +85,8 @@ so that a target sharing most of its layers is not rebuilt from scratch.
 ### A cutover leaves no image behind (implemented)
 
 I want both images and both cache references moved together,
-so that no job pulls one image from the old registry and another from the new.
+so that no job pulls one image from the old registry and another from the
+new.
 
 ### The bootstrap job still bootstraps (implemented)
 
@@ -116,9 +117,9 @@ each repository a build pulls from.
 
 ### Publishing is not silently one-way (todo)
 
-I want the previously published images left in place for a release cycle after
-the cutover,
-so that repointing a repo back is a variable change, not a rebuild. Publishing
-moved with no dual-push to fall back on.
+I want the previously published images left in place for a release cycle
+after the cutover,
+so that repointing a repo back is a variable change, not a rebuild.
+Publishing moved with no dual-push to fall back on.
 
 <!-- [<] 🤖🤖 -->

@@ -4,7 +4,7 @@
 
 ## As a session user
 
-Writes freely inside the session. Does not manage storage.
+Writes freely inside the session. Manages no storage.
 
 ### Everything is writable (tested)
 
@@ -14,7 +14,7 @@ so that no path is off limits mid-task.
 ### What must outlive the pod does (tested)
 
 I want the workspace intact after a stop and start,
-so that persistence is deliberate and predictable.
+so that persistence is deliberate.
 
 ### Scratch paths start clean (todo)
 
@@ -29,17 +29,18 @@ Owns how configuration reaches a pod. Does not use the sessions.
 
 I want a pod's user configuration coming from the configuration image, no host
 directory mounted,
-so that the host filesystem is not part of the sandbox.
+so that the host filesystem is outside the sandbox.
 
 ### One session's writes stay its own (implemented)
 
 I want other sessions still reading the image's content after one overwrites
-it, and new sessions booting from the image, not that write,
+it, and new sessions booting from the image,
 so that sessions cannot contaminate each other.
 
 ### Many sessions cost one copy (todo)
 
-I want the image stored once per node, each session costing only what it wrote,
+I want the image stored once per node, each session costing only what it
+wrote,
 so that session count is not a storage decision.
 
 <!--[<] 🤖🤖 -->

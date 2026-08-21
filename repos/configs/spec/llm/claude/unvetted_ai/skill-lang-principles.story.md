@@ -48,9 +48,9 @@ so that typing, docstrings and script structure are stated once.
 
 ### Principles reach the host through the normal render path (implemented)
 
-I want a principles file added under the prose claude-rules tree and wired into
-the configs render spec, so rendering configs writes it under the claude rules
-tree and loading configs puts it where the skill script reads it,
+I want a principles file added under the prose claude-rules tree and wired
+into the configs render spec, rendering configs writing it under the claude
+rules tree, loading configs putting it where the skill script reads it,
 so that no rule needs its own delivery path.
 
 <!-- [<] 🤖🤖 -->

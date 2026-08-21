@@ -183,7 +183,7 @@ so that a user's file is self-contained.
 ### A json schema of the packages file structure (implemented)
 
 I want `make render-docs` to generate `assets/data/packages.schema.json` from
-the Go source alongside che.schema.json, packages files opening with a
+the Go source beside che.schema.json, packages files opening with a
 `# yaml-language-server: $schema=` modeline pointing at it, the builtin carrying
 that modeline against the published url,
 so that editors validate and complete entries in place.

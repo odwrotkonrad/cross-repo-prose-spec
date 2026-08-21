@@ -3,22 +3,21 @@
 <!-- [>] 🤖🤖 -->
 
 `writeType: mergeUpsert` unions a rendered `KEY=VALUE` file under the existing
-dest and keeps the existing value where both have a key. Right for a knob the
-user set by hand, wrong for a fetched value: a bumped group variable or rotated
-secret never reaches `.env` after the first render. The template decides per
-value with a pipe: `{{ shell "..." | alwaysUpdate }}` overwrites,
-`{{ shell "..." | keepIfExisting }}` keeps. Same two after `secret`. Unpiped,
-`shell` and `secret` update, everything else keeps: fetched values track their
-source, typed values belong to the user.
+dest, existing value winning on a shared key. Right for a knob set by hand,
+wrong for a fetched value: a bumped group variable or rotated secret never
+reaches `.env` after the first render. A pipe decides per value:
+`{{ shell "..." | alwaysUpdate }}` overwrites, `{{ shell "..." | keepIfExisting }}`
+keeps, same after `secret`. Unpiped, `shell` and `secret` update, everything
+else keeps: fetched values track their source, typed values belong to the user.
 
 ## As a template author
 
-Writes `.env.tpl`. Wants fetched values fresh and hand-set ones untouched.
+Writes `.env.tpl`. Wants fetched values fresh, hand-set ones untouched.
 
 ### A fetched value overwrites by default (implemented)
 
-I want a `{{ shell "..." }}` or `{{ secret "..." }}` value to replace the
-existing one on every `mergeUpsert` render, no pipe needed,
+I want an unpiped `{{ shell "..." }}` or `{{ secret "..." }}` value to replace
+the existing one on every `mergeUpsert` render,
 so that `.env` follows the GitLab variable or vault item it was seeded from.
 
 ### A pipe makes the action explicit (tested)
@@ -31,7 +30,7 @@ so that one template mixes tracked values and one-time seeds line by line.
 ### A typed value keeps by default (tested)
 
 I want a line with no expression, or an unpiped expression other than `shell`
-and `secret`, to keep the existing value as `mergeUpsert` does today,
+and `secret`, to keep the existing value,
 so that a knob I set in `.env` survives every render unless the template says
 otherwise.
 
@@ -52,8 +51,8 @@ so that `.env` stays a plain env file any shell sources.
 
 ### Other writeTypes are unaffected (tested)
 
-I want `alwaysUpdate` and `keepIfExisting` to be no-ops under every writeType but
-`mergeUpsert`, the value passing through unchanged,
+I want `alwaysUpdate` and `keepIfExisting` to be no-ops under every writeType
+but `mergeUpsert`, the value passing through unchanged,
 so that a template shared between an env dest and a plain file renders the same
 text in both.
 

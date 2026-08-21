@@ -5,7 +5,7 @@
 che ships one binary. `render-tpl`, `render-dirs-tree`, `render-makefile-doc` and
 `render-repo-group-index` were standalone but never independent: each wrapped
 the same engine (`che/render/render`) through the same `checkcmd.Tool` shell,
-versioned and released in lockstep with che.
+released in lockstep with che.
 
 Five builds, five archives and a five-binary deb per platform cost downstream
 real work. A host with che but no render binary failed at the call site, not at

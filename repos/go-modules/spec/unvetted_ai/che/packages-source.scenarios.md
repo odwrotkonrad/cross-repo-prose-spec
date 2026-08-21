@@ -36,20 +36,20 @@ Scenario: a pinned ref installs the same definitions every run (tested)
 Scenario: an unpinned run picks up the newest catalog (implemented)
   Given `packages.autoUpdate.enabled` is unset
   And no `packages.source.ref` is set
-  When I invoke `che apply`
+  When I invoke `che run`
   Then che resolves the newest published version before installing
   And installs against it
 
 Scenario: repeated unpinned runs stay cheap (implemented)
   Given `packages.autoUpdate.if.refIsLatest.cooldown` is `30s`
   And an update check ran less than 30s ago
-  When I invoke `che apply`
+  When I invoke `che run`
   Then che skips the registry round-trip and reports the cached state
   And a run after the cooldown re-checks the registry
 
-Scenario: a multi-profile apply makes one round-trip (tested)
+Scenario: a multi-profile run makes one round-trip (tested)
   Given a spec file declaring several profiles that install packages
-  When I invoke `che apply`
+  When I invoke `che run`
   Then che checks for updates exactly once
   And every profile installs against the catalog that check resolved
 
@@ -60,13 +60,13 @@ Scenario: an explicit update always acts (implemented)
 
 Scenario: planning offline is a config choice (tested)
   Given `packages.autoUpdate.if.dryRunIsTrue.enabled` is false
-  When I invoke `che apply --dry-run`
+  When I invoke `che run --dry-run`
   Then che runs no update check and prints no update-check line
   And plans against the cached, else embedded, catalog
 
 Scenario: a dead source costs a warning, not a run (implemented)
   Given the configured source is unreachable
-  When I invoke `che apply`, and again with `--dry-run`
+  When I invoke `che run`, and again with `--dry-run`
   Then both warn that the update failed
   And both proceed against the cached, else embedded, catalog
   And neither exits non-zero for it

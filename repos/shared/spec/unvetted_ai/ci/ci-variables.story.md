@@ -5,7 +5,7 @@
 A GitLab-injected variable carries a prefix naming its scope:
 `GRP_<MNEMONIC>_VAR_` for a group (`GRP_KO_VAR_` for `konradodwrot`),
 `REPO_VAR_` for a project. All declared in `infra/iac`. Each pipeline remaps
-every injected variable it consumes to the bare name at the boundary, nothing
+every injected variable it consumes to the bare name at the boundary. Nothing
 past the boundary sees a prefix. A tracked `.env.tpl` at the repo root lists
 the same bare names, so a host seeds the environment CI derives. Convention:
 `conventions/ci-variables/convention.md`.
@@ -31,7 +31,7 @@ it is visible in.
 ### One remap line per variable, at the top of the pipeline (implemented)
 
 I want each consumed group variable assigned to its bare name in the top-level
-`variables:` block, and each project secret assigned on the job using it,
+`variables:` block, each project secret assigned on the job using it,
 so that every value's scope is visible where it enters and nothing further in
 carries a prefix.
 

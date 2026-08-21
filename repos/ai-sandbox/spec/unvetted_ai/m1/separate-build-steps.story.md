@@ -49,8 +49,8 @@ so that the rarest change is also the safest.
 
 ### A sandbox is buildable with no CI at all (tested)
 
-I want both images building on a host without CI access and a session running
-from them,
+I want both images building on a host without CI access and a session
+running from them,
 so that the build never depends on a pipeline.
 
 <!--[<] 🤖🤖 -->

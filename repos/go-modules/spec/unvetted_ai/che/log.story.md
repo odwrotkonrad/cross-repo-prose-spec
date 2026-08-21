@@ -3,11 +3,11 @@
 <!-- [>] 🤖🤖 -->
 
 Two logs: human for the CLI, machine for otel/prometheus. The human log is
-prose: headings, indentation, multi-line. `CHE_LOG_LEVEL` picks error (failures),
-warn (plus warnings), info (default, what happened), debug (plus what will and
-will not happen, and why), trace (plus detail). Discovery reports each profile,
-its workdir, its ops with delta counts. Ops report the mutations they make or
-would make.
+prose: headings, indentation, multi-line. `CHE_LOG_LEVEL` picks error
+(failures), warn (plus warnings), info (default, what happened), debug (plus
+what will and will not happen, and why), trace (plus detail). Discovery reports
+each profile, its workdir, its ops with delta counts. Ops report the mutations
+they make or would make.
 
 ## As an operator
 
