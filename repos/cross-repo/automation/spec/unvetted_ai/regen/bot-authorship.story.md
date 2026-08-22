@@ -4,7 +4,7 @@
 
 A regen run writes to GitLab four ways: the commit, the push, the MR, the
 merge. Each one stamps a name into history. The machine identity exists (the
-`ko-automation` group access token, `CONTROL_GITLAB_TOKEN` in CI), so every
+`ko-automation` group access token, `AUTOMATION_GITLAB_TOKEN` in CI), so every
 one of those writes belongs to it.
 
 Two leaks made them the user's instead. The commit author read
@@ -28,7 +28,7 @@ so that a human name in history means a human did the work.
 ### The bot's git identity comes from its own token (implemented)
 
 I want the commit author resolved from the authenticated user behind
-`CONTROL_GITLAB_TOKEN`, as `<username>` / `<id>-<username>@noreply.gitlab.com`,
+`AUTOMATION_GITLAB_TOKEN`, as `<username>` / `<id>-<username>@noreply.gitlab.com`,
 so that the name in the log matches the identity that actually pushed.
 
 ### An unknown identity stops the run (implemented)
