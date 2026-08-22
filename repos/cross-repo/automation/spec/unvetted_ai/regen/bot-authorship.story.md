@@ -4,7 +4,7 @@
 
 A regen run writes to GitLab four ways: the commit, the push, the MR, the
 merge. Each one stamps a name into history. The machine identity exists (the
-`cross-repo-bot` group access token, `CONTROL_GITLAB_TOKEN` in CI), so every
+`ko-automation` group access token, `CONTROL_GITLAB_TOKEN` in CI), so every
 one of those writes belongs to it.
 
 Two leaks made them the user's instead. The commit author read

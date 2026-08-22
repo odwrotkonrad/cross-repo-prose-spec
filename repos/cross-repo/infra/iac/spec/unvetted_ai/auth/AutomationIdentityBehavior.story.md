@@ -8,7 +8,7 @@ on `konradodwrot`, exposed to the automation project as
 `REPO_VAR_CONTROL_GITLAB_TOKEN` and mirrored into Secrets Manager.
 
 The token name is what GitLab shows as the author of every write it makes, so
-it names the role: `cross-repo-bot`.
+it names the role: `ko-automation`.
 
 ## As a repo historian
 
@@ -16,7 +16,7 @@ Reads MR lists and `git log` to see who did what.
 
 ### The identity reads as a machine (implemented)
 
-I want the group access token named `cross-repo-bot`,
+I want the group access token named `ko-automation`,
 so that the author and merger of a regen MR is recognisable as automation and
 not mistaken for a person.
 
