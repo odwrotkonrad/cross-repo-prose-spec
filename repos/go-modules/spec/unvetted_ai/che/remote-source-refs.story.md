@@ -2,10 +2,17 @@
 
 <!-- [>] 🤖🤖 -->
 
-A remote source pins a git ref with `@<tag|sha>` after repo+path, before
-`::<profile>`: `@<repo>//<path>[@<ref>][::<profile>]`. Profile sources,
-renderTemplates sources and `remoteFile` share it. `?ref=<ref>` is a deprecated
-alias: parsed, never emitted.
+A remote source pins a git ref with `?ref=<tag|branch>`, the query riding the
+source and never the profile name:
+`@<repo>[//<subdir>]/<spec-file>.yml::<profile>?ref=<ref>`. Profile sources,
+`include.sources`, renderTemplates sources and `remoteFile` share it.
+
+The `@<tag|sha>` suffix form (`@<repo>//<path>[@<ref>][::<profile>]`) is the
+intended end state, not yet built: those stories stay `(todo)` until it lands,
+with `?ref=` kept as an alias.
+
+A pinned ref is immutable: fetched into its own checkout, never silently
+replaced by a cached one. Unpinned tracks HEAD.
 
 A pinned ref is immutable: fetched once into its own checkout, reused offline.
 Unpinned tracks HEAD.
@@ -33,11 +40,34 @@ I want two renderTemplates or `remoteFile` sources of one repo at different
 refs resolved from separate checkouts, neither overwriting the other,
 so that a staged migration can pin one consumer ahead of another.
 
-### Two profile sources of one repo pinned apart (todo)
+### A profile source pinning to a release (tested)
+
+I want `@<giturl>[//<subdir>]/che.yml::<profile>?ref=<ref>` checked out at that
+tag or branch, `${{ env.NAME }}` interpolation included,
+so that a host loads the tool profiles of a known release, never a moving
+branch.
+
+### A spec source pinning the same way (tested)
+
+I want `include.sources` entries accepting the same `?ref=<ref>` suffix,
+so that one syntax pins every remote spec.
+
+### Two profile sources of one repo pinned apart (tested)
 
 I want two profile sources of one repo at different refs checked out
-separately, neither resetting the other,
+separately, neither resetting the other, the unpinned checkout untouched,
 so that a staged migration can pin one included profile ahead of another.
+
+### A malformed query failing at load (tested)
+
+I want a query other than `ref=<ref>`, an empty ref, or a ref on a local dir
+source rejected while the spec loads, naming the entry,
+so that a typo never silently resolves to HEAD.
+
+### Logs naming the ref (tested)
+
+I want `init-remote-sources` output showing the ref beside the repo,
+so that I can tell which release a run loaded.
 
 ### One leaf pinning apart from its neighbours, unambiguously (todo)
 
@@ -66,7 +96,7 @@ I want a renderTemplates or `remoteFile` ref missing upstream to fail the run
 naming source and ref, no stale checkout substituted,
 so that a bad pin is never papered over with old content.
 
-### An unresolvable profile pin failing loudly (todo)
+### An unresolvable profile pin failing loudly (tested)
 
 I want a profile source at a ref missing upstream to abort the run naming
 source and ref, no cached checkout substituted,
@@ -75,8 +105,8 @@ so that a bad profile pin is never papered over with old content.
 ### An unpinned source keeping its resilient update behavior (tested)
 
 I want a failed fetch on an unpinned profile source with a cached checkout to
-warn and proceed on the cache,
-so that tracking HEAD tolerates a flaky remote.
+proceed silently on the cache,
+so that tracking HEAD tolerates a flaky remote without noise.
 
 ### An unpinned template source surviving a flaky remote (todo)
 

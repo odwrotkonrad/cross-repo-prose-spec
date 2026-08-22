@@ -9,6 +9,11 @@ under the group. The prose system's own specs sit under
 `repos/shared/`. Downstream repos carry no spec trees: edit the spec here, then
 implement in the repo.
 
+Nothing under `cross-repo/prose/spec` renders into a consumer repo. Specs are
+read here. The conventions summary is the one file leaving this repo, and it
+loads once onto the host through `configs` `llm/base`
+(`conventions/templates/convention.md`), never into a repo's `AGENTS.md`.
+
 Two forms, two files:
 
 - `<feature>.story.md`: user stories. The default.
