@@ -39,12 +39,13 @@ unseeded checkout failing by the var's name,
 so that a clean checkout works after one `make`, no reload, no fallback
 version, no network call on a routine render.
 
-### A local checkout follows the authority without re-seeding (implemented)
+### A local checkout re-reads the authority on demand (implemented)
 
-I want automation's watcher to read the current version from `infra/iac`'s tfvars
-(the newest tag when iac is not checked out), rewrite `PROSE_REF` in each
-consumer's gitignored `.env` and re-render its non-checked-out outputs,
-so that the seed is a bootstrap, not the only time a checkout learns a version.
+I want a re-run of `repo-render-env` to re-read every `<ARTIFACT>_REF` from its
+group variable and upsert it onto `.env`, no poller and no second source of the
+value,
+so that the seed is a bootstrap, not the only time a checkout learns a version,
+and a refreshed pin can never disagree with the variable iac published.
 
 ### A repo without upstreams skips the seed (implemented)
 
