@@ -6,11 +6,13 @@ A fan-out opens one regen MR per affected repo and, on a patch or minor bump,
 merges it within seconds. Nothing announced any of it. The work landed and the
 maintainer learned about it by reading `git log` later, if at all.
 
-Every regen MR gets one comment mentioning a reviewer, which puts the MR in
-GitLab's todo and notification feed. The comment is notification only, never a
-gate: patch and minor bumps still self-merge on green, majors still wait for a
-human, review of what landed happens after the merge. So the comment is posted
-before auto-merge is armed, and a failed comment call never fails the regen.
+A regen MR whose diff carries more than version bumps gets one comment
+mentioning a reviewer, and that reviewer set on the MR, which puts it in
+GitLab's todo, notification feed and assigned queue. Both are notification
+only, never a gate: patch and minor bumps still self-merge on green, majors
+still wait for a human, review of what landed happens after the merge. So both
+happen before auto-merge is armed, and a failure in either never fails the
+regen.
 
 The reviewer is configuration (`AUTOMATION_REVIEWER`, from the
 `REPO_VAR_AUTOMATION_REVIEWER` CI variable), falling back to the workspace owner
@@ -43,6 +45,19 @@ so that a notification does not become an approval step.
 I want the mention target read from `AUTOMATION_REVIEWER`, falling back to the
 workspace owner when it is unset or empty,
 so that an unapplied CI variable never silences or breaks the fan-out.
+
+### The reviewer is assigned on the MR, not only mentioned (implemented)
+
+I want the same reviewer set as the MR's reviewer whenever the comment is
+posted, the handle resolved to a GitLab user,
+so that the MR surfaces in the reviewer's assigned queue and not only in the
+notification feed.
+
+### An unresolvable reviewer leaves the MR unassigned (implemented)
+
+I want a handle that matches no GitLab user to leave the MR unassigned with a
+line in the job log,
+so that a mistyped or retired handle never fails a mechanical bump.
 
 ### A failed comment never fails the regen (implemented)
 
