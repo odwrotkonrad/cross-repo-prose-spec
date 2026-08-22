@@ -32,8 +32,7 @@ so that a moved or new repo appears without a hand edit.
 
 ### Repos at any depth are seen (implemented)
 
-I want aggregation, the watcher and the index to find a repo three groups
-deep,
+I want aggregation and the index to find a repo three groups deep,
 so that nesting never hides a repo.
 
 ### An index never lands inside a repo (implemented)

@@ -37,4 +37,28 @@ producer release, the user applying it under their own identity,
 so that per-consumer pin rewriting retires and no consumer can disagree about
 the current version.
 
+### This repo's own version is read, never declared (implemented)
+
+I want `IAC_REF` to carry no `tf/IAC_REF.auto.tfvars` and no checked-in value,
+arriving instead as `TF_VAR_iac_ref` from the tag-mint job that runs before
+plan,
+so that a repo publishing its own pin does not have to declare the version its
+own apply produces.
+
+### The tag exists before terraform reads it (implemented)
+
+I want `tag-mint` in a `release` stage ahead of `validate`, `apply` needing it,
+and the tag resolved from `git ls-remote ... | sort -V` rather than
+`git describe` (no `GIT_DEPTH` is set, so a shallow clone can walk past it),
+so that the first main pipeline mints the tag before plan needs its value, and
+a re-run mints nothing because `tag-mint.zsh` exits early on an already-tagged
+HEAD.
+
+### A branch plan resolves the pin without minting (implemented)
+
+I want the branch-only `plan` job to export `TF_VAR_iac_ref` from the current
+newest tag,
+so that a merge request plan shows this repo's own pin unchanged instead of
+failing on a variable nothing supplied.
+
 <!-- [<] 🤖🤖🤖 -->
