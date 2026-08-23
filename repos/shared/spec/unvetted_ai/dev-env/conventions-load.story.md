@@ -5,7 +5,7 @@
 `cross-repo/prose/spec` is the contract's home: `conventions/` and every
 `repos/<repo-path>/spec/`. Nothing under it renders into a consumer repo. The
 conventions summary (`conventions/conventions.md`) renders once onto the host,
-beside the other agent prose payloads: `configs` `llm/base` renders it to
+beside the other agent prose payloads: `ai-harness/configs` `base` renders it to
 `~/.config/ai-agents/docs/conventions.md` at `PROSE_SPEC_REF`, the host
 `AGENTS.md.ontoHost.tpl` `@`-includes it into `~/.config/claude/CLAUDE.md` and
 `~/.config/codex/AGENTS.md`, exactly as `system.md`, `code.md`, `comments.md`
@@ -51,7 +51,7 @@ Loads `configs` onto a machine and gets the agent prose with it.
 
 ### Get the conventions with the other agent prose (todo)
 
-I want `configs` `llm/base` rendering `conventions/conventions.md` from
+I want `ai-harness/configs` `base` rendering `conventions/conventions.md` from
 `cross-repo/prose/spec` at `PROSE_SPEC_REF` into
 `~/.config/ai-agents/docs/conventions.md`, gitignored in the `configs`
 checkout like every other payload there,

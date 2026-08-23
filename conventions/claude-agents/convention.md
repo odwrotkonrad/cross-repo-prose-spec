@@ -1,6 +1,6 @@
 # Claude Agents Convention
 
-Every workspace repo carries two claude agents in `<repo>/.claude/agents/`: `RO-<Repo>` (read-only: scoping, planning, review, model fable) and `RW-<Repo>` (executor, model sonnet). On virt machines only, che also renders `<repo>/.claude/settings.json`, making `RW-<Repo>` the default main-thread agent. A repo owns only its `che.yml` wiring: one remote profile include of the shared `configs` profile. Rendered outputs never land in vcs.
+Every workspace repo carries two claude agents in `<repo>/.claude/agents/`: `RO-<Repo>` (read-only: scoping, planning, review, model fable) and `RW-<Repo>` (executor, model sonnet). On virt machines only, che also renders `<repo>/.claude/settings.json`, making `RW-<Repo>` the default main-thread agent. A repo owns only its `che.yml` wiring: one remote profile include of the shared `ai-harness/configs` profile. Rendered outputs never land in vcs.
 
 ## Naming
 
@@ -8,10 +8,10 @@ Every workspace repo carries two claude agents in `<repo>/.claude/agents/`: `RO-
 
 ## Ownership Split
 
-- `configs` owns the render: the `llm/claude/virt` profile in `profiles/llm/claude/che.yml` plus its snippets under `profiles/llm/claude/templates/snippets/`: `ro.md`, `rw.md` (full agent files, frontmatter + body, ctx `.repo` PascalCase), `settings.json` (`{"agent": "RW-{{ .repo }}"}`), `pwd.md` (invocation constraint, included by both agent snippets), `claude-gitignore`. The markdown snippets are authored in `cross-repo/prose/assets` (`repos/configs/ai/claude-snippets/`) and rendered into configs at its pinned `PROSE_ASSETS_REF`. Dest options and intra-snippet includes stay in `configs`. Dests target `${invokingSpecGitRoot}/.claude/...`.
-- Each repo owns one `claude-agents` profile in its `che.yml`: a remote profile include `@https://gitlab.com/konradodwrot/configs//profiles/llm/claude/che.yml::llm/claude/virt` with `ctx: {repo: <Repo>}`. That `ctx` is the only per-repo content. No template files, no per-file remote refs.
+- `ai-harness/configs` owns the render: the `claude/virt` profile in `profiles/claude/che.yml` plus its snippets under `profiles/claude/templates/snippets/`: `ro.md`, `rw.md` (full agent files, frontmatter + body, ctx `.repo` PascalCase), `settings.json` (`{"agent": "RW-{{ .repo }}"}`), `pwd.md` (invocation constraint, included by both agent snippets), `claude-gitignore`. The markdown snippets are authored in `cross-repo/prose/assets` (`repos/ai-harness/configs/ai/claude-snippets/`) and rendered into the owner at its pinned `PROSE_ASSETS_REF`. Dest options and intra-snippet includes stay in `ai-harness/configs`. Dests target `${invokingSpecGitRoot}/.claude/...`.
+- Each repo owns one `claude-agents` profile in its `che.yml`: a remote profile include `@https://gitlab.com/konradodwrot/ai-harness/configs//profiles/claude/che.yml::claude/virt` at `AI_CONFIGS_REF` with `ctx: {repo: <Repo>}`. That `ctx` is the only per-repo content. No template files, no per-file remote refs.
 
-A remote profile include goes through an on-disk checkout of `configs` anchored at `profiles/llm/claude`, so `localFile` includes between snippets (`ro.md` pulling `pwd.md`) resolve inside the checkout. Per-file remote sources break this: `localFile` would resolve against the consumer, where the sibling snippet does not exist. The `@https://` scheme is required, profile checkout clones the URL verbatim. The include resolves from the configs default branch at render time, so snippet changes apply once pushed to configs main. The repo path is never hardcoded: snippets take it from the rendering cwd (`env.Getenv "PWD"`), and che renders from the repo root.
+A remote profile include goes through an on-disk checkout of `ai-harness/configs` anchored at `profiles/claude`, so `localFile` includes between snippets (`ro.md` pulling `pwd.md`) resolve inside the checkout. Per-file remote sources break this: `localFile` would resolve against the consumer, where the sibling snippet does not exist. The `@https://` scheme is required, profile checkout clones the URL verbatim. The repo path is never hardcoded: snippets take it from the rendering cwd (`env.Getenv "PWD"`), and che renders from the repo root.
 
 ## Frontmatter
 
@@ -27,4 +27,4 @@ Belt and suspenders. The global git ignore (`configs/root/HOME/.config/git/ignor
 
 ## Example
 
-`example/che.yml` is the consumer side: a repo's whole footprint, one remote profile include. The shared profile and snippets live in `configs`. On virt, `che render-templates` renders all four dests.
+`example/che.yml` is the consumer side: a repo's whole footprint, one remote profile include. The shared profile and snippets live in `ai-harness/configs`. On virt, `che render-templates` renders all four dests.

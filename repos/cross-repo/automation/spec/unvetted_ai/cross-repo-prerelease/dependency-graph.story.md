@@ -2,6 +2,12 @@
 
 <!-- [>] 🤖🤖 -->
 
+Describes the graph as built today. The artifact model replacing it is
+specified in `repos/shared/spec/unvetted_ai/artifacts/declaration.story.md`
+(five-field artifacts, `depends_on:`), the graph's own repo in
+`repos/cross-repo/graph/`, and propagation in
+`../sync/artifact-propagation.story.md`. This file retires when those land.
+
 One generated graph names every repo, its artifacts, and the edges between
 them. Prerelease preference and prose propagation resolve against it. A vertex
 is `repo/artifact`.

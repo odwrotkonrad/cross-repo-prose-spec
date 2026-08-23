@@ -17,7 +17,7 @@ I want each `profiles/<area>/che.yml` publishing `<area>/base/macos`,
 `base/packages` and `base`,
 so that a consumer composes a host from area names, never from leaf paths.
 
-### No AI inside (todo)
+### No AI inside (implemented)
 
 I want `profiles/llm/` gone, claude, codex and ccstatusline out of
 `base/packages`, the prose AI payload renders out of `.repo/che.yml`,
