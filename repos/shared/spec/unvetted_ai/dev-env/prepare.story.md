@@ -60,7 +60,7 @@ them.
 
 ### Every toolchain is declared (todo)
 
-I want notes (ruby), ai-sandbox (podman, kind, kubectl, cilium), automation (glab,
+I want notes (ruby), sandbox (podman, kind, kubectl, cilium), automation (glab,
 yq) and configs (che, go via script) carrying a `devEnv` profile,
 so that no host needs pre-loading to prepare them.
 

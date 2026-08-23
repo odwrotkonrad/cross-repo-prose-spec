@@ -59,7 +59,7 @@ registry. Remote repositories are read-only to every CI identity.
 
 ## Out of scope
 
-Images built and pushed on a developer host (`ai-sandbox` via podman to
+Images built and pushed on a developer host (`ai-harness/sandbox` via podman to
 `localhost:5001`) and GitLab SaaS macOS VM images (`macos-*`).
 
 <!-- [<] 🤖🤖 -->

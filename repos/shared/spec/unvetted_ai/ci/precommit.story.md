@@ -48,7 +48,7 @@ so that CI pays only where the check can still find something.
 
 ### Every default branch skips the sweep (todo)
 
-I want prose, notes, automation, resume-md-pdf, oci-images and ai-sandbox gating
+I want prose, notes, automation, resume-md-pdf, oci-images and sandbox gating
 their pre-commit job on MR pipelines, as configs, go-modules and iac do,
 so that no main pipeline re-runs a check its MR already passed.
 
