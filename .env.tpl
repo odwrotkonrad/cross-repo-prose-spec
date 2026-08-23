@@ -5,5 +5,6 @@ AI_CONFIGS_REF={{ shell "glab variable get -g konradodwrot GRP_KO_VAR_AI_CONFIGS
 MISC_REF={{ shell "glab variable get -g konradodwrot GRP_KO_VAR_MISC_REF" }}
 ARTIFACT_REGISTRY={{ shell "glab variable get -g konradodwrot GRP_KO_VAR_ARTIFACT_REGISTRY" }}
 OCI_IMAGES_CI_LINUX_REF={{ shell "glab variable get -g konradodwrot GRP_KO_VAR_OCI_IMAGES_CI_LINUX_REF" }}
+CHE_SCHEMA_REF={{ shell "glab variable get -g konradodwrot GRP_KO_VAR_CHE_SCHEMA_REF" }}
 TAG_TOKEN={{ shell "glab variable get -R konradodwrot/cross-repo/prose/spec REPO_VAR_TAG_TOKEN" }}
 ##[<] 🤖🤖
