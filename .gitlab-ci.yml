@@ -30,6 +30,7 @@ default:
 variables:
   ARTIFACT_REGISTRY: $GRP_KO_VAR_ARTIFACT_REGISTRY
   OCI_IMAGES_CI_LINUX_REF: $GRP_KO_VAR_OCI_IMAGES_CI_LINUX_REF
+  CHE_SCHEMA_REF: $GRP_KO_VAR_CHE_SCHEMA_REF
   PROSE_SPEC_REF: $GRP_KO_VAR_PROSE_SPEC_REF
   PROSE_ASSETS_REF: $GRP_KO_VAR_PROSE_ASSETS_REF
   AI_CONFIGS_REF: $GRP_KO_VAR_AI_CONFIGS_REF
@@ -40,13 +41,21 @@ validate-pre-commit-all:
   stage: validate
   image: $CI_IMAGE
   rules:
-    - changes:
-        paths: [.repo/artifacts-produced.yml, .repo/artifacts-consumed.yml]
-        compare_to: refs/heads/main
-      when: never
     - if: $CI_COMMIT_TAG
       when: never
     - when: on_success
+      changes:
+        - .gitlab-ci.yml
+        - .env.tpl
+        - che.yml
+        - Makefile
+        - lefthook.yml
+        - .repo/*.tpl
+        - .repo/dependency-graph.yml
+        - .repo/artifacts-consumed.yml
+        - conventions/**/*
+        - repos/**/*
+        - README.md
   script:
     - make repo-ci-precommit-all
     - git diff --exit-code HEAD
@@ -55,11 +64,12 @@ tag-mint:
   stage: release
   image: $CI_IMAGE
   rules:
-    - changes:
-        paths: [.repo/artifacts-produced.yml, .repo/artifacts-consumed.yml]
-        compare_to: refs/heads/main
-      when: never
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+      changes:
+        - conventions/**/*
+        - repos/**/*
+        - che.yml
+        - Makefile
   variables:
     GIT_DEPTH: "0"
     TAG_TOKEN: $REPO_VAR_TAG_TOKEN
@@ -69,4 +79,5 @@ tag-mint:
 emit-events:
   extends: .emit-events
   stage: trigger
+
 ##[<] 🤖🤖
