@@ -43,6 +43,40 @@ earlier job the trigger job `needs:`,
 so that a sender whose payload is not known at YAML time (iac's changed
 variables) uses the same template.
 
+## As an infra operator
+
+Owns the identity every sender posts with.
+
+### One identity posts every event, published once (todo)
+
+I want the `ko-automation` group access token published as a protected group
+variable rather than a pipeline trigger token created per emitting project,
+so that every repo in the group posts as one identity that is declared once,
+instead of each repo holding a separate credential that nothing tells apart.
+
+### The sender posts as a user, not a trigger (todo)
+
+I want `emit-events.zsh` to call `POST /projects/:id/pipeline` with a
+`PRIVATE-TOKEN` header,
+so that the call matches the credential: `POST /trigger/pipeline` with a
+`token=` form field accepts only a per-project trigger token, which is the
+identity shape being replaced.
+
+### Only protected refs may emit (todo)
+
+I want the variable carrying that token to be protected, given that events are
+emitted only from tag and default-branch pipelines,
+so that an MR pipeline on an unreviewed branch cannot fan regen MRs across the
+group.
+
+### A missing credential fails the release, visibly (todo)
+
+I want an unset token to fail the emitting job rather than pass by emitting
+nothing, given that a 404 from the API reads as "no such project" and hides an
+empty credential,
+so that a release whose announcement never landed is not mistaken for a
+successful one.
+
 ## As an automation maintainer
 
 Reads events. Owns the handlers.

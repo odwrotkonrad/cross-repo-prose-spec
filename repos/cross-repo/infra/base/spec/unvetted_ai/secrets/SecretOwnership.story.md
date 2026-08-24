@@ -56,6 +56,15 @@ I want a masked CI variable declared only for a consumer that reads it in a
 pipeline, not for every identity that exists,
 so that the set of CI-visible secrets stays the set CI actually uses.
 
+### Publish one group-scoped identity for emitting events (todo)
+
+I want the `ko-automation` group access token published as
+`GRP_KO_PROTECTED_VAR_BOT_AUTOMATION_GITLAB_TOKEN`, a protected group
+variable, rather than a pipeline trigger token minted per emitting project,
+so that every repo announces its releases as one declared identity, replacing
+a `REPO_VAR_AUTOMATION_TRIGGER_TOKEN` that existed in no terraform and on no
+project, and so silently 404'd every tag pipeline that tried to use it.
+
 ### Delete a credential variable no terraform declares (todo)
 
 I want every credential variable in GitLab to exist in terraform, and a bare
