@@ -21,26 +21,49 @@ A subgroup defining its first variable adds a row here, in the same MR.
 The prefix says where a value comes from and where to change it. An unprefixed
 name is defined by the pipeline itself.
 
-All are declared in `cross-repo/infra/iac`, never clicked into the UI: group
-variables in `tf/modules/gitlab/ci-toggles.tf`, project variables beside the
-resource that owns them. A key in GitLab and not in `cross-repo/infra/iac` is
-drift: import or delete it.
+Non-secret variables are declared in `cross-repo/infra/ci-variables`, secrets
+and identity variables in `cross-repo/infra/base`, beside the resource that
+owns the value. Never clicked into the UI. A key in GitLab and in neither repo
+is drift: import or delete it.
+
+## Identity Variables Name Their Protection
+
+A variable carrying a credential states its protection in the prefix, because
+which of a pair a pipeline gets depends on the branch it runs on, and a name
+that hides that reads as one variable behaving inconsistently:
+
+```
+REPO_PROTECTED_VAR_BOT_GITLAB_TOKEN
+REPO_UNPROTECTED_VAR_BOT_GITLAB_TOKEN
+GRP_KO_PROTECTED_VAR_BOT_GITLAB_TOKEN
+REPO_PROTECTED_VAR_GOOGLE_CREDENTIALS
+```
+
+`BOT` marks a GitLab group or repo access token, and only that. A credential
+that is not a GitLab token carries no `BOT`.
+
+A protected variable expands empty off a protected branch. That is the point:
+a read-only unprotected identity serves MR pipelines, its protected twin serves
+main. Pairing them under one bare name in the remap keeps the pipeline reading
+one name while GitLab decides which value it gets.
+
+Non-secret variables keep the plain `GRP_<MNEMONIC>_VAR_` / `REPO_VAR_` form:
+there is no pair, so there is nothing to distinguish.
 
 ## In The Dependency Graph
 
-A CI variable crosses repo boundaries, so it is an artifact.
-`cross-repo/infra/iac` declares each one downstream as `ci-var/<name>`, type
-`ci-variable`. Every repo reading it declares
-`cross-repo/infra/iac/ci-var/<name>` upstream:
+A CI variable crosses repo boundaries, so it is an artifact. The repo that
+owns the value declares it downstream as `ci-var/<name>`, type `ci-variable`.
+Every repo reading it names that producer upstream:
 
 ```yaml
-# cross-repo/infra/iac/.repo/cross-repo-interface.yml
+# cross-repo/infra/ci-variables/.repo/cross-repo-interface.yml
 downstream:
-  - {name: ci-var/artifact-registry, type: ci-variable}
+  - {name: ci-var/ci-images-ref, type: ci-variable}
 
 # a consumer's .repo/cross-repo-interface.yml
 upstream:
-  - cross-repo/infra/iac/ci-var/artifact-registry
+  - cross-repo/infra/ci-variables/ci-var/ci-images-ref
 ```
 
 The declaration answers, without grep: who reads this, what breaks if it
@@ -68,8 +91,8 @@ variables:
 
 One value, two variables:
 
-- the **prefixed** one, declared in `cross-repo/infra/iac`, injected by GitLab.
-  The value's home, the only one anything writes.
+- the **prefixed** one, declared by the repo owning the value, injected by
+  GitLab. The value's home, the only one anything writes.
 - the **bare** one, assigned from it in the pipeline. What the repo's code
   reads, and the name a tool expects (`glab` reads `GITLAB_TOKEN`, Terraform
   `TF_VAR_*`, che `CHE_PACKAGES_REF`).
@@ -120,7 +143,17 @@ change. Spec: `repos/shared/spec/unvetted_ai/dev-env/env-template.story.md`.
 After the prefix, the name says what the value is, not who reads it:
 `GRP_KO_VAR_ARTIFACT_REGISTRY`, not `GRP_KO_VAR_DOCKER_LOGIN_TARGET`. The bare
 name is the prefixed name minus its prefix, unless a tool dictates another
-spelling (`TF_VAR_github_token: $REPO_VAR_GITHUB_TOKEN`).
+spelling (`TF_VAR_github_token: $REPO_PROTECTED_VAR_BOT_GITHUB_TOKEN`).
+
+Both halves of an identity pair carry one bare name: the protection lives in
+the prefix precisely so the pipeline can remap either to the same name and let
+GitLab decide which value arrives. `BOT` is part of the prefix, not the value's
+name, so it drops with the rest of it:
+
+```yaml
+GITLAB_TOKEN: $REPO_UNPROTECTED_VAR_BOT_GITLAB_TOKEN   # MR jobs
+GITLAB_TOKEN: $REPO_PROTECTED_VAR_BOT_GITLAB_TOKEN     # main and tag jobs
+```
 
 Versions end in `_REF`. Each released producer publishes its own:
 `GRP_KO_VAR_PROSE_ASSETS_REF` (`cross-repo/prose/assets`),
@@ -137,7 +170,7 @@ must own for everyone (a registry host, a pinned version). Everything else is
 configuration, reviewed in an MR.
 
 Variables a trigger job passes downstream (`forward.yaml_variables`) are
-pipeline-defined: no prefix, no declaration in `cross-repo/infra/iac`.
+pipeline-defined: no prefix, no declaration in either infra repo.
 
 ## Example
 

@@ -3,9 +3,10 @@
 <!-- [>] 🤖🤖 -->
 
 The fan-out that opens and merges regen MRs needs a Maintainer credential and a
-name that reads as a machine. The auth module owns both: one group access token
+name that reads as a machine. This module owns both: one group access token
 on `konradodwrot`, exposed to the automation project as
-`REPO_VAR_AUTOMATION_GITLAB_TOKEN` and mirrored into Secrets Manager.
+`REPO_PROTECTED_VAR_BOT_AUTOMATION_GITLAB_TOKEN` and mirrored into Secrets
+Manager.
 
 The token name is what GitLab shows as the author of every write it makes, so
 it names the role: `ko-automation`.
@@ -32,10 +33,11 @@ I want a single `konradodwrot` group access token at maintainer level
 so that regen MRs open, arm auto-merge and land on protected `main` without a
 second credential.
 
-### The value lands where the run reads it (implemented)
+### The value lands where the run reads it (todo)
 
-I want the token value written to `REPO_VAR_AUTOMATION_GITLAB_TOKEN` on the
-automation project, masked and protected, and to its Secrets Manager version,
+I want the token value written to
+`REPO_PROTECTED_VAR_BOT_AUTOMATION_GITLAB_TOKEN` on the automation project,
+masked and protected, and to its Secrets Manager version,
 so that renaming the token rotates every consumer in the same apply.
 
 <!-- [<] 🤖🤖 -->

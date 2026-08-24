@@ -25,16 +25,24 @@ resource "gitlab_group_variable" "che_packages_ref" {
 
 resource "gitlab_group_variable" "gitlab_token" {
   group     = var.token_group_path
-  key       = "GRP_KO_VAR_GITLAB_TOKEN"
+  key       = "GRP_KO_PROTECTED_VAR_BOT_GITLAB_TOKEN"
   value     = var.gitlab_token
   masked    = true
   protected = true
 }
 
-resource "gitlab_project_variable" "github_token" {
+resource "gitlab_project_variable" "gitlab_token_unprotected" {
   project   = var.project_path
-  key       = "REPO_VAR_GITHUB_TOKEN"
-  value     = var.github_token
+  key       = "REPO_UNPROTECTED_VAR_BOT_GITLAB_TOKEN"
+  value     = var.gitlab_token_read_only
+  masked    = true
+  protected = false
+}
+
+resource "gitlab_project_variable" "google_credentials" {
+  project   = var.project_path
+  key       = "REPO_PROTECTED_VAR_GOOGLE_CREDENTIALS"
+  value     = var.google_credentials
   masked    = true
   protected = true
 }
