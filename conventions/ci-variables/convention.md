@@ -57,11 +57,11 @@ owns the value declares it downstream as `ci-var/<name>`, type `ci-variable`.
 Every repo reading it names that producer upstream:
 
 ```yaml
-# cross-repo/infra/ci-variables/.repo/cross-repo-interface.yml
+# cross-repo/infra/ci-variables/.repo/downstream.yml
 downstream:
   - {name: ci-var/ci-images-ref, type: ci-variable}
 
-# a consumer's .repo/cross-repo-interface.yml
+# a consumer's .repo/upstream.yml
 upstream:
   - cross-repo/infra/ci-variables/ci-var/ci-images-ref
 ```
@@ -121,22 +121,28 @@ source of truth.
 Every repo whose pipeline remaps a variable tracks `.env.tpl` at its root (the
 shared git ignore re-includes it under the `**/.*` rule). A gomplate template
 che renders to `.env` (gitignored, `mergeUpsert`), the only env template a repo
-has: no `templates/1-env/`, no `.env.example`, no second seed. One line per
-bare name the pipeline derives, each fetching its value the way a host can:
+has: no `templates/1-env/`, no `.env.example`, no second seed. Its first line
+pulls in the tracked upstream lockfile, then one line per remaining bare name
+the pipeline derives, each fetching its value the way a host can:
 
 ```sh
+{{ localFile ".repo/upstream.env" | alwaysUpdate }}
 ARTIFACT_REGISTRY={{ shell "glab variable get -g konradodwrot GRP_KO_VAR_ARTIFACT_REGISTRY" }}
-CI_IMAGES_REF={{ shell "glab variable get -g konradodwrot GRP_KO_VAR_CI_IMAGES_REF" }}
 GITLAB_TOKEN={{ secret "op://ProgrammaticAccess/gitlab/access_token" }}
 MK_DRY_RUN=
 ```
 
-What CI derives from GitLab, a host fetches through `glab`, a secret through
-`op`, a local-only knob as a plain or empty value. Under `mergeUpsert` a
-`shell` or `secret` value overwrites the existing key on every render, a plain
-value keeps it: `| keepIfExisting` or `| alwaysUpdate` overrides per line. The
-two lists match: a variable added to one is added to the other in the same
-change. Spec: `repos/shared/spec/unvetted_ai/dev-env/env-template.story.md`.
+Every upstream ref comes from `.repo/upstream.env`, never from a `glab` call:
+one marked include covers the whole block, so adding an upstream edits the
+lockfile and nothing else, and a fresh clone renders with no token at all. What
+is left is repo-local: a non-ref GitLab variable through `glab`, a secret
+through `op`, a local-only knob as a plain or empty value.
+
+Under `mergeUpsert` a `shell` or `secret` value overwrites the existing key on
+every render, a plain value keeps it: `| keepIfExisting` or `| alwaysUpdate`
+overrides per line, and marking a multi-line block marks every `KEY=VALUE` line
+in it. The two lists match: a variable added to one is added to the other in the
+same change. Spec: `repos/shared/spec/unvetted_ai/dev-env/env-template.story.md`.
 
 ## Naming
 
