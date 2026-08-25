@@ -54,6 +54,18 @@ Scenario: the action leaves no trace in the dest (tested)
   When I invoke `che render-templates`
   Then the written line is exactly `REF=new`
 
+Scenario: a marked multi-line block marks every key in it (tested)
+  Given a dest `.env` holding `A=old` and `B=old`
+  And a template line `{{ localFile ".repo/upstream.env" | alwaysUpdate }}` over a file holding `A=new` and `B=new`
+  When I invoke `che render-templates`
+  Then `.env` holds `A=new` and `B=new`
+
+Scenario: a marked block leaves blank and comment lines alone (tested)
+  Given an included block holding a `#` comment, a blank line and `A=new`
+  And a template line piping it through `alwaysUpdate`
+  When I invoke `che render-templates`
+  Then only `A` carries the action and the dest holds `A=new`
+
 Scenario: the pipe is a no-op under another writeType (tested)
   Given a template line `REF={{ shell "printf new" | keepIfExisting }}` with `writeType: overwrite`
   When I invoke `che render-templates`

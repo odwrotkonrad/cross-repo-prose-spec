@@ -3,8 +3,11 @@
 <!-- [>] 🤖🤖 -->
 
 A repo using `.env` tracks one env file: `.env.tpl` at its root, a gomplate
-template che renders to `.env` (gitignored, `mergeUpsert`). A plain value stays
-plain, a secret is `{{ secret "op://..." }}`, a GitLab variable is
+template che renders to `.env` (gitignored, `mergeUpsert`). Every upstream ref
+comes from the tracked `.repo/upstream.env` lockfile, pulled in wholesale by
+`{{ localFile ".repo/upstream.env" | alwaysUpdate }}`. What remains is
+repo-local: a plain value stays plain, a secret is `{{ secret "op://..." }}`, a
+non-ref GitLab variable is
 `{{ shell "glab variable get -g konradodwrot GRP_KO_VAR_<NAME>" }}`. No
 `templates/1-env/`, no second seed template, no hand-copied `.env`.
 
@@ -51,12 +54,41 @@ only credential involved.
 
 ### GitLab variables resolve through glab (implemented)
 
-I want a value CI derives from a GitLab variable written as
+I want a non-ref value CI derives from a GitLab variable written as
 `{{ shell "glab variable get -g konradodwrot GRP_KO_VAR_<NAME>" }}` (project
 form for `REPO_VAR_`), the bare name on the left matching the pipeline's remap
 line,
 so that host and CI read the same source, and a bump in `infra/iac` reaches my
 checkout on the next render.
+
+### Upstream refs come from the tracked lockfile, not glab (implemented)
+
+I want every upstream ref pulled in by one marked
+`{{ localFile ".repo/upstream.env" | alwaysUpdate }}` line, the template naming
+no ref variable of its own,
+so that adding an upstream edits the lockfile alone, and a clone with no
+`GITLAB_TOKEN` still renders a complete `.env`.
+
+### The dev docs render reads its refs from the lockfile (implemented)
+
+I want `render-templates.zsh` to export `.repo/upstream.env` before the dev
+render, overriding whatever the shell already carries,
+so that a session holding a stale pin cannot render the generated docs at a
+version this repo does not hold and have the pre-commit hook commit the
+downgrade.
+
+### CI renders at its job variables, not the lockfile (implemented)
+
+I want the CI path to render from the job variables and never read
+`.repo/upstream.env`,
+so that a pipeline renders at the values GitLab currently holds, which are what
+a regen writes into the lockfile rather than what it reads from it.
+
+### One marker covers the whole included block (implemented)
+
+I want the marker on the include to apply to every `KEY=VALUE` line in the
+lockfile, not just its first,
+so that a stale `.env` is fully restored in one render, whichever refs moved.
 
 ### A missing tool fails by name (implemented)
 
