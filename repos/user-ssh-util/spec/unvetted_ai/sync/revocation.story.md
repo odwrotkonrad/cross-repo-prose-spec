@@ -31,11 +31,13 @@ so that a revoked key can be restored or re-published later.
 I want revocation to move the keypair out of `~/.ssh`,
 so that a key I withdrew is not still sitting where every ssh client finds it.
 
-### A revoked signing key loses its allowed_signers line (implemented)
+### A revoked signing key keeps its allowed_signers line (implemented)
 
-I want revocation to drop the key's entry from `allowed_signers`, backing the
-file up first,
-so that withdrawing a signing key actually withdraws the trust it carried.
+I want revocation to leave the key's stamped entry in `allowed_signers`
+untouched, revoking the platform grants and archiving the keypair instead,
+so that every commit the key already signed still verifies. `allowed_signers`
+answers "was this signer trusted when it signed", so dropping a line revokes
+nothing and only breaks history.
 
 ### An orphan left published keeps its keypair (implemented)
 

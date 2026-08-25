@@ -51,11 +51,13 @@ I want the superseded keypair moved under `backups/<name>/<timestamp>/` and
 recorded in state as `archived`,
 so that a rotated key can still be re-published for testing.
 
-### A rotated signing key keeps allowed_signers in step (implemented)
+### A rotated signing key is appended to allowed_signers (implemented)
 
-I want `~/.ssh/allowed_signers` rewritten with the old public key dropped and
-the new one added, the previous file backed up beside it,
-so that signature verification never breaks on rotation.
+I want the replacement key appended to `~/.ssh/allowed_signers` as
+`<email> valid-after="YYYYMMDD" <public key>`, every existing line kept and the
+previous file backed up beside it,
+so that the new key signs from today while every commit the superseded key
+signed still verifies.
 
 ### Rotation refreshes known_hosts (implemented)
 
