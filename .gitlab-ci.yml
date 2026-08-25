@@ -72,7 +72,7 @@ tag-mint:
         - Makefile
   variables:
     GIT_DEPTH: "0"
-    TAG_TOKEN: $REPO_VAR_TAG_TOKEN
+    TAG_TOKEN: $REPO_PROTECTED_VAR_BOT_TAG_TOKEN
   script:
     - make tag-mint
 
