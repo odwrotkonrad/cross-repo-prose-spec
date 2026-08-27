@@ -14,7 +14,7 @@ that kind.
 ### A host profile is a list of pinned includes (todo)
 
 I want every include in `che.yml` a remote profile source with
-`?ref=${{ env.CONFIGS_TOOLS_REF }}` or `?ref=${{ env.CONFIGS_AI_TOOLS_REF }}`,
+`?ref=${{ env.TOOLS_CONFIGS_REF }}` or `?ref=${{ env.AI_TOOLS_CONFIGS_REF }}`,
 no local `root/` tree, no local scripts beyond CI,
 so that what lands on a host is exactly a released tools and ai-tools pair.
 
