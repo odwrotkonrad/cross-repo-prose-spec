@@ -11,7 +11,7 @@ implement in the repo.
 
 Nothing under `cross-repo/prose/spec` renders into a consumer repo. Specs are
 read here. The conventions summary is the one file leaving this repo, and it
-loads once onto the host through `ai-harness/configs` `base`
+loads once onto the host through `ai-harness/ai-tools-configs` `base`
 (`conventions/templates/convention.md`), never into a repo's `AGENTS.md`.
 
 Two forms, two files:
