@@ -1,7 +1,0 @@
-##[>] 🤖
-downstream:
-  - uri: gitlab.com/konradodwrot/cross-repo/prose/spec
-    type: gitRepository
-    versionEnvVar: PROSE_SPEC_REF
-    version: v0.0.31
-##[<] 🤖
