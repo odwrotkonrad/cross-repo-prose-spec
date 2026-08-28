@@ -105,16 +105,7 @@
 - binary installation method MUST consult XDG_STATE_HOME che bin directory to check if particular version is already available, if it is reuse the binary and link to user preferred location
 - che installation SHOULD track installation per package per version, and clear XDG_STATE_HOME for versions unused for configurable amount of time, defaulting to 4 weeks
 
-## Che Native Installation Method
 
-- che MUST define che install script using minimal dependencies to install CHE
-- install script MUST work on on all darwin and linux on both architectures
-- install script MUST respect CHE_REF variable, defaulting to latest version
-- install script MUST have options --skip-if-present and --skip-if-present-is-newer
-- install script by default installs CHE_REF version of che and skips install only if CHE_REF matches currently installed che
-- install script skips install fast according to --skip-if-present and --skip-if-present-is-newer or if CHE_REF matches current version
-- install script must be published as publicly available URL in release pipeline
-- install script must be executed by sh
 
 
 ## Running Scripts
