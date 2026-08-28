@@ -1,3 +1,5 @@
+- che version command MUST output the resolved semver release, never `latest`, if `latest` ref was used for installation
+
 ## Che Native Installation Method
 
 - che MUST define a che install script using minimal dependencies to install CHE
