@@ -2,10 +2,10 @@
 
 - che MUST define a che install script using minimal dependencies to install CHE
 - install script MUST work on darwin arm64 and linux arm64 and amd64
-- install script MUST respect CHE_VERSION variable, defaulting to the latest version
+- install script MUST respect INSTALL_CHE_VERSION variable, defaulting to the latest version
 - install script MUST have options --skip-if-present and --skip-if-present-is-newer
-- install script by default installs CHE_VERSION version of che and skips install only if CHE_VERSION matches the currently installed che
-- install script skips install fast according to --skip-if-present and --skip-if-present-is-newer or if CHE_VERSION matches the current version
+- install script by default installs INSTALL_CHE_VERSION version of che and skips install only if INSTALL_CHE_VERSION matches the currently installed che
+- install script skips install fast according to --skip-if-present and --skip-if-present-is-newer or if INSTALL_CHE_VERSION matches the current version
 - install script MUST be executed by sh
 - install script MUST accept --version argument to specify a version of che to install
 - install script MUST NOT hardcode the latest version of che, it MUST use latest - a rolling version

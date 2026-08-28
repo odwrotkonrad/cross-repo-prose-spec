@@ -13,7 +13,7 @@
 
 ### AI Sandbox
 
-- each session MUST get a unique, revocable credential on each platform
+- each session MUST get a unique, revocable credential for each platform it has access to
 
 #### GCP
 
@@ -28,7 +28,7 @@
 
 - each session MUST get its own two unique ssh key pairs
 - ssh keys a session uses MUST be published to gitlab, and to github
-- both ssh keys MUST use a variant of the owner email (email@gmail.com -> email+<sessionname>@gmail.com)
+- both ssh keys MUST use a variant of the owner email (`email@gmail.com` -> `email+<sessionname>@gmail.com`)
 - session MUST contain exactly 2 active ssh keys, one for signing and one for authenticated access
 - session MUST be able to sign commits using the provided signing key
 - session MUST be able to authenticate and access gitlab and github repositories via ssh
