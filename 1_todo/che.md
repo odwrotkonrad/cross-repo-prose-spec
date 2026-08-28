@@ -21,6 +21,7 @@
 - che rendered file MAY omit auto generated header, if it breaks consumer behavior of the file
 
 <!-- remove {{ secret ... }} syntax from che -->
+
 - che templates MAY use {{ shell ... }} to fetch data using CLIs
 
 ## che files
@@ -39,17 +40,18 @@
       che.env
       che.variables.yml
   ```
+
 ## che files - preferred layout
 
 - che files SHOULD be placed in:
 
   ```
-    <git-root>/
-      .env
-      .che/
-        che.yml
-        che.env
-        che.variables.yml
+  <git-root>/
+    .env
+    .che/
+      che.yml
+      che.env
+      che.variables.yml
   ```
 
 - che templates SHOULD be placed in:
@@ -97,16 +99,12 @@
 - git worktree created for ref MUST be tracked in a che database
 - git worktree created for ref MUST be removed after a configurable amount of time, counting from last use, defaulting to 4 weeks
 
-
 ## Installation
 
 - binary installation method SHOULD install binaries into XDG_STATE_HOME into a directory designated for che installed binaries
 - binary installation method SHOULD link binaries from XDG_STATE_HOME to a user preferred location
 - binary installation method MUST consult XDG_STATE_HOME che bin directory to check if a particular version is already available, and if it is, reuse the binary and link it to the user preferred location
 - che installation SHOULD track installation per package per version, and clear XDG_STATE_HOME for versions unused for a configurable amount of time, defaulting to 4 weeks
-
-
-
 
 ## Running Scripts
 

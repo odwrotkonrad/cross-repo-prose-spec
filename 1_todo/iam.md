@@ -1,21 +1,21 @@
 # Infrastructure
 
-# Platform Rules
+## Platform Rules
 
-## Gitlab
+### Gitlab
 
 - main pipeline privileged identities MUST be created using GitLab protected masked variables on a group level
 - repo main pipeline privileged identities MAY be created using GitLab protected masked variables on a group level, targeting a repo using its mnemonic in the variable name
 - only permissions granted MUST be specified in the spec
 - repo unprotected branch pipelines MUST NOT have access to privileged credentials, allowing mutations of repo contents from MR level
 
-# Principals
+## Principals
 
-## AI Sandbox
+### AI Sandbox
 
 - each session MUST get a unique, revocable credential on each platform
 
-### GCP
+#### GCP
 
 - each session MUST get its own unique principal (a service account)
 - each session MUST be able to fetch secrets scoped for this session
@@ -24,7 +24,8 @@
 - each session principal MUST be granted a role
 - role definition with session permissions MUST be fetched from another repo whose purpose is to control IAM definitions
 
-### SSH
+#### SSH
+
 - each session MUST get its own two unique ssh key pairs
 - ssh keys a session uses MUST be published to gitlab, and to github
 - both ssh keys MUST use a variant of the owner email (email@gmail.com -> email+<sessionname>@gmail.com)
@@ -33,7 +34,8 @@
 - session MUST be able to authenticate and access gitlab and github repositories via ssh
 - session MUST be able to publish commits to unprotected branches on gitlab and github
 
-### GitLab
+#### GitLab
+
 - session MUST be authenticated to gitlab via a unique instance fine grained PAT
 - session MUST be able to create merge requests in konradodwrot group
 - session MUST be able to read all gitlab public repositories
@@ -48,12 +50,13 @@
 - session MUST NOT be able to read group variables (used for providing credentials)
 - session MUST be able to read repo project variables (not used for providing credentials)
 
-### GitHub
+#### GitHub
 
 - session MUST be able to read all public github repositories
 - session MUST NOT be provided with a GitHub token <!-- I'm using GitLab to store my repos -->
 
-### Claude
+#### Claude
 
 <!-- claude code subscription auth is limited, it's troublesome to get 1 cred per session -->
+
 - session MUST use a shared long lived oauth token prepared with `claude setup-token`

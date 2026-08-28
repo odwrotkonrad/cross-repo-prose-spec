@@ -1,9 +1,7 @@
-
 ## Session Setup
 
 - ai sandbox repo MUST define session setup
 - ai sandbox session setup MUST include injecting a unique GCP service account into a session pod
-
 
 ## IAM Setup - Providing credentials to sandbox session
 
@@ -26,4 +24,5 @@
 - all session credentials apart from the GCP service account are published to GCP secrets manager
 
 ### SSH
+
 - host that hosts the sandbox cluster MUST generate two ssh keys per sandbox session

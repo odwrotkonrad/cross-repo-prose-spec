@@ -16,14 +16,13 @@
 - scripts repo MUST define scripts that ai-skills use as skill dependencies
 - scripts repo SHOULD contain utility scripts
 
-
-### Workspace Repo
+## Workspace Repo
 
 <!-- workspace - defined as - prepared place in filesystem for working with multiple repositories, along with dependencies -->
 
 ## Prose Subgroup
 
-<!-- prose assets is getting split into 3 --->
+<!-- prose assets is getting split into 3 -->
 
 - Prose assets MUST be split into 3 parts per audience: human-prose (for people), ai-prose, common-prose (for shared prose), into a repository per audience.
 - Each prose repo MUST contain a directory whose purpose is raw prose.
@@ -36,14 +35,13 @@
 - common-prose MUST NOT reference human-prose nor ai-prose
 - dependencies of human-prose and ai-prose MAY consume prose via che-profiles or by referencing individual files.
 
-
-
 ## AI Prose Repo
 
 - ai-prose repo MUST contain all agentic instructions used everywhere
 
 ## Common Prose Repo
-<!-- common-prose prob will be rare --->
+
+<!-- common-prose prob will be rare -->
 
 ## Human Prose Repo
 
@@ -60,7 +58,6 @@
 - skills MAY be grouped in a directory, in which case the directory MUST provide a che profile to load the group of skills onto a system for a given consumer tool
 - repo MUST provide a che profile to load all skills for a consumer tool from all directories, using one level deep che spec nesting (2 profiles, one for claude, one for codex)
 - skill che profiles MUST NOT render onto the repository itself
-
 
 ## One MCP
 

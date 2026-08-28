@@ -43,7 +43,6 @@
 - common docs generation verification job MUST be executed in main pipeline
 - common docs generation verification job MUST NOT fail the pipeline if not passed, and instead trigger a warning
 
-
 ## Automation
 
 - when a consumer of an upstream dependency gets its updated ref, it MUST rerender tracked files that were rendered using this upstream dependency
