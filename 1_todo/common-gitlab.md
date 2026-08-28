@@ -1,0 +1,6 @@
+- gitlab CI cache MUST NOT be used to cache downloaded dependencies
+- gitlab CI MUST fetch dependencies using a close proximity registry, which serves as a cache reducing traffic to the public internet
+- builds in CI MUST happen once, and cache MUST be used to pass builds between jobs
+- artifacts in CI MUST be used to publish only verified artifacts
+- registry used by gitlab CI for fetching external dependencies MUST have a cleanup policy to avoid storing unused old deps
+- registry used by gitlab CI for fetching own versioned dependencies MUST NOT have a cleanup policy that deletes release refs
