@@ -10,6 +10,7 @@
 - install script MUST accept --version argument to specify a version of che to install
 - install script MUST not hardcode latest version of che, it MUST use latest - a rolling version
 - each install script behavior toggle or option MUST be controlled via both environment variables and options, never one of both
+- each install script behavior variables MUST have different namespace than che itself, i.e they MUST NOT begin with CHE_...
 - install script behavior MUST be discoverably by invoking it using --help option
 
 ### CI release and testing
@@ -23,4 +24,4 @@
 - install script MUST NOT be tested in CI for darwin
 - install script MUST be tested locally in darwin for arm64
 - install script MUST be tested locally using temporary binary path
-- che install script
+- install script CI parts MUST live in it's own gitlab.yml file, and it MUST be included in trigger "changed files"
