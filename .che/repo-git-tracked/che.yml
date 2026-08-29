@@ -3,6 +3,6 @@
 ontoRepo:
   include:
     makeCopies:
-      - source: "git::gitlab.com/konradodwrot/cross-repo/prose/assets@${{ var.PROSE_ASSETS_REF }}//shared/license/LICENSE"
+      - source: "git::gitlab.com/konradodwrot/centralized/assets/prose/human@${{ var.CENTRALIZED_ASSETS_PROSE_HUMAN_REF }}//license/LICENSE"
         dest: LICENSE
 ##[<] 🤖🤖
