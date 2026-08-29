@@ -60,3 +60,14 @@
 <!-- claude code subscription auth is limited, it's troublesome to get 1 cred per session -->
 
 - session MUST use a shared long lived oauth token prepared with `claude setup-token`
+
+
+
+
+### IAM Resources
+
+- base infra repo MUST contain definitions of all identities in a directory for its purpose
+- base infra repo MUST contain permissions of all identities in a directory for its purpose
+- base infra repo SHOULD create identities for
+- on an exceptional basis other repos MAY create identities reusing id definitions from base repo
+- each consumer of an identity MUST get its own iam directory for its ID and permissions
