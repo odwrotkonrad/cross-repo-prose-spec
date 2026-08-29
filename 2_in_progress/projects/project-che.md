@@ -88,35 +88,33 @@
 
 ## Che Exported Configs
 
-- che configs designed for reuse SHOULD be named che.export.yml and placed in repo root or directory that is root of given configs if repo contains multiple distinct configs
-- che configs designed for use in repo should be in .che/che.yml or in subdirectory of this directory if it contains multiple distincs configs
-- consumer of che profile or spec MUST be able to target che.yml not designed for export, but it is NOT RECOMMENDED.
+- che configs designed for reuse SHOULD be named che.export.yml and placed in repo root or in the directory that is the root of the given configs if the repo contains multiple distinct configs
+- che configs designed for use in the repo should be in .che/che.yml or in a subdirectory of this directory if it contains multiple distinct configs
+- a consumer of a che profile or spec MUST be able to target a che.yml not designed for export, but it is NOT RECOMMENDED
 
 ## Che Remote References
 
-- refering to profile in another repo, MUST not force consumer to specify che.yml file location, standard che.yml and che.export.yml file locations should be searched for requested profile
-- including che spec by remote source, that have multiple che.yml files but one of them is che.export.yml should not error and include exported spec
-- including che spec by remote source, that have multiple che.yml files but none of them is che.export.yml should error
-- including che spec by remote source, should have additional keys for targetting specs and profiles, rather than embedding it in the URL of a remote source
-- putting che.export.yml in .che/... MUST be available, but it is NOT RECOMMENDED to place a file there, because it's hidden directory
-- 2 files in che.export.yml in root of a repo and in .che/ should be supported, and profile should be searched across both and pick correct spec, but it is NOT RECOMMEDED to put che.export.yml in .che/ and should log a warning
-- targeting profile for inclusion that is not defined at top level of imported spec, MUST be explicit by specifying profile path, containing multiple profiles in the path
-- targeting profile for inclusion that is not defined at top level of imported spec, MUST NOT be searched within top level profiles but default
-- targeting profile that couldn't be found should warn during execution, and after che execution for easy review
-- targeting profile or spec, by specifying che.yml file in the URL or profile URL MUST NOT be supported
-- targeting spec MUST be supported by filepath, and in this case profile resolution MUST be relative to this spec
-- targeting spec by filepath is NOT RECOMMENDED, instead top level che.export.yml should be used with full profile path
+- referring to a profile in another repo MUST NOT force the consumer to specify the che.yml file location, standard che.yml and che.export.yml file locations should be searched for the requested profile
+- including a che spec by remote source that has multiple che.yml files but one of them is che.export.yml should not error and should include the exported spec
+- including a che spec by remote source that has multiple che.yml files but none of them is che.export.yml should error
+- including a che spec by remote source should have additional keys for targeting specs and profiles, rather than embedding them in the URL of the remote source
+- putting che.export.yml in .che/... MUST be available, but it is NOT RECOMMENDED to place a file there, because it is a hidden directory
+- 2 che.export.yml files, in the root of a repo and in .che/, should be supported, and the profile should be searched across both to pick the correct spec, but it is NOT RECOMMENDED to put che.export.yml in .che/ and doing so should log a warning
+- targeting a profile for inclusion that is not defined at the top level of the imported spec MUST be explicit by specifying the profile path, containing multiple profiles in the path
+- targeting a profile for inclusion that is not defined at the top level of the imported spec MUST NOT be searched within top level profiles by default
+- targeting a profile that couldn't be found should warn during execution, and after che execution for easy review
+- targeting a profile or spec by specifying the che.yml file in the URL or profile URL MUST NOT be supported
+- targeting a spec MUST be supported by filepath, and in this case profile resolution MUST be relative to this spec
+- targeting a spec by filepath is NOT RECOMMENDED, instead the top level che.export.yml should be used with the full profile path
 
-- including multiple profiles from the same remote source and spec MUST support syntax that allows for specifying ref and URL once, allowing for not repeating these fields over profiles from the same remote source
-- consumers of multiple profiles from the same remote, MUST not repeat URL of remote source
-- consumers of multiple profiles from the same spec and remote source, MUST not repeat spec location, nor remote source URL
-- consumers of multiple profiles from the same remote, SHOULD not repeat ref of remote source
+- including multiple profiles from the same remote source and spec MUST support syntax that allows specifying ref and URL once, so these fields are not repeated over profiles from the same remote source
+- consumers of multiple profiles from the same remote MUST NOT repeat the URL of the remote source
+- consumers of multiple profiles from the same spec and remote source MUST NOT repeat the spec location, nor the remote source URL
+- consumers of multiple profiles from the same remote SHOULD NOT repeat the ref of the remote source
 
-- .che directory MUST contain .che/repo-git-untracked directory and .che/repo-git-tracked directory containing configuration of generated files if repo generates these type of files onto it
-- .che directory MUST contain top level che.yml that embeds specs from repo-git-untracked and repo-git-tracked, if these specs exists
-- repo that defines its own templates must live in .che/<...>/templates
-- .che directory MUST NOT contain .che/host directory, because this directory is private, and it's scope is repo
-- is is RECOMMENDED that host level configurations must use che.yml or che.export.yml located at repo-root level, or directory level which purpose is to define configuration for host or multiple hosts
-- 2 directories git-tracked and git-untracked MUST NOT refer to each other
-
-## Including Multiple Profiles
+- .che directory MUST contain .che/repo-git-untracked and .che/repo-git-tracked directories containing configuration of generated files if the repo generates these types of files onto it
+- .che directory MUST contain a top level che.yml that embeds specs from repo-git-untracked and repo-git-tracked, if these specs exist
+- a repo that defines its own templates must keep them in .che/<...>/templates
+- .che directory MUST NOT contain a .che/host directory, because this directory is private, and its scope is the repo
+- it is RECOMMENDED that host level configurations use che.yml or che.export.yml located at repo-root level, or at a directory level whose purpose is to define configuration for a host or multiple hosts
+- the 2 directories git-tracked and git-untracked MUST NOT refer to each other
