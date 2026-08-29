@@ -118,3 +118,7 @@
 - .che directory MUST NOT contain a .che/host directory, because this directory is private, and its scope is the repo
 - it is RECOMMENDED that host level configurations use che.yml or che.export.yml located at repo-root level, or at a directory level whose purpose is to define configuration for a host or multiple hosts
 - the 2 directories git-tracked and git-untracked MUST NOT refer to each other
+
+- invoking a top level che.yml MUST by default autodiscover all profiles it includes, and if a profile is not to be executed/discovered automatically, this option MUST be explicitly set to false
+- embedding a che.yml into another che.yml MUST include all its profiles and its embedded profiles and enable autodiscovery, unless a profile it embeds is explicitly marked as autodiscover=false
+- embedding a profile that is set as autodiscover=false into a profile that doesn't specify autodiscover MUST autodiscover and execute the including profile, and the embedded non-autodiscoverable profile MUST NOT be executed independently, only as part of the including profile
