@@ -13,6 +13,7 @@
 consumer-repo-config/
   precommit-lefthook/
   env-tpl/
+  che-tpl/
   che.yml
 ```
 
@@ -67,7 +68,8 @@ consumer-repo-config/
 - `generate env` and `generate env update dependencies` targets MUST NOT shell out, if the variable is not going to be updated, or inserted for a first time
 - `generate env` targets must only consult env.tpl and current .env, never other env files
 - `che.env` MUST NOT be used in .env generation during runtime
-- `upstream.env` MUST NOT be used in .env generation during runtime
+- `upstream.env` MUST NOT be used in .env.tpl generation during runtime
+- `upstream.env` MUST be used in .env generation during runtime
 
 ### Consumers
 
@@ -109,6 +111,7 @@ consumer-repo-config/
 
 - repo MUST provide parametrized che spec with refering a profile that lives in prose-human for generating README.md and it's supplemental docs per README needs for a consumer repo
 - repo MUST provide che spec with refering a profile that lives in prose-human for generating LICENSE for consumer
+- repo MUST provide che spec to generate dependency refs for consumer repo: upstream.env, che.variables.yml, che.env, but it's consumer repo responsibility to define the templates; and consumer repo MUST be able to choose which templates it implements
 
 ## Conventional Untracked Files Generation
 
