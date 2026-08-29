@@ -1,3 +1,5 @@
+# Iteration 1 - 28 Aug 2026
+
 - che version command MUST output the resolved semver release, never `latest`, if `latest` ref was used for installation
 
 ## Che Native Installation Method

@@ -1,22 +1,4 @@
-## Project Centralized Assets - Repo Assets Generic
+# Project Centralized Assets - Repo Assets Generic
 
-- common assets MUST contain common makefile targets used in repos
-- common assets MUST contain common gitlab job templates used in repos
-- common assets MUST contain common env template
 - common env template MUST contain PATH key that prepends .che/local/bin to it
-- common makefile targets MUST include common precommit
-- common makefile targets MUST include common docs generation and common docs generation verification
 - common makefile targets MUST include dependency install target preferring binary archive installation method into untracked .che/local/bin
-- common precommit MUST verify .gitlab.yml syntax
-- common precommit MUST verify yml file syntax
-- common precommit on MR pipelines MUST be executed on changed files in the current branch
-- common precommit on main pipelines MUST be a manual optional job, on all files
-- common precommit locally MUST be executed on changed files in the current branch, before pushing refs
-- common precommit locally MUST NOT be executed before making a commit
-- common gitlab job templates MUST include precommit job
-- common docs generation MUST render files from .che/tpl/repo-git-tracked and .che/tpl/repo-git-untracked
-- common docs generation verification MUST render files from .che/tpl/repo-git-tracked, print the diff, and exit 0 if there are no changes, or 1 otherwise, and revert the generation
-- common docs generation verification
-- common gitlab job templates MUST include common docs generation verification job
-- common docs generation verification job MUST be executed in main pipeline
-- common docs generation verification job MUST NOT fail the pipeline if not passed, and instead trigger a warning
