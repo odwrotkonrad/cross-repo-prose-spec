@@ -150,3 +150,38 @@
 - the merge/patch syntax of nested items MUST be similar for both copyFiles and renderFiles, the current renderFiles syntax is what we want
 - including a profile MUST accompany specifying specDirPath, specifying a profile by profile path MUST NOT be supported
 - my configs MUST specify specDirPath and profileName when including profiles
+
+
+# Iteration 5 - 30 Aug 2026
+
+## Metadata
+
+- session-id: 81175685-c210-4918-aec5-9ffeaaa006cc
+- plan:  ~/.config/claude/plans/plan-and-scope-changes-proud-quasar.md
+
+## Spec
+
+- variables between specs and profiles MUST be passed explicitly, if they need custom configuration
+- cheVariables.yml of the invoking spec MUST NOT implicitly propagate to embedded specs and their profiles
+- a variable MUST have a `scope:` option controlling its propagation, with values `invokingSpec`, `invokingSpecDefinedProfiles` (default), `recursiveSpecs`, `recursiveSpecsAndProfiles`
+- `invokingSpec` MUST make the variable visible to the invoking spec only
+- `invokingSpecDefinedProfiles` MUST make the variable visible to the invoking spec and the profiles it defines
+- `recursiveSpecs` MUST additionally make the variable visible to embedded specs, recursively, but embedded specs MUST NOT pass it on to their profiles
+- `recursiveSpecsAndProfiles` MUST additionally make the variable visible to embedded specs and their profiles, recursively
+- variable scope MUST be settable in variablesDefinitions, cheVariables.yml and cheVariables.local.yml
+- value and scope precedence MUST be: cheVariables.defaults.yml < env < cheVariables.yml < cheVariables.local.yml < explicit pass at a `specsInclude:` or profile entry
+- top level che keys purpose MUST be unambiguous: profile definitions MUST be inside the `profilesDefinitions:` array, embedded specs MUST be inside the `specsInclude:` array
+- `profilesDefinitions:` and `specsInclude:` are a hard rename, the old keys MUST NOT be supported
+- each spec and each profile MUST advertise the variables it uses for its proper function in a `variablesDefinitions` key, marking variables with specifiers: `required`, `scope`, `description`, `type`, `enum`
+- variablesDefinitions MUST NOT contain default values
+- a spec's `variablesDefinitions` MUST hold two sibling keys: `specVariablesDefinitions` (map keyed by variable name) and `profilesVariablesDefinitions` (map keyed by profile name, each a map keyed by variable name)
+- a profile MAY carry its own `variablesDefinitions` (map keyed by variable name); if a profile is defined in both the spec's `profilesVariablesDefinitions` and its own `variablesDefinitions`, che MUST error
+- an invoking spec MUST NOT define variables for embedded specs, each embedded spec defines its own
+- optional default values MUST be exported and checked into the repo alongside the exported che spec, in cheVariables.defaults.yml
+- cheVariables.yml MUST configure the invoking spec, its purpose is to be tracked in the git repo as shared variables config
+- cheVariables.local.yml MUST be supported to override values from cheVariables.yml, its purpose is to not be tracked in the git repo; a key absent from cheVariables.yml MUST be allowed
+- each spec, root or embedded, MUST ship its own variablesDefinitions, cheVariables.defaults.yml and cheVariables.yml, when its function needs them
+- a `required` variable with neither a value nor a default is invalid configuration, che MUST hard error
+- if there are 2 specs, .che/che.yml and che.yml, both MUST be parsed and treated as one
+- variables config files SHOULD live in the .che/ directory, unless their purpose is to be exported, in which case they MAY live in the directory containing the exported spec
+- che.env and `env:` MUST be used only for variables exported to subprocesses, e.g. template rendering, scripts, not for configuring che itself, unless the spec reads that env var
