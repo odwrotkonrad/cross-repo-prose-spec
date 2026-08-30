@@ -4,7 +4,9 @@ specsInclude:
   - .che/repo-git-tracked
 
 variablesDefinitions:
-  all: {scope: recursiveSpecsAndProfiles, required: true}
+  all:
+    scope: recursiveSpecsAndProfiles
+    required: true
   specVariablesDefinitions:
     CENTRALIZED_ASSETS_PROSE_HUMAN_REF: null
 ##[<] 🤖🤖
