@@ -122,3 +122,31 @@
 - invoking a top level che.yml MUST by default autodiscover all profiles it includes, and if a profile is not to be executed/discovered automatically, this option MUST be explicitly set to false
 - embedding a che.yml into another che.yml MUST include all its profiles and its embedded profiles and enable autodiscovery, unless a profile it embeds is explicitly marked as autodiscover=false
 - embedding a profile that is set as autodiscover=false into a profile that doesn't specify autodiscover MUST autodiscover and execute the including profile, and the embedded non-autodiscoverable profile MUST NOT be executed independently, only as part of the including profile
+
+# Iteration 4 - 30 Aug 2026
+
+## Metadata
+- session-id: 1342611c-aabb-4ba5-9648-a3fb18e24259
+- plan: plans/before-implementation-scope-and-giggly-graham.md
+
+## Spec
+
+- che MUST support a profile type field, to specify the targeted area: git repo, git repo untracked, host
+- che profiles MUST define the type of profile, it MUST be explicit, no defaults
+- a che run that discovers multiple profiles of different types interactively MUST let the user choose which profile types to execute, and MUST give options of discovered profile types, giving a very brief summary of changes next to each option
+
+- che run must get an option to specify the profile type to run (--target-profile-types='repo-git-untracked|repo-git-tracked|host'), this option must be exposable as a cmd option, env var, spec scoped, user/system config scoped
+- the --target-profile-types option must accept a list of values separated by commas
+- the embedded spec `default target` option MUST be ignored, so the user has full control over this option in their config
+
+- non-interactively, che run by default MUST execute every type of profile
+- it is RECOMMENDED that non-interactively che is executed targeting only one profile type
+- non-interactively, che run by default executes everything
+
+- the source field MUST be able to accept object syntax with fields to specify ref, url, filepath; the old syntax embedding this data in the URL itself MUST still be supported
+- my configs MUST use object syntax for specifying remote sources
+
+- a source field that is inside another source field using merge/patch syntax "<<<" should be able to specify the source using a string, and this string should be merged into the filepath field of the ancestor source
+- the merge/patch syntax of nested items MUST be similar for both copyFiles and renderFiles, the current renderFiles syntax is what we want
+- including a profile MUST accompany specifying specDirPath, specifying a profile by profile path MUST NOT be supported
+- my configs MUST specify specDirPath and profileName when including profiles
