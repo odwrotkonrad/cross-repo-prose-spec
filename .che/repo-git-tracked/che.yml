@@ -1,8 +1,19 @@
 # yaml-language-server: $schema=https://gitlab.com/api/v4/projects/konradodwrot%2Fgo-modules/packages/generic/che-schema/v0.0.1-che-min-v0.0.96/che.schema.json
 ##[>] 🤖🤖
-ontoRepo:
-  include:
-    makeCopies:
-      - source: "git::gitlab.com/konradodwrot/centralized/assets/prose/human@${{ var.CENTRALIZED_ASSETS_PROSE_HUMAN_REF }}//shared/license/LICENSE"
-        dest: LICENSE
+profilesDefinitions:
+  ontoRepo:
+    type: repo-git-tracked
+    include:
+      makeCopies:
+        - source:
+            url: gitlab.com/konradodwrot/centralized/assets/prose/human
+            ref: "${{ var.CENTRALIZED_ASSETS_PROSE_HUMAN_REF }}"
+            filepath: shared/license/LICENSE
+          dest: LICENSE
+
+variablesDefinitions:
+  profilesVariablesDefinitions:
+    ontoRepo:
+      CENTRALIZED_ASSETS_PROSE_HUMAN_REF:
+        required: true
 ##[<] 🤖🤖
