@@ -7,9 +7,6 @@ specsInclude:
     variables:
       repo: cross-repo/prose/spec
 variablesDefinitions:
-  all:
-    scope: recursiveSpecsAndProfiles
-    required: true
   specVariablesDefinitions:
     CENTRALIZED_ASSETS_GENERIC_REF: null
     CENTRALIZED_ASSETS_PROSE_AI_REF: null

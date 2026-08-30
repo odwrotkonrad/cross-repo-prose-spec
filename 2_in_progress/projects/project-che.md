@@ -185,3 +185,20 @@
 - if there are 2 specs, .che/che.yml and che.yml, both MUST be parsed and treated as one
 - variables config files SHOULD live in the .che/ directory, unless their purpose is to be exported, in which case they MAY live in the directory containing the exported spec
 - che.env and `env:` MUST be used only for variables exported to subprocesses, e.g. template rendering, scripts, not for configuring che itself, unless the spec reads that env var
+
+
+# Iteration 6
+
+## Matadata
+
+- session-id: e7476b8b-1a0b-44cb-b022-f5bda52f6180
+- plan: /plans/plan-and-scope-these-floofy-frost.md
+
+## Spec
+
+- che MUST provide the built-in variable `${{ repoRoot }}`, the git root of the spec's repo
+- a source relative to the repo root is RECOMMENDED to use `${{ repoRoot }}` instead of ancestor dir syntax `../../..`; `../` MUST still be supported
+- my che configs MUST NOT refer to `../` in sources
+- my che yml configs MUST be written in pure yaml syntax, never mixing json flow syntax, best-effort; json config files are out of scope
+- a `source` field MUST accept an array of sources when no `dest` is given; each dest is inferred as the source basename, unchanged from current behavior; the single-source form MUST still be supported
+- my che configs MUST use the array form for multiple sources sharing one dest dir
